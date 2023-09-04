@@ -67,8 +67,7 @@
                                         <div class="pagination justify-content-between">
                                             <div class="text-end">
                                                 <a href="{{ route('admin.famille-options.create') }}" class="btn btn-primary">Ajouter Famille d'Option</a>
-                                                <a href="{{ route('admin.options.create', $familleOption->id) }}" class="btn btn-primary">Ajouter Option</a>
-                                            </div>
+                                               </div>
                                             <div class="text-start">
                                                 {{ $familleOptions->links('vendor.pagination.bootstrap-5') }}
                                             </div>

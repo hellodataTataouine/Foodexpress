@@ -93,14 +93,13 @@ class OptionRestoController extends Controller
         $user = User::find($userId);
         if ($user) {
         $restaurant = $user->restaurant;
- 
         $familleOptions = familleOptionsRestaurant::where('restaurant_id', $restaurant->id)->get();
-        return view('resataurant.options.edit', compact('option', 'familleOptions'));
+        return view('restaurant.options.edit', compact('option', 'familleOptions'));
     }else {
-        // Handle the case when the user does not have a restaurant
-        // For example, you can redirect to a page or show an error message
+       
         return redirect()->back();
-    }   }
+    }  
+ }
     
     public function update(Request $request, OptionsRestaurant $option)
     {
@@ -115,7 +114,7 @@ class OptionRestoController extends Controller
         $option->prix = $request->input('prix');
         $option->save();
     
-        return redirect()->route('admin.options.index')->with('success', 'Option updated successfully!');
+        return redirect()->route('restaurant.options.index')->with('success', 'Option updated successfully!');
     }
     
 

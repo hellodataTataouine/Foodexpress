@@ -47,7 +47,11 @@
                                                         <td>{{ $option->nom_option }}</td>
                                                         <td>{{ $option->familleOption->nom_famille_option }}</td>
                                                         <td>{{ $option->prix }}</td>
-                                                        <td>    <button type="button" class="btn btn-danger btn-sm" onclick="removeOption({{ $option->id }})">Supprimer</button>
+
+                                                        <td> 
+                                                            <a href="{{ route('restaurant.options.edit', $option->id) }}" class="btn btn-primary">Modifier</a>
+                                                      
+                                                            <button type="button" class="btn btn-danger btn-sm" onclick="removeOption({{ $option->id }})">Supprimer</button>
                                                         </td>
                                                     </tr>
                                                 @endforeach

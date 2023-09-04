@@ -64,33 +64,34 @@
           <span class="menu-title">Tableau de bord</span>
         </a>
       </li>
+      
       <li class="nav-item menu-items home clients" id="u-Restaurants">
         <a class="nav-link" data-toggle="collapse" href="#ui-Restaurants" aria-expanded="false" aria-controls="ui-Restaurants">
           <span class="menu-icon">
-            <i class="mdi mdi-laptop"></i>
+            <i class="mdi mdi-food-fork-drink"></i>
           </span>
           <span class="menu-title">Restaurants</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="ui-Restaurants">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ url('admin/clients') }}">Liste Restaurants</a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ url('admin/clients/create') }}">Ajouter Restaurant</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('admin/clients') }}"><i class="mdi mdi-silverware-variant">Liste Restaurants</i></a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ url('admin/clients/create') }}"><i class="mdi mdi-plus-circle-multiple-outline">Ajouter Restaurant</i></a></li>
           </ul>
         </div>
       </li>
       <li class="nav-item menu-items">
         <a class="nav-link" data-toggle="collapse" href="#ui-Utilisateurs" aria-expanded="false" aria-controls="ui-Utilisateurs">
           <span class="menu-icon">
-            <i class="mdi mdi-laptop"></i>
+            <i class="mdi mdi-account-multiple"></i>
           </span>
           <span class="menu-title">Utilisateurs</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="ui-Utilisateurs">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}">Liste Utilisateurs</a></li>
-            <li class="nav-item"> <a class="nav-link"  href="{{ route('admin.users.create') }}" >Ajouter Utilisateur</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}"><i class="mdi mdi-account-card-details">Liste Utilisateurs</i></a></li>
+            <li class="nav-item"> <a class="nav-link"  href="{{ route('admin.users.create') }}" ><i class="mdi mdi-account-multiple-plus">Ajouter Utilisateur</i></a></li>
         
           </ul>
         </div>
@@ -129,22 +130,21 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item menu-items imei">
-          <a class="nav-link" data-toggle="collapse" href="#ui-imei" aria-expanded="false" aria-controls="ui-imei">
+      <li class="nav-item menu-items Imei">
+          <a class="nav-link" data-toggle="collapse" href="#ui-Imei" aria-expanded="false" aria-controls="ui-Imei">
             <span class="menu-icon">
-              <i class="mdi  mdi-cart"></i>
+              <i class="mdi mdi-phone"></i>
             </span>
             <span class="menu-title">Imei</span>
             <i class="menu-arrow"></i>
           </a>
-          <div class="collapse" id="ui-imei">
+          <div class="collapse" id="ui-Imei">
           <ul class="nav flex-column sub-menu">
-            <i class="nav-item"><a class="nav-link" href="{{ route('admin.imei.index') }}">List appareille Restaurant</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.imei.index') }}">List appareille Restaurant</a></li>
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.imei.create') }}">Ajouter Imei Restaurant</a></li>
           </ul>
           </div>
-      </li>
-      <li class="nav-item menu-items paiment">
+      </li><li class="nav-item menu-items paiment">
           <a class="nav-link" data-toggle="collapse" href="#ui-paiment" aria-expanded="false" aria-controls="ui-paiment">
             <span class="menu-icon">
               <i class="mdi mdi-currency-usd"></i>

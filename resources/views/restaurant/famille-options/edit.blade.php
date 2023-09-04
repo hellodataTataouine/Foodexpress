@@ -26,19 +26,22 @@
                                     @endif
 
                                     <div class="table-responsive">
-                                        <form action="{{ route('restaurant.famille-options.update', $familleOption->id) }}" method="POST">
+                                        <form action="{{ route('restaurant.famille-options.update', $familleOptionRestaurant->id) }}" method="POST">
                                             @csrf
                                             @method('PUT')
                 
                                             <div class="mb-3">
                                                 <label for="nom_famille_option" class="form-label">Nom Famille Option</label>
-                                                <input type="text" class="form-control" id="nom_famille_option" name="nom_famille_option" value="{{ $familleOption->nom_famille_option }}" required>
+                                                <input type="text" class="form-control" id="nom_famille_option" name="nom_famille_option" value="{{ $familleOptionRestaurant->nom_famille_option }}" required>
                                             </div>
                 
                                             <div class="mb-3">
-                                                <label for="type" class="form-label">Type de famille d'<option value=""></option></label>
-                                                <input type="text" class="form-control" id="type" name="type" value="{{ $familleOption->type }}" required>
-                                            </div>
+                                                <label for="type">Type</label>
+                                                <select name="type" id="type" class="form-control" required>
+                                                    <option value="simple">Simple</option>
+                                                    <option value="multiple">Multiple</option>
+                                                    <option value="qte">Qte</option>
+                                                </select> </div>
                 
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary">Mise à jour</button>

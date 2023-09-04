@@ -242,18 +242,16 @@ Route::delete('/clients/{client}', [ClientRestaurantController::class, 'destroy'
 
     Route::post('/status/update', [ProduitsRestoController::class, 'updatestatus'])->name('restaurant.produits.update-status');
  
-    Route::delete('/restaurant/produits/{produit}', [ProduitsController::class, 'destroy'])->name('restaurant.produits.destroy');
+    Route::delete('/restaurant/produits/{produit}', [ProduitsRestoController::class, 'destroy'])->name('restaurant.produits.destroy');
    
      Route::get('/restaurant/produits/{id}', [ProduitsController::class, 'show'])->name('restaurant.produits.show');
      Route::get('produits/{produitId}/options/{optionId}', [ProduitsController::class, 'removeOption'])->name('restaurant.removeOption');
      Route::post('/restaurant/produits/get-options-by-famille-options', [ProduitsController::class, 'getOptionsByFamilleOptions'])->name('restaurant.getOptionsByFamilleOptions');
-     Route::post('/restaurant/update-status', [ProduitsController::class, 'updateStatus'])->name('restaurant.update-status');
+   //  Route::post('/restaurant/update-status', [ProduitsController::class, 'updateStatus'])->name('restaurant.update-status');
      Route::post('/restaurant/produits/toggle-selection', [ProduitsController::class, 'toggleSelection'])->name('restaurant.produits.toggle-selection');
     // Route::post('/restaurant/produits/add-product', [ProduitsRestoController::class, 'store'])->name('restaurant.produits.add-product');
      Route::post('/restaurant/produits/remove-product', [ProduitsController::class, 'removeProductResto'])->name('restaurant.produits.remove-product');
     
-    
-
      Route::get('/restaurant/famille-options', [FamilleOptionRestoController::class, 'index'])->name('restaurant.famille-options.index');
      Route::get('/restaurant/famille-options/create', [FamilleOptionRestoController::class, 'create'])->name('restaurant.famille-options.create');
      Route::post('/restaurant/famille-options', [FamilleOptionRestoController::class, 'store'])->name('restaurant.famille-options.store');
@@ -264,6 +262,9 @@ Route::delete('/clients/{client}', [ClientRestaurantController::class, 'destroy'
      Route::get('/restaurant/options', [OptionRestoController::class, 'index'])->name('restaurant.options.index');
      Route::get('/restaurant/options/create', [OptionRestoController::class, 'create'])->name('restaurant.options.create');
      Route::post('/restaurant/options', [OptionRestoController::class, 'store'])->name('restaurant.options.store');
+     Route::get('/restaurant/options/{id}/edit', [OptionRestoController::class, 'edit'])->name('restaurant.options.edit');
+     Route::post('/restaurant/options/{option}', [OptionRestoController::class, 'update'])->name('restaurant.options.update');
+    
      Route::get('/restaurant/options/remove/{option}', [OptionRestoController::class, 'remove'])->name('restaurant.options.remove');
      Route::get('restaurant/famille-options/{familleOption}', [FamilleOptionRestoController::class, 'getoptions'])->name('restaurant.famille-options.options');
 
@@ -312,7 +313,7 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 
 
 //Route::get('/store', [ClientStoreController::class, 'store'])->name('store.index');
-Route::get('/acceuil', [AcceuilController::class, 'index'])->name('acceuil.index');
+//Route::get('/acceuil', [AcceuilController::class, 'index'])->name('acceuil.index');
 Route::get('/', function () {
     $host = request()->getHost();
     // Check if the host is 'localhost' or 'subdomain.localhost'

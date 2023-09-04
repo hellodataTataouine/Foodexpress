@@ -27,7 +27,7 @@
                           </div>
                       @endif
               
-                      <h1>Modifier l'utilisateur </h1>
+                      <h2 class="text-center">Modifier l'utilisateur </h2>
 
 
                       <form method="POST" action="{{ route('admin.users.update', $user->id) }}">
@@ -104,7 +104,7 @@
                                     {{ __('Modifier') }}
                                 </button>
                                 <a href="{{ route('admin.users.index') }}" class="btn btn-secondary">
-                                    {{ __('Cancel') }}
+                                    {{ __('Annuler') }}
                                 </a>
                             </div>
                         </div>

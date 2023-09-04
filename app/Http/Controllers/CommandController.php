@@ -42,21 +42,7 @@ class CommandController extends Controller
 
      // Check if a command with the same product and options already exists in the session
     $cart = session()->get('cart', []);
-   /* $existingCartItemIndex = null;
-
-    foreach ($cart as $index => $item) {
-        if ($item['id'] === $productId && $item['options'] === $customizationOptions) {
-            $existingCartItemIndex = $index;
-            break;
-        }
-    }
-
-    if ($existingCartItemIndex !== null) {
-        // If the same product with the same options exists, update the quantity
-        $cart[$existingCartItemIndex]['quantity'] += $productQuantity;
-    } else {
-      */  // If it doesn't exist, add the new item to the cart  // Add the new item to the cart
-
+  
 
        $cartItem = [
            'id' => $productId,
@@ -148,11 +134,11 @@ $HT = $totalPrice - $TVA ;
        $Command->user_id = Auth::id();
        $Command->restaurant_id = $client->id;
        $Command->prix_total = $totalPrice;
-       $Command->prix_TVA = $totalPrice;
-       $Command->prix_HT = $totalPrice;
+       $Command->prix_TVA = $TVA;
+       $Command->prix_HT = $HT;
        $Command->methode_paiement = $paymentMethodId;
        $Command->mode_livraison = $deliveryMethodId;
-       $Command->statut ='Pending';
+       $Command->statut ='Nouveau';
        $Command->Clientfirstname =$request->input('nom');
        $Command->clientlastname =$request->input('prenom');
        $Command->clientPostalcode =$request->input('addresse');
@@ -194,7 +180,7 @@ foreach ($cartItems as $cartItem) {
        
 // Clear the cart session
 $request->session()->forget('cart');
-return view('client.checkout_success', compact('subdomain', 'client'));
+return view('client.checkout_success', compact('subdomain', 'client','cart'));
 
      
    
@@ -266,23 +252,6 @@ public function registerCommand(Request $request)
               $commandProduct->qte_produit =$cartItem['quantity'];
             $commandProduct->save();
     
-            // Check if the cart item has options
-           /* if (isset($cartItem['options']) && is_array($cartItem['options'])) {
-                foreach ($cartItem['options'] as $optionItem) {
-                    $optionId = $optionItem['id'];
-                    $optionQuantity = $optionItem['quantity'];
-    
-                    // Save the option for the command product
-                    $commandProduct->options()->attach($optionId, ['qte_options' => $optionQuantity]);
-                }
-            }
-        }
-*/
-
-
-
-
-
         foreach ($cartItems as $cartItem) {
           //  $product = ProduitsRestaurants::find($cartItem['id']);
             $totalPrice = $cartItem['price'];

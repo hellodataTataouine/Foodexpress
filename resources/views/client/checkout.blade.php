@@ -30,9 +30,9 @@
                                 <td>{{ $cartItem['unityPrice'] }}$</td>
                                
                                 <td>
-                                @if (isset($cartItem['options']))
-                                {{ $cartItem['options'] }}
-                        @endif
+                                    @if (isset($cartItem['options']))
+                                    {!! htmlspecialchars(json_encode($cartItem['options'])) !!}
+                                @endif
                                 </td>
                                 <td>
                                     {{ $cartItem['quantity'] }}
@@ -122,12 +122,14 @@
                 <h3>Choisissez la méthode de livraison</h3>
                 <select id="delivery_method" name="delivery_method" class="form-control">
                     @foreach ($livraisons as $livraison)
+                    @if ($livraison)
                         @php
-                            $livraisonType = \App\Models\Livraison::find($livraison->livraison_id);
+                            $livraisonType = \App\Models\Livraison::find($livraison->id);
                         @endphp
                         <!-- Assuming the name field for delivery method is 'id' -->
                         <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
-                    @endforeach
+                    @endif
+                @endforeach
                 </select>
             @endif
             <br>
@@ -276,17 +278,19 @@
         <div id="cartDetailsAndDeliveryMethod" style="display: none;">
             <!-- Show the cart details and delivery method here -->
             @if (count($livraisons) > 0)
-                <h3>Choisissez la méthode de livraison</h3>
-                <select id="delivery_method" name="delivery_method" class="form-control">
-                    @foreach ($livraisons as $livraison)
-                        @php
-                            $livraisonType = \App\Models\Livraison::find($livraison->livraison_id);
-                        @endphp
-                        <!-- Assuming the name field for delivery method is 'id' -->
-                        <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
-                    @endforeach
-                </select>
-            @endif
+            <h3>Choisissez la méthode de livraison</h3>
+            <select id="delivery_method" name="delivery_method" class="form-control">
+                @foreach ($livraisons as $livraison)
+                @if ($livraison)
+                    @php
+                        $livraisonType = \App\Models\Livraison::find($livraison->id);
+                    @endphp
+                    <!-- Assuming the name field for delivery method is 'id' -->
+                    <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
+                @endif
+            @endforeach
+            </select>
+        @endif
             <br>
             <!-- Add form fields and buttons for the delivery method selection -->
             <button type="button" id="confirmDeliveryMethodBtn" class="btn-custom">confirmer la méthode de livraison</button>

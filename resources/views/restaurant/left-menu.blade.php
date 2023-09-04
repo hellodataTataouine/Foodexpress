@@ -1,6 +1,6 @@
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
-      <a class="sidebar-brand brand-logo" href="#"><p   style="font-size: 25px; color: white;" alt="logo"><strong>HellowData</strong></p></a>
+      <a class="sidebar-brand brand-logo" href="#"><p   style="font-size: 25px; color: white;" alt="logo"><strong>HelloData</strong></p></a>
       <a class="sidebar-brand brand-logo-mini" href="#"><img src="images/logo-mini.svg" alt="logo" /></a>
     </div>
     <ul class="nav">

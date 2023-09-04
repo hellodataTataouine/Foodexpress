@@ -25,6 +25,8 @@ class Client extends Model
         'logo',
         'date',
         'status',
+        'N_Siret',
+        'N_Tva',
         'user_id',
     ];
     public function user()
@@ -42,6 +44,10 @@ class Client extends Model
     public function postalCodes()
     {
         return $this->hasMany(ClientPostalCode::class);
+    }
+    public function jourFeriers ()
+    {
+        return $this->hasMany(JourFerier::class);
     }
     public function commands()
     {

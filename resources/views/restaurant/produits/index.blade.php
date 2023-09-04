@@ -66,7 +66,7 @@
                                                         <td>{{ $produit->prix }}</td>
                                                         <td>{{ $produit->categories->name }}</td>
 
-                                                        <td> 
+                                                       
                                                        
                                                         <td> 
         <button class="select-btn btn {{ $produit->status ? 'btn-success' : 'btn-danger' }}" 
@@ -74,11 +74,9 @@
                 data-selected="{{ $produit->status ? 'selected' : 'not-selected' }}">
             {{ $produit->status ? 'Selected' : 'Not Selected' }}
         </button>
+   
     </td>
-    </td>
-                                                     <!--       <button class="select-btn btn {{ $produit->is_selected ? 'btn-success' : 'btn-danger' }}" data-product="{{ $produit->id }}" data-selected="{{ $produit->is_selected ? 'selected' : 'not-selected' }}">
-                                                                {{ $produit->is_selected ? 'Selected' : 'Not Selected' }}
-                                                            </button>-->
+                                              
                                                             
                                                       
                                                             <td style="display: flex;">

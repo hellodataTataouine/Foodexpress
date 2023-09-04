@@ -61,8 +61,8 @@ class ClientController extends BaseController
         'phoneNum1' => 'required|unique:clients',
         'phoneNum2' => 'unique:clients',
          'localisation' => 'required',
-         'N_Siret' => $request->N_Siret,
-         'N_Tva' => $request->N_Tva,
+         'N_Siret' => 'required|unique:clients',
+         'N_Tva' => 'required|unique:clients',
       
          'email' => 'required|email|unique:users',
          'password' => 'required|min:8',
@@ -83,18 +83,21 @@ class ClientController extends BaseController
     // Check if an image file was uploaded
     if ($imageFile) {
         // Store the uploaded image and retrieve its URL
-        $imagePath = $imageFile->store('images', 'public');
-        $imageUrl = asset('storage/' . $imagePath);
+        
+            $imagePath = 'uploads/';
+            $imageName = uniqid() . '.' . $imageFile->getClientOriginalExtension();
+            $imageFile->move(public_path($imagePath), $imageName);
+            $imageUrl = $imagePath . $imageName;
+
+
+
+
+       
     }  else {
         // No image provided or selected
         $imageUrl = null;
     }
-    // Create the corresponding user
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
+   
     // Create the client
     $client = Client::create([
         'name' => $request->name,
@@ -105,9 +108,18 @@ class ClientController extends BaseController
         'url_platform' => $request->name . '.localhost:8000',
         'date' => date('Y-m-d H:i:s'),
         'status' => '1',
+        'N_Siret' => $request->N_Siret,
+        'N_Tva' => $request->N_Tva,
+       
     ]);
 
-
+ // Create the corresponding user
+ $user = User::create([
+    'name' => $request->name,
+    'email' => $request->email,
+    'password' => Hash::make($request->password),
+    'restaurant_id' => $client->id,
+]);
 
 
     // Assign the user to the client

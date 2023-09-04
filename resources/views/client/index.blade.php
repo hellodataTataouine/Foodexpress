@@ -90,7 +90,7 @@
         <!-- Product Start -->
         <div class="col-lg-4 col-md-6 {{ $product->categorie_rest_id}}">
           <div class="product">
-            <a class="product-thumb" href="menu-item-v1.html"> <img src="{{ asset($product->url_image) }}" alt="menu item" /> </a>
+            <a class="product-thumb" href=""> <img src="{{ asset($product->url_image) }}" alt="menu item" /> </a>
             <div class="product-body">
               <div class="product-desc">
                 <h4> <a href="menu-item-v1.html">{{ $product->nom_produit }}</a> </h4>
@@ -110,10 +110,7 @@
         @endforeach
         <!-- Product End -->
 
-      
-
       </div>
-
     </div>
   </div>
   <!-- Menu Wrapper End -->
@@ -241,7 +238,7 @@ $(document).ready(function() {
 
 
 
-              selectedOptions = {};
+              
 
               for (var j = 0; j < options.length; j++) {
                 let option = options[j]; // Use let instead of var to correctly scope the variable
@@ -360,7 +357,7 @@ addToCartBtn.appendTo('.modal-body');
           }
         });
       });
-     
+      selectedOptions = [];
          $(document).on('change', '.customize-variation-wrapper input[type="checkbox"], .customize-variation-wrapper input[type="radio"], .customize-variation-wrapper input[type="number"], .customize-variations #totalquantity', function() {
   // Clear the selectedOptions array to start fresh
   selectedOptions = [];
@@ -370,15 +367,47 @@ $('.customize-variation-wrapper input[type="checkbox"]:checked, .customize-varia
         var optionName = $(this).siblings('label').text();
         var optionPrice = parseFloat($(this).closest('.customize-variation-item').data('price'));
         var optionType = $(this).attr('type');
+        var optionQuantity = 1;
 
-        // Push the selected option's details into the selectedOptions array
         selectedOptions.push({
             id: optionId,
             name: optionName,
             price: optionPrice,
-            type: optionType
+            type: optionType,
+			Quantity: optionQuantity,
         });
+      
     });
+    
+    $('.customize-variation-wrapper input[name="quantity"]').each(function() {
+
+
+      var quantityInput = $(this);
+  var optionItem = quantityInput.closest('.customize-variation-item');
+  var optionPrice = parseFloat(optionItem.data('price'));
+
+  var quantity = parseInt(quantityInput.val());
+
+  if(quantity >= 1){
+      var optionId = $(this).attr('id');
+        var optionName = $(this).siblings('label').text();
+        var optionPrice = parseFloat(optionItem.data('price'));
+        var optionType = $(this).attr('type');
+        var optionQuantity = quantity;
+
+  // Push the selected option's details into the selectedOptions array
+        
+  selectedOptions.push({
+            id: optionId,
+            name: optionName,
+            price: optionPrice,
+            type: optionType,
+			      Quantity: optionQuantity,
+        });
+  }
+    });
+   
+   
  // Handle quantity input if present
  var totalQuantity = parseInt($('#totalquantity').val());
     if (isNaN(totalQuantity) || totalQuantity < 1) {
@@ -417,6 +446,7 @@ $('.customize-variation-wrapper input[name="quantity"]').each(function() {
     quantity = 0;
   }
 
+
   //optionQuantity += quantity;
   optionQuantityPrice += optionPrice * quantity;
   console.log('Option Quantity:', quantity);
@@ -435,6 +465,9 @@ console.log('Option Quantity Price:', optionQuantityPrice);
       totalPriceQuantity = 1;
     }
   }
+
+
+ 
 
   // Update the total price based on the quantities
   totalPrice *= totalPriceQuantity;
@@ -465,10 +498,10 @@ $(document).ready(function() {
   console.log("Button clicked!"); // Add this line to check if the button is triggering the click event
   
   // Retrieve the selected customization options, product ID, name, and price
-  var productId = $(this).data('product-id');
-  var productName = $(this).data('product-name');
-  var productImage = $(this).data('product-image');
-  var productPrice = $(this).data('product-price');
+  var productId = response.product.id; 
+  var productName = response.product.nom_produit;
+  var productImage = response.product.url_image;
+  var productPrice =  $(this).data('product-price');
   var productUnityPrice = response.product.prix;
   var productQuantity = $('#totalquantity').val();
   var customizationOptions = getSelectedOptions(); // Implement the logic to retrieve the selected options
@@ -515,6 +548,8 @@ $(document).ready(function() {
       }
     });
   }
+
+  
   function getSelectedOptions() {
      
      
@@ -524,13 +559,11 @@ $(document).ready(function() {
     var optionName = option.name;
     var optionPrice = option.price;
     var optionType = option.type;
-
-    if (optionType === 'qte') {
-        designation += optionName + ' (Qty: ' + (option.quantity || 1) + ') +' + optionPrice + '$, ';
+    var optionQuantity = option.Quantity;
+    if (optionType === 'number') {
+        designation += optionQuantity  + ' *' + optionName   + '(' + optionPrice + '$), ';
     } else {
-        designation += optionName + ' +' + 
-        
-         + '$, ';
+        designation += optionName + '('+ optionPrice + '$), ' 
     }
 });
 

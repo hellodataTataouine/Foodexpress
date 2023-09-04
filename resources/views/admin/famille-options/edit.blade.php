@@ -36,8 +36,13 @@
                                             </div>
                 
                                             <div class="mb-3">
-                                                <label for="type" class="form-label">Type</label>
-                                                <input type="text" class="form-control" id="type" name="type" value="{{ $familleOption->type }}" required>
+                                                <label for="type">Type</label>
+                                                <select name="type" id="type" class="form-control" required>
+                                                    <option value="simple">Simple</option>
+                                                    <option value="multiple">Multiple</option>
+                                                    <option value="qte">Qte</option>
+                                                </select>
+                                               
                                             </div>
                 
                                             <div class="text-center">

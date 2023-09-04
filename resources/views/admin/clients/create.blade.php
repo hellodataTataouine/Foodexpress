@@ -21,7 +21,7 @@
                                     <h2 class="text-center">Nouveau Restaurant</h2>
                                     <div class="table-responsive">
                                         <form method="POST" action="{{ url('admin/clients') }}"
-                                              enctype="multipart/form-data">
+                                        enctype="multipart/form-data">
                                             @csrf
                                             @if (session('success'))
                                                 <div class="alert alert-success">
@@ -64,32 +64,18 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                </div>
-                                                    <p> N° Siret:</p>
-                                                    <div>
-                                                        <div class="form-group">
-                                                            <input type="text" name="N_Siret" id="N_Siret"
+                                                <label for="localisation">Numero Siret:</label>
+                                                <input type="text" name="N_Siret" id="N_Siret"
                                                                 class="form-control" placeholder="Numero Siret" required>
                                                             <span id="N_Siret-error"
                                                             style="color: red; display: none;">Veuillez entrer un numéro de siret valide</span>
 
                                                             <br/>
-                                                        
-                                                        </div>
-                                                    </div>
-                                            
-                                                    <p> N° TVA:</p>
-                                                    <div>
-                                                        <div class="form-group">
-                                                            <input type="text" name="N_Tva" id="N_Tva"
+                                                                <label for="localisation">Numero TVA:</label>
+                                                                <input type="text" name="N_Tva" id="N_Tva"
                                                                class="form-control" placeholder="Numero TVA" required>
                                                         <span id="N_Tva-error"
                                                         style="color: red; display: none;">Veuillez entrer un numéro de TVA valide</span>
-
-                                                        <br/>
-                                               
-                                                    </div>
-                                                </div>
                                             </div>
                                             <div id="section2" class="section" style="display: none;">
 

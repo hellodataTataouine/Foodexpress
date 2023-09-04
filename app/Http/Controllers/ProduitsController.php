@@ -36,67 +36,8 @@ class ProduitsController extends Controller
 
     return view('admin.produits.index', compact('produits', 'owners'));
 }
-public function indexResto()
-{
-   
-   
-  $userId = Auth::id();
-  $user = User::find($userId);
-  if (!$user || !$user->restaurant) {
-      return redirect()->back()->with('error', 'No restaurant found for the user.');
-  }
-  
-  $restaurant = $user->restaurant;
-
-  $produits = ProduitsRestaurants::with('categories')->paginate(10);
- 
 
 
-
-
-
-    foreach ($produits as $produit) {
-        // Check if the product is selected for the user
-        $produit->is_selected = $user->userProducts()->where('product_id', $produit->id)->exists();
-    }
-
-    return view('restaurant.produits.index', compact('produits'));
-}
-
-
-public function indexRestoAdmin()
-{
-    $userId = 1;
-    $user = Auth::user();
-
-    $produits = Produits::with('categories')
-        ->where('owner_id', $userId)
-        ->paginate(9);
-
-    foreach ($produits as $produit) {
-        // Check if the product is selected for the user
-        $produit->is_selected = $user->userProducts()->where('product_id', $produit->id)->exists();
-    }
-    $categories = Categories::where('owner_id', $userId)->get();
-    $familleOptions = FamilleOption::where('owner_id', $userId)->get(); // Retrieve famille options
-
-
-
-    return view('restaurant.produits.all', compact('produits','categories','familleOptions'));
-
-}
-public function indexRestoAllProduits()
-{
-    $user = Auth::user();
-    $produits = Produits::with('categories')->paginate(9);
-
-    foreach ($produits as $produit) {
-        // Check if the product is selected for the user
-        $produit->is_selected = $user->userProducts()->where('product_id', $produit->id)->exists();
-    }
-
-    return view('restaurant.produits.index', compact('produits'));
-}
 
 public function toggleSelection(Request $request)
 {
@@ -321,8 +262,7 @@ foreach ($familleOptions as $familleOptionId) {
         $produit->prix = $request->prix;
         $produit->categorie_id = $request->categorie_id;
         $produit->status = $request->status ?? 0;
-        $produit->owner_id = Auth::id();
-
+       
         // Handle image upload
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -345,13 +285,9 @@ foreach ($familleOptions as $familleOptionId) {
  }
 
 
-        if (Auth::user()->is_admin == 1) {
-
-            
+          
             return redirect()->route('admin.produits.index')->with('success', 'Produit created successfully.');
-        } else {
-            return redirect()->route('restaurant.produits.index')->with('success', 'Produit created successfully.');
-        }
+       
     }
 
 
@@ -367,11 +303,8 @@ foreach ($familleOptions as $familleOptionId) {
         $selectedFamilleOptions = $produit->familleOptions->pluck('id')->toArray();
         $owners = User::all();
     
-        if (Auth::user()->is_admin == 1) {
             return view('admin.produits.edit', compact('produit', 'categories', 'familleOptions', 'selectedFamilleOptions'));
-        } else {
-            return view('restaurant.produits.edit', compact('produit', 'categories', 'familleOptions', 'selectedFamilleOptions'));
-        }
+       
     }
     
 
@@ -420,13 +353,8 @@ foreach ($familleOptions as $familleOptionId) {
     }
 
    
-    if (Auth::user()->is_admin == 1) {
-
-            
-        return redirect()->route('admin.produits.index')->with('success', 'Produit updated successfully.');
-    } else {
-        return redirect()->route('restaurant.produits.index')->with('success', 'Produit updated successfully.');
-    }
+     return redirect()->route('admin.produits.index')->with('success', 'Produit updated successfully.');
+    
    
 }
 
@@ -434,12 +362,8 @@ foreach ($familleOptions as $familleOptionId) {
 public function delete($id)
 {
     $produit = Produits::findOrFail($id);
-    $owners = User::all(); // Retrieve all owners from the database
-    if (Auth::user()->is_admin == 1) {
-        return view('admin.produits.delete', compact('produit', 'owners'));
-    } else {
-        return view('restaurant.produits.delete', compact('produit', 'owners'));
-    }
+      return view('admin.produits.delete', compact('produit'));
+   
 }
 
 
@@ -453,11 +377,8 @@ public function destroy($id)
     }
 
     $produit->delete();
-    if (Auth::user()->is_admin == 1) {
-        return redirect()->route('admin.produits.index')->with('success', 'Produit deleted successfully.');
-    } else {
-        return redirect()->route('restaurant.produits.index')->with('success', 'Produit deleted successfully.');
-    }
+       return redirect()->route('admin.produits.index')->with('success', 'Produit deleted successfully.');
+   
 }
 
 public function show($id)

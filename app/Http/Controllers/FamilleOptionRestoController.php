@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ProduitsFOptionsrestaurant;
 use Illuminate\Http\Request;
 use App\Models\familleOptionsRestaurant;
 use App\Models\User;
@@ -79,20 +80,7 @@ class FamilleOptionRestoController extends Controller
         return redirect()->back();
     }
     }
-    public function editResto($id)
-    {
-        // Find the famille option by ID
-        $familleOptionRestaurant = familleOptionsRestaurant::find($id);
-        
-        // Check if the famille option exists
-        if (!$familleOptionRestaurant) {
-            return redirect()->back()->with('error', 'Famille Option not found.');
-        }
-        
-        // Return the view for editing the famille option
-        return view('restaurant.famille-options.edit', compact('familleOption'));
-
-    }
+   
 
     /**
      * Display the specified resource.
@@ -104,22 +92,74 @@ class FamilleOptionRestoController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $familleOptionRestaurant = familleOptionsRestaurant::find($id);
+        
+        // Check if the famille option exists
+        if (!$familleOptionRestaurant) {
+            return redirect()->back()->with('error', 'Famille Option not found.');
+        }
+        
+        // Return the view for editing the famille option
+        return view('restaurant.famille-options.edit', compact('familleOptionRestaurant'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
-        //
+        // Validate the form data
+        $validatedData = $request->validate([
+            'nom_famille_option' => 'required',
+            'type' => 'required',
+        ]);
+        
+        // Find the famille option by ID
+        $familleOption = familleOptionsRestaurant::find($id);
+        
+        // Check if the famille option exists
+        if (!$familleOption) {
+            return redirect()->back()->with('error', 'Famille Option not found.');
+        }
+        
+        // Update the famille option with the validated data
+        $familleOption->nom_famille_option = $validatedData['nom_famille_option'];
+        $familleOption->type = $validatedData['type'];
+        $familleOption->save();
+        
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Famille Option updated successfully.');
     }
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy( $id)
     {
-        //
+       
+           // Find the famille option by ID
+        $familleOption = familleOptionsRestaurant::find($id);
+        
+        // Check if the famille option exists
+        if (!$familleOption) {
+            return redirect()->back()->with('error', 'Famille Option not found.');
+        }
+        // Delete all options attached
+        $options = OptionsRestaurant::where('famille_option_id_rest', $id)->get();
+        foreach( $options as $option ){
+          $option->delete(); 
+        }
+        // Delete the famille option
+        $familleOption->delete();
+        $familleOptionRestaurant = ProduitsFOptionsrestaurant::where('id_familleoptions_rest', $id)->get();
+                   
+        
+        foreach ($familleOptionRestaurant as $familleOptionproduit) {
+            $familleOptionproduit->delete();
+            }
+        // Redirect back with success message
+        return redirect()->back()->with('success', 'Famille Option deleted successfully.');
+      
     }
 }

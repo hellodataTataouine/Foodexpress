@@ -28,7 +28,7 @@
                         <table class="table" id="myTable">
                           <thead>
                             <tr>
-                              <th> ID </th>
+                             
                               <th> Nom Client </th>
                               <th> lignes de commande </th>
                               <th> Prix Total </th>
@@ -42,8 +42,8 @@
                           <tbody>
                           @forelse ($commandes as $commande)
             <tr>
-                <td>{{ $commande->id }}</td>
-                <td>{{ $commande->user->name }}</td>
+                
+                <td>{{ $commande->Clientfirstname }}</td>
                 <td>
                     <!-- Nested loop for products and their options -->
                     <ul>

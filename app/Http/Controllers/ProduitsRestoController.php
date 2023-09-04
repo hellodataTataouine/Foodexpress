@@ -238,8 +238,25 @@ class ProduitsRestoController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+
+     public function delete($id)
+{
+    $produit = ProduitsRestaurants::findOrFail($id);
+      return view('restaurant.produits.delete', compact('produit'));
+   
+}
+    public function destroy($id)
     {
-        //
+        $produit = ProduitsRestaurants::findOrFail($id);
+
+    // Delete the associated image file if it exists
+    if ($produit->url_image) {
+        Storage::delete($produit->url_image);
+    }
+
+    $produit->delete();
+    
+        return redirect()->route('restaurant.produits.index')->with('success', 'Produit deleted successfully.');
+    
     }
 }

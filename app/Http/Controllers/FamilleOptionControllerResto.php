@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FamilleOptionResto as FamilleOtion;
-use App\Models\OptionRestaurant as Option;
+use App\Models\FamilleOption as FamilleOtion;
+use App\Models\FamilleOption;
+
+use App\Models\ProduitsFamilleOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\Option;
 class FamilleOptionControllerResto extends Controller
 {
     public function index()
@@ -20,11 +22,7 @@ class FamilleOptionControllerResto extends Controller
     {
         return view('restaurant.famille-options.create');
     }
-    public function show(FamilleOption $familleOption)
-    {
-        $options = Option::where('famille_option_id', $familleOption->id)->paginate(10);
-        return view('restaurant.options.list', compact('options'));
-    }
+   
     
     public function store(Request $request)
     {
@@ -90,9 +88,19 @@ class FamilleOptionControllerResto extends Controller
             return redirect()->back()->with('error', 'Famille Option not found.');
         }
         
+        $options = Option::where('famille_option_id', $id)->get();
+        foreach( $options as $option ){
+          $option->delete(); 
+        }
+
         // Delete the famille option
         $familleOption->delete();
+        $familleOptionRestaurant = ProduitsFamilleOption::where('famille_option_id', $id)->get();
+                   
         
+        foreach ($familleOptionRestaurant as $familleOptionproduit) {
+            $familleOptionproduit->delete();
+            }
         // Redirect back with success message
         return redirect()->back()->with('success', 'Famille Option deleted successfully.');
     }

@@ -32,8 +32,7 @@
                                         <table id="myTable" class="table" style="width: 100%">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
-                                                    <th>Nom Famille Option</th>
+                                                     <th>Nom Famille Option</th>
                                                     <th>Type Famille Option</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -41,8 +40,7 @@
                                             <tbody>
                                                 @foreach ($familleOptions as $familleOption)
                                                 <tr>
-                                                    <td>{{ $familleOption->id }}</td>
-                                                    <td>{{ $familleOption->nom_famille_option }}</td>
+                                                      <td>{{ $familleOption->nom_famille_option }}</td>
                                                     <td>{{ $familleOption->type }}</td>
                                                     <td>
                                                         <a href="{{ route('restaurant.famille-options.options', $familleOption->id) }}" class="btn btn-success">Options de cette Famille Option</a>

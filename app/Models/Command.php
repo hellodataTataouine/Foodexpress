@@ -40,13 +40,5 @@ class Command extends Model
     }
 
 
-  /*  public function products()
-    {
-        return $this->hasMany(CommandProduct::class);
-    }*/
-   /* public function produits()
-    {
-        return $this->belongsToMany(ProduitsRestaurants::class, 'cart_details', 'cart_id', 'product_id')
-            ->withPivot('qte_produit');
-    }*/
+ 
 }

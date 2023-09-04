@@ -32,17 +32,14 @@ class ProductsController  extends controller
                 $firstProducts[$categoryId] = $firstProduct;
             }
         }
-    
-        Paginator::defaultView('client.layouts.custom-paginator');
+            Paginator::defaultView('client.layouts.custom-paginator');
     
         // Retrieve the products from the produits table with matching IDs
-        $products = ProduitsRestaurants::whereIn('categorie_rest_id', $categoryIds)->where('restaurant_id', $client->id)->get();
-    
-
-        
+        $products = ProduitsRestaurants::whereIn('categorie_rest_id', $categoryIds)->where('status', 1)->where('restaurant_id', $client->id)->get();
+     
     // Pagination
     $currentPage = LengthAwarePaginator::resolveCurrentPage();
-    $perPage = 10; // Number of products per page
+    $perPage = 1000; // Number of products per page
     $currentPageProducts = $products->forPage($currentPage, $perPage);
     $paginator = new LengthAwarePaginator($currentPageProducts, $products->count(), $perPage);
     $paginator->setPath(route('client.products.index', ['subdomain' => $subdomain]));

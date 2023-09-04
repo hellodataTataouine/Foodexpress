@@ -110,30 +110,7 @@ class ClientStoreController extends Controller
         return redirect()->route('panier.confirmation', ['subdomain' => $subdomain]);
     }
 
-   /* public function getProductDetails($subdomain, $productId)
-    {
-        // Retrieve the product details from the database based on the $productId
-        $product = Produits::find($productId);
-
-        // Retrieve the product's famille options
-        $familleOptions = ProduitsFamilleOption::where('produit_id', $productId)->get();
-        
-        // Retrieve the options for each famille option
-        foreach ($familleOptions as $familleOption) {
-            $familleOption->options = Option::where('famille_option_id', $familleOption->famille_option_id)->get();
-        }
-
-        // Retrieve the name of the famille option
-        foreach ($familleOptions as $familleOption) {
-            $familleOption->famille_option = FamilleOption::find($familleOption->famille_option_id);
-        }
-
-        // Return the product details as a JSON response
-        return response()->json([
-            'product' => $product,
-            'familleOptions' => $familleOptions
-        ]);
-    }*/
+ 
     public function getProductRestaurantDetails($subdomain, $productId)
     {
         // Retrieve the product details from the database based on the $productId
