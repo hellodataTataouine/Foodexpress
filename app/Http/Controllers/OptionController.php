@@ -37,7 +37,7 @@ class OptionController extends Controller
         $option->famille_option_id = $request->input('famille_option_id');
         $option->nom_option = $request->input('nom_option');
         $option->prix = $request->input('prix');
-        $option->owner_id = Auth::id();
+      
         $option->save();
 
         return redirect()->route('admin.options.index')->with('success', 'Option added successfully!');

@@ -90,7 +90,7 @@
         <!-- Product Start -->
         <div class="col-lg-4 col-md-6 {{ $product->categorie_rest_id}}">
           <div class="product">
-            <a class="product-thumb" href=""> <img src="{{ asset($product->url_image) }}" alt="menu item" /> </a>
+            <a class="product-thumb" > <img src="{{ asset($product->url_image) }}" alt="menu item" /> </a>
             <div class="product-body">
               <div class="product-desc">
                 <h4> <a href="menu-item-v1.html">{{ $product->nom_produit }}</a> </h4>
@@ -101,8 +101,8 @@
                 </div>
               </div>
               <div class="product-controls">
-                <a href="#" class="order-item btn-custom btn-sm shadow-none" data-product-id="{{ $product->id }}" data-product-name="{{ $product->nom_produit }}" data-product-image="{{ asset($product->url_image) }}" data-product-price="{{ $product->prix }}">Order <i class="fas fa-shopping-cart"></i> </a>
-                <a class="btn-custom secondary btn-sm shadow-none customizeBtn" data-bs-toggle="modal" data-bs-target="#customizeModal" data-product-id="{{ $product->id }}" data-product-name="{{ $product->nom_produit }}" data-product-image="{{ asset($product->url_image) }}" data-product-price="{{ $product->prix }}">Customize <i class="fas fa-plus"></i></a>
+                <a href="#" class="order-item btn-custom btn-sm shadow-none" data-product-id="{{ $product->id }}" data-product-name="{{ $product->nom_produit }}" data-product-image="{{ asset($product->url_image) }}" data-product-price="{{ $product->prix }}">Commander <i class="fas fa-shopping-cart"></i> </a>
+                <a class="btn-custom secondary btn-sm shadow-none customizeBtn" data-bs-toggle="modal" data-bs-target="#customizeModal" data-product-id="{{ $product->id }}" data-product-name="{{ $product->nom_produit }}" data-product-image="{{ asset($product->url_image) }}" data-product-price="{{ $product->prix }}">Personnaliser <i class="fas fa-plus"></i></a>
                </div>
             </div>
           </div>
@@ -123,6 +123,7 @@ $(document).ready(function() {
     console.log("Button clicked!");
     event.preventDefault();
     // Retrieve the product data from the clicked button
+    
     var productId = $(this).data('product-id');
     var productName = $(this).data('product-name');
     var productImage = $(this).data('product-image');
@@ -173,27 +174,58 @@ $(document).ready(function() {
     });
   }
   function updateCartSidebar() {
-    // Make an AJAX request to fetch the updated cart data
-    $.ajax({
-      url: '{{ route("cart.fetch", ["subdomain" => $subdomain]) }}',
-      method: 'GET',
-      success: function(response) {
-        // Update the cart sidebar with the updated cart data
-        $('#cartSidebarWrapper& .cart-sidebar-scroll').html(response);
-        // Update the cart item count in the header
-      var cartItemCount = $('.cart-item-count');
-      var cartCount = $(response).find('.cart-item').length;
-      cartItemCount.text(cartCount);
-        // Show the cart sidebar
-        $('#cartSidebarWrapper&').addClass('active');
-      },
-      error: function(error) {
-        // Handle the error response from the server
-        console.error('Error fetching cart data:', error);
-        // Show an error message or handle the error gracefully
-      }
-    });
-  } 
+    var timestamp = new Date().getTime();
+  
+// Make an AJAX request to fetch the updated cart data
+$.ajax({
+  url: '{{ route("cart.fetch", ["subdomain" => $subdomain]) }}?timestamp=' + timestamp,
+  method: 'GET',
+  success: function(response) {
+    console.log(response);
+    
+  // Update the cart sidebar with the updated cart items
+var cartSidebarScroll = $('.cart-sidebar-scroll');
+cartSidebarScroll.empty(); // Clear existing content
+
+// Loop through the cart items and add them to the sidebar
+$.each(response.cartItems, function(index, cartItem) {
+    var itemHTML = '<div class="cart-sidebar-item">';
+    itemHTML += '<div class="media">';
+    itemHTML += '<a href="menu-item-v1.html"><img src="' + cartItem.image + '" alt="product"></a>';
+    itemHTML += '<div class="media-body">';
+    itemHTML += '<h5><a href="menu-item-v1.html" title="' + cartItem.name + '">' + cartItem.name + '</a></h5>';
+    itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '$</span>';
+    itemHTML += '</div></div>';
+    itemHTML += '<div class="cart-sidebar-item-meta">';
+    itemHTML += '<span>' + (cartItem.options || '') + '</span>';
+    itemHTML += '</div>';
+    itemHTML += '<div class="cart-sidebar-price">';
+    itemHTML += cartItem.price + '$';
+    itemHTML += '</div>';
+    itemHTML += '<div class="remove-btn" data-item-id="' + cartItem.id + '">';
+    itemHTML +=  '<i class="fas fa-times"></i>';
+    itemHTML += '<span></span><span></span>';
+    itemHTML += '</div></div>';
+
+    cartSidebarScroll.append(itemHTML);
+});
+ // Update the cart item count in the header
+ var cartItemCount = $('.cart-item-count');
+cartItemCount.text(response.cartItemCount);
+
+var totalPriceElement = $('.cart-sidebar-footer span');
+totalPriceElement.text(response.totalPrice + '$');
+    // Show the cart sidebar
+    $('#cartSidebarWrapper&').addClass('active');
+   // location.reload();
+  },
+  error: function(error) {
+    // Handle the error response from the server
+    console.error('Error fetching cart data:', error);
+    // Show an error message or handle the error gracefully
+  }
+});
+} 
 });
 
 </script>
@@ -210,6 +242,12 @@ $(document).ready(function() {
           success: function(res) {
             response = res; // Store the response in the global variable
             var selectedOptions = {};
+            $('.customize-title').empty();
+            $('.customize-meta p').empty();
+            $('.modal-header').empty();
+            $('.customize-variations').empty();
+            $('.custom-primary').empty();
+            $('.final-price.custom-primary').empty();
             // Update the modal content with the returned data
             $('.customize-title').html(response.product.nom_produit + ' <span class="custom-primary">'  + response.product.prix + '$</span>');
             $('.customize-meta p').text(response.product.description);
@@ -381,7 +419,7 @@ $('.customize-variation-wrapper input[type="checkbox"]:checked, .customize-varia
     
     $('.customize-variation-wrapper input[name="quantity"]').each(function() {
 
-
+     
       var quantityInput = $(this);
   var optionItem = quantityInput.closest('.customize-variation-item');
   var optionPrice = parseFloat(optionItem.data('price'));
@@ -472,8 +510,8 @@ console.log('Option Quantity Price:', optionQuantityPrice);
   // Update the total price based on the quantities
   totalPrice *= totalPriceQuantity;
 
-  var addToCartBtn = $('.order-item');
-    addToCartBtn.attr('data-product-price', totalPrice);
+  //var addToCartBtn = $('.order-item');
+   // addToCartBtn.attr('data-product-price', totalPrice);
         // Update the total price display
         $('.total-price').html(totalPrice + '$');
        
@@ -481,8 +519,12 @@ console.log('Option Quantity Price:', optionQuantityPrice);
         priceTotal.text(totalPrice.toFixed(2) + '$');
       
       }
+
+
+      
       $('.close-btn').on('click', function() {
     $('#customizeModal').modal('hide');
+
   });
   
   function initializeTotalQuantity() {
@@ -493,15 +535,17 @@ console.log('Option Quantity Price:', optionQuantityPrice);
 
 
 $(document).ready(function() {
+ 
   // Existing code...
   $(document).on('click', '.order-item.btn-custom.btn-sm.shadow-none.customizeBtn', function() {
   console.log("Button clicked!"); // Add this line to check if the button is triggering the click event
   
   // Retrieve the selected customization options, product ID, name, and price
+  var priceTotal = $('.final-price.custom-primary');
   var productId = response.product.id; 
   var productName = response.product.nom_produit;
   var productImage = response.product.url_image;
-  var productPrice =  $(this).data('product-price');
+  var productPrice =  parseFloat(priceTotal.text().replace('$', ''));
   var productUnityPrice = response.product.prix;
   var productQuantity = $('#totalquantity').val();
   var customizationOptions = getSelectedOptions(); // Implement the logic to retrieve the selected options
@@ -519,8 +563,9 @@ $(document).ready(function() {
 
     // Send a POST request to add the item to the cart
     addToCart(cartItem);
+    selectedOptions = [];
       // After adding the item, update the cart sidebar and cart item count in the header
-      updateCartSidebar();
+     // updateCartSidebar();
   });
 
 
@@ -576,24 +621,62 @@ $(document).ready(function() {
 });
 function updateCartSidebar() {
 
-  
+  $('body').addClass('disable-interaction');
     // Make an AJAX request to fetch the updated cart data
     $.ajax({
       url: '{{ route("cart.fetch", ["subdomain" => $subdomain]) }}',
       method: 'GET',
       success: function(response) {
-        // Update the cart sidebar with the updated cart data
-        $('#cartSidebarWrapper& .cart-sidebar-scroll').html(response);
-        // Update the cart item count in the header
-      var cartItemCount = $('.cart-item-count');
-      var cartCount = $(response).find('.cart-item').length;
-      cartItemCount.text(cartCount);
+        $('body').removeClass('disable-interaction');
+        console.log(response);
+        
+
+
+
+      // Update the cart sidebar with the updated cart items
+    var cartSidebarScroll = $('.cart-sidebar-scroll');
+    cartSidebarScroll.empty(); // Clear existing content
+
+    // Loop through the cart items and add them to the sidebar
+    $.each(response.cartItems, function(index, cartItem) {
+    var itemHTML = '<div class="cart-sidebar-item">';
+    itemHTML += '<div class="media">';
+    itemHTML += '<a href="menu-item-v1.html"><img src="' + cartItem.image + '" alt="product"></a>';
+    itemHTML += '<div class="media-body">';
+    itemHTML += '<h5><a href="menu-item-v1.html" title="' + cartItem.name + '">' + cartItem.name + '</a></h5>';
+    itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '$</span>';
+    itemHTML += '</div></div>';
+    itemHTML += '<div class="cart-sidebar-item-meta">';
+    
+    // Check if cartItem.options is a non-empty string
+    if (typeof cartItem.options === 'string' && cartItem.options.trim() !== '') {
+        itemHTML += '<span>' + cartItem.options + '</span>';
+    }
+    
+    itemHTML += '</div>';
+    itemHTML += '<div class="cart-sidebar-price">';
+    itemHTML += cartItem.price + '$';
+    itemHTML += '</div>';
+    itemHTML += '<div class="remove-btn" data-item-id="' + cartItem.id + '">';
+    itemHTML +=  '<i class="fas fa-times"></i>';
+    itemHTML += '<span></span><span></span>';
+    itemHTML += '</div></div>';
+
+    cartSidebarScroll.append(itemHTML);
+});
+     // Update the cart item count in the header
+     var cartItemCount = $('.cart-item-count');
+    cartItemCount.text(response.cartItemCount);
+
+    var totalPriceElement = $('.cart-sidebar-footer span');
+totalPriceElement.text(response.totalPrice + '$');
         // Show the cart sidebar
         $('#cartSidebarWrapper&').addClass('active');
       },
       error: function(error) {
         // Handle the error response from the server
         console.error('Error fetching cart data:', error);
+        $('body').removeClass('disable-interaction');
         // Show an error message or handle the error gracefully
       }
     });

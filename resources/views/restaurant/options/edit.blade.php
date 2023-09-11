@@ -30,7 +30,7 @@
     
                                         <div class="table-responsive">
     
-                                            <form action="{{ route('restaurant.options.update', $option) }}" method="post">
+                                            <form action="{{ route('admin.options.update', $option->id) }}" method="post">
                                                 @csrf
                                                 @method('PUT')
                                             

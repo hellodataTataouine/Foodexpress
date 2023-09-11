@@ -8712,7 +8712,7 @@ pre {
 .table-light,
 .table-light > th,
 .table-light > td {
-  background-color: #ebebeb; }
+  background-color: #ffffff; }
 
 .table-light th,
 .table-light td,
@@ -8777,7 +8777,7 @@ pre {
     background-color: rgba(255, 255, 255, 0.05); }
   .table-dark.table-hover tbody tr:hover {
     color: #fff;
-    background-color: rgba(255, 255, 255, 0.075); }
+    background-color: rgb(255, 255, 255); }
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {

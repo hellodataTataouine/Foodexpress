@@ -6,6 +6,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <title>@yield('title')</title>
         <!-- plugins:css -->
+
+         
         <link rel="stylesheet" href="{{ asset('vendors/mdi/css/materialdesignicons.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
         <!-- endinject -->
@@ -21,6 +23,7 @@
       </head>
       <body>
             @yield('content')
+            <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet"> -->
         <script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
 
 

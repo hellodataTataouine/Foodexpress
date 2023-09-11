@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 use App\Models\ClientRestaurat;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class ClientRestaurantController  extends Controller
@@ -11,8 +13,15 @@ class ClientRestaurantController  extends Controller
     // Display a listing of the resource.
     public function index()
     {
-        $clients = ClientRestaurat::all();
-        return view('restaurant.clients.index', compact('clients'));
+        $userId = Auth::id();
+        $user = User::find($userId);
+        if ($user) {
+        
+        $restaurant = $user->restaurant;
+
+        $clients = ClientRestaurat::where('restaurant_id', $restaurant->id)->paginate(10);
+        
+        return view('restaurant.clients.index', compact('clients'));}
     }
 
     // Show the form for creating a new resource.

@@ -34,13 +34,19 @@ class SubDomain extends Controller
     }
     public function restaurantIndex()
     {
-        // Get the ID of the logged-in user
+  // Get the ID of the logged-in user
+      
         $userId = Auth::id();
+        $user = User::find($userId);
+        if ($user) {
+        
+        $restaurant = $user->restaurant;
+       
     
-        $client = Client::where('user_id', $userId)->firstOrFail();
+      //  $client = Client::where('user_id', $userId)->firstOrFail();
         // Retrieve commandes with their related user where the restaurant_id matches the logged-in user's ID
         $commandes = Command::with(['user','cartDetails', 'cartDetails.produit'])
-            ->where('restaurant_id', $client->id)
+            ->where('restaurant_id', $restaurant->id)
             ->paginate(10);
     
         if (!Auth::user() || Auth::user()->is_admin !== 0) {
@@ -49,7 +55,34 @@ class SubDomain extends Controller
         }
     
         return view('restaurant.home', compact('commandes'));
+    }}
+
+
+    public function updateStatus(Request $request)
+{
+    // Get the command ID and new status from the request
+    $commandId = $request->input('commandId');
+    $newStatus = $request->input('newStatus');
+
+
+    $Command = Command::findOrFail($commandId);
+
+
+   
+        
+    if ($Command) {
+        $Command->Statut = $newStatus;
+        $Command->save();
+        return response()->json(['message' => 'Commande modifiée']);
+       
+    } else {
+        return response()->json(['message' => 'Status updated successfully']);
+       
     }
+
+
+  
+}
 
     public function showAdmin()
     {

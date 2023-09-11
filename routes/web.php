@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Models\Client;
 use App\Http\Controllers\Auth\LoginController;
@@ -33,7 +34,9 @@ use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ImeiController;
 
 use App\Http\Controllers\ClientRestaurantController;
-
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReservationTableController;
+use App\Http\Controllers\RestaurantProfileController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -56,14 +59,16 @@ Route::domain('{subdomain}.localhost')->group(function () {
     Route::get('/panier/confirmation', function () {
         return view('client.panier_confirmation');
     })->name('panier.confirmation');
-    Route::get('/commandes', [CartController::class, 'commandes'])->name('client.commandes');
-    Route::put('/cancel-commande/{id}', [CartController::class, 'cancelCommande'])->name('client.commande.cancel');
+    Route::get('/commandes', [CommandController::class, 'commandes'])->name('client.commandes');
+    Route::put('/cancel-commande/{id}', [CommandController::class, 'cancelCommande'])->name('client.commande.cancel');
    // Route::post('/add-to-cart', [CartController::class, 'addToCart'])->name('cart.add');
-   Route::post('/add-to-cart', [CommandController::class, 'addToCart'])->name('cart.add');
-    Route::get('/cart-items', [CartController::class, 'getCartItems'])->name('cart.items');
-    Route::post('/update-quantity', )->name('updateQuantity');
-    Route::post('/update-quantity', [CartController::class, 'updateQuantity'])->name('update.quantity');
+    Route::post('/add-to-cart', [CommandController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/remove', [CommandController::class, 'removeCartItem'])->name('remove.CartItem');
 
+    Route::get('/cart-items', [CommandController::class, 'getCartItems'])->name('cart.items');
+    
+    Route::post('/update-quantity', [CommandController::class, 'updateQuantity'])->name('update.quantity');
+    
     Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/fetch-cart', [CommandController::class, 'fetchCart'])->name('cart.fetch');
    // Route::get('/fetch-cart', [CartController::class, 'fetchCart'])->name('cart.fetch');
@@ -76,7 +81,12 @@ Route::domain('{subdomain}.localhost')->group(function () {
     Route::post('/validate-postal-code', [PostalCodeController::class, 'validatePostalCode'])->middleware('validatePostalCode')->name('validate.postal.code');
     Route::get('/restaurant/home', [App\Http\Controllers\SubDomain::class, 'restaurantIndex'])->name('indexrestaurant');
  
-
+    Route::prefix('paypal')->group(function () {
+        Route::view('payment', 'paypal.index')->name('create.payment');
+        Route::get('/handle-payment', [CommandController::class, 'handlePayment'])->name('make.payment');
+        Route::get('cancel-payment', [PaymentController::class, 'paymentCancel'])->name('cancel.payment');
+        Route::get('payment-success', [PaymentController::class, 'paymentSuccess'])->name('success.payment');
+    });
 });
 
 
@@ -208,8 +218,6 @@ Route::group(['middleware' => 'check.subdomain'], function () {
     Route::get('/home', [App\Http\Controllers\SubDomain::class, 'restaurantIndex'])->name('indexrestaurant');
     Route::get('/restaurant/home', [App\Http\Controllers\SubDomain::class, 'restaurantIndex'])->name('indexrestaurant');
    
-
-
     Route::get('/clients', [ClientRestaurantController::class, 'index'])->name('restaurant.clients.index');
 Route::get('/clients/create', [ClientRestaurantController::class, 'create'])->name('restaurant.clients.create');
 Route::post('/clients', [ClientRestaurantController::class, 'store'])->name('clients.store');
@@ -217,7 +225,7 @@ Route::get('/clients/{client}', [ClientRestaurantController::class, 'show'])->na
 Route::get('/clients/{client}/edit', [ClientRestaurantController::class, 'edit'])->name('clients.edit');
 Route::put('/clients/{client}', [ClientRestaurantController::class, 'update'])->name('clients.update');
 Route::delete('/clients/{client}', [ClientRestaurantController::class, 'destroy'])->name('clients.destroy');
-
+Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'updateStatus'])->name('update.status');
 
 
      Route::match(['get', 'post'], '/restaurant/login', [LoginController::class, 'login'])->name('restaurant.login');
@@ -262,27 +270,23 @@ Route::delete('/clients/{client}', [ClientRestaurantController::class, 'destroy'
      Route::get('/restaurant/options', [OptionRestoController::class, 'index'])->name('restaurant.options.index');
      Route::get('/restaurant/options/create', [OptionRestoController::class, 'create'])->name('restaurant.options.create');
      Route::post('/restaurant/options', [OptionRestoController::class, 'store'])->name('restaurant.options.store');
-     Route::get('/restaurant/options/{id}/edit', [OptionRestoController::class, 'edit'])->name('restaurant.options.edit');
+    
+     Route::get('/restaurant/options/{option}/edit', [OptionRestoController::class, 'edit'])->name('restaurant.options.edit');
      Route::post('/restaurant/options/{option}', [OptionRestoController::class, 'update'])->name('restaurant.options.update');
     
      Route::get('/restaurant/options/remove/{option}', [OptionRestoController::class, 'remove'])->name('restaurant.options.remove');
      Route::get('restaurant/famille-options/{familleOption}', [FamilleOptionRestoController::class, 'getoptions'])->name('restaurant.famille-options.options');
 
-     
-     
-     Route::get('/restaurant/paiment-methods', [PaimentMethodController::class, 'index'])->name('restaurant.paiment.index');
-     Route::get('/restaurant/paiment-methods/create', [PaimentMethodController::class, 'create'])->name('restaurant.paiment.create');
-     Route::post('/restaurant/paiment-methods', [PaimentMethodController::class, 'store'])->name('restaurant.paiment.store');
-     Route::get('/restaurant/paiment-methods/{id}/edit', [PaimentMethodController::class, 'edit'])->name('restaurant.paiment.edit');
-     Route::put('/restaurant/paiment-methods/{id}', [PaimentMethodController::class, 'update'])->name('restaurant.paiment.update');
-     Route::delete('/restaurant/paiment-methods/{id}', [PaimentMethodController::class, 'destroy'])->name('restaurant.paiment.destroy');
-     Route::get('/restaurant/paiment-restaurants', [PaimentRestaurantController::class, 'index'])->name('restaurant.restaurant.paiment.index');
-     Route::get('/restaurant/paiment-restaurants/create', [PaimentRestaurantController::class, 'create'])->name('restaurant.restaurant.paiment.create');
-     Route::post('/restaurant/paiment-restaurants', [PaimentRestaurantController::class, 'store'])->name('restaurant.restaurant.paiment.store');
-     Route::get('/restaurant/paiment-restaurants/{id}/edit', [PaimentRestaurantController::class, 'edit'])->name('restaurant.restaurant.paiment.edit');
-     Route::post('/restaurant/paiment-restaurants/{id}', [PaimentRestaurantController::class, 'update'])->name('restaurant.restaurant.paiment.update');
-     Route::delete('/restaurant/paiment-restaurants/{id}', [PaimentRestaurantController::class, 'destroy'])->name('restaurant.restaurant.paiment.destroy');
-
+     Route::get('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'index'])->name('restaurant.paiment.index');
+     Route::get('/restaurant/paiment-methods/create', [PaimentRestaurantController::class, 'create'])->name('restaurant.paiment.create');
+     Route::post('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'store'])->name('restaurant.paiment.store');
+     Route::get('/restaurant/paiment-methods/{id}/edit', [PaimentRestaurantController::class, 'edit'])->name('restaurant.paiment.edit');
+     Route::put('/restaurant/paiment-methods/{id}', [PaimentRestaurantController::class, 'update'])->name('restaurant.paiment.update');
+     Route::delete('/restaurant/paiment-methods/{id}', [PaimentRestaurantController::class, 'destroy'])->name('restaurant.paiment.destroy');
+    
+    
+    
+    
      Route::get('/restaurant/livraisonmethods', [LivraisonMethodController::class, 'index'])->name('restaurant.livraison.index');
      Route::get('/restaurant/livraisonmethods/create', [LivraisonMethodController::class, 'create'])->name('restaurant.livraison.create');
      Route::post('/restaurant/livraisonmethods', [LivraisonMethodController::class, 'store'])->name('restaurant.livraison.store');
@@ -296,6 +300,23 @@ Route::delete('/clients/{client}', [ClientRestaurantController::class, 'destroy'
      Route::post('/restaurant/livraisonrestaurants/{id}', [LivraisonRestaurantController::class, 'update'])->name('restaurant.restaurant.livraison.update');
      Route::delete('/restaurant/livraisonrestaurants/{id}', [LivraisonRestaurantController::class, 'destroy'])->name('restaurant.restaurant.livraison.destroy');
      Route::get('/restaurant/livraisonrestaurants/{restaurant}/details', [LivraisonRestaurantController::class, 'showDetails'])->name('restaurant.restaurants.details');
+
+
+
+     Route::get('/restaurant/resevation', [ReservationTableController::class, 'index'])->name('restaurant.resevation.index');
+     Route::get('/restaurant/resevation/create', [ReservationTableController::class, 'create'])->name('restaurant.resevation.create');
+     Route::post('/restaurant/resevation', [ReservationTableController::class, 'store'])->name('restaurant.resevation.store');
+     Route::get('/restaurant/resevation/{id}/edit', [ReservationTableController::class, 'edit'])->name('restaurant.resevation.edit');
+     Route::post('/restaurant/resevation/{id}', [ReservationTableController::class, 'update'])->name('restaurant.resevation.update');
+     Route::delete('/restaurant/resevation/{id}', [ReservationTableController::class, 'destroy'])->name('restaurant.resevation.destroy');
+
+
+
+     Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'edit'])->name('restaurant.profile.edit');
+     Route::post('/restaurant/profile/{id}', [RestaurantProfileController::class, 'update'])->name('restaurant.profile.update');
+    
+
+     
      Auth::routes();
     
 });
@@ -325,6 +346,7 @@ Route::get('/', function () {
         return redirect("http://$subdomain.localhost:8000/store");
     }
 });
+
 
 
 Route::get('/home', function () {
@@ -371,3 +393,11 @@ Route::get('/home', function () {
     Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
 
 
+   /* Route::controller(PaymentController::class)
+    ->prefix('paypal')
+    ->group(function () {
+        Route::view('payment', 'paypal.index')->name('create.payment');
+        Route::get('handle-payment', 'handlePayment')->name('make.payment');
+        Route::get('cancel-payment', 'paymentCancel')->name('cancel.payment');
+        Route::get('payment-success', 'paymentSuccess')->name('success.payment');
+    });*/

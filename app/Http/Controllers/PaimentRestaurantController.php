@@ -13,66 +13,74 @@ class PaimentRestaurantController extends Controller
 {
 
     public function index()
-{
-    $users = User::with('paimentMethods')
-                 ->where('is_admin', 0)
-                 ->paginate(10);
-
-    return view('admin.paiment.indexResto', ['users' => $users]);
-}
-
-
-    
-
-public function create()
-{
-    $users = Client::all();
-    $paimentMethods = PaimentMethod::all();
-
-    return view('admin.paiment.createResto', compact('users', 'paimentMethods'));
-}
-
-public function store(Request $request)
-{
-    $request->validate([
-        'restaurant_id' => 'required|exists:users,id',
-        'paiment_id' => 'required|exists:paiement,id',
-    ]);
-
-    $paimentRestaurant = new PaimentRestaurant();
-    $paimentRestaurant->restaurant_id = $request->input('restaurant_id');
-    $paimentRestaurant->paiment_id = $request->input('paiment_id');
-    $paimentRestaurant->save();
-
-    return redirect()->route('admin.restaurant.paiment.index')->with('success', 'Paiment Methode added successfully.');
-}
-
-
-    public function edit($id)
     {
-        $paimentRestaurant = PaimentRestaurant::findOrFail($id);
-        return view('admin.paiment.editResto', compact('paimentRestaurant'));
+        // Retrieve a list of PaimentRestaurants
+        $paimentMethods = PaimentRestaurant::paginate(10);
+
+        return view('Restaurant.paiment.index', compact('paimentMethods'));
     }
 
-    public function update(Request $request, $id)
+    public function create()
     {
+        // You can implement a form to create a new PaimentRestaurant here
+        return view('Restaurant.paiment.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Validate the incoming request data
         $request->validate([
-            'restaurant_id' => 'required|exists:users,id',
-            'paiment_id' => 'required|exists:paiment_methods,id',
+            'restaurant_id' => 'required',
+            'paiment_id' => 'required',
+            'client_id' => 'required',
+            'client_secret' => 'required',
         ]);
 
-        $paimentRestaurant = PaimentRestaurant::findOrFail($id);
-        $paimentRestaurant->restaurant_id = $request->input('restaurant_id');
-        $paimentRestaurant->paiment_id = $request->input('paiment_id');
-        $paimentRestaurant->save();
+        // Create a new PaimentRestaurant instance
+        PaimentRestaurant::create($request->all());
 
-        return redirect()->route('admin.paiment.indexResto')->with('success', 'Paiment Methode Modifier Avec succeé');
+        // Redirect to a success page or return a response as needed
+        return redirect()->route('paiment_restaurants.index')
+            ->with('success', 'PaimentRestaurant created successfully');
     }
 
-    public function destroy($id)
+    public function show(PaimentRestaurant $paimentRestaurant)
     {
-        $paimentRestaurant = PaimentRestaurant::findOrFail($id);
+        // Show a single PaimentRestaurant
+        return view('Restaurant.paiment.show', compact('paimentRestaurant'));
+    }
+
+    public function edit(PaimentRestaurant $paimentMethod)
+    {
+        // You can implement a form to edit the PaimentRestaurant here
+        return view('Restaurant.paiment.edit', compact('paimentMethod'));
+    }
+
+    public function update(Request $request, PaimentRestaurant $paimentRestaurant)
+    {
+        // Validate the incoming request data
+        $request->validate([
+            'restaurant_id' => 'required',
+            'paiment_id' => 'required',
+            'client_id' => 'required',
+            'client_secret' => 'required',
+        ]);
+
+        // Update the PaimentRestaurant instance with the new data
+        $paimentRestaurant->update($request->all());
+
+        // Redirect to a success page or return a response as needed
+        return redirect()->route('paiment_restaurants.index')
+            ->with('success', 'PaimentRestaurant updated successfully');
+    }
+
+    public function destroy(PaimentRestaurant $paimentRestaurant)
+    {
+        // Delete the PaimentRestaurant instance
         $paimentRestaurant->delete();
-        return redirect()->route('admin.paiment.indexResto')->with('danger', 'Paiment Methode Deleted Avec succeé');
+
+        // Redirect to a success page or return a response as needed
+        return redirect()->route('Restaurant.paiment.index')
+            ->with('success', 'PaimentRestaurant deleted successfully');
     }
 }

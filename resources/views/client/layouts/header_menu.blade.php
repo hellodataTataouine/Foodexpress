@@ -51,7 +51,7 @@
             </ul>
           </div>
           <ul class="top-header-nav header-cta">
-                @auth
+            @auth('clientRestaurant')
                 <a class="btn-book-a-table" href="{{ url('/store') }}" style="margin-right:15px;color: white;font-size: medium">Store |</a>
                 <a class="btn-book-a-table" href="{{ url('/commandes') }}" style="margin-right:15px;color: white;font-size: medium">Commandes |</a>
                 <a class="btn-book-a-table" id="logout-link" style="margin-right:15px;color: white;font-size: medium" href="#">Logout</a>
@@ -62,6 +62,8 @@
                 @else
                 <a class="btn-book-a-table" href="{{ url('client/login') }}" style="margin-right:15px;color: white;font-size: medium">Connexion |</a>
                 <a class="btn-book-a-table" href="{{ url('client/register') }}" style="margin-right:15px;color: white;font-size: medium">Inscription</a>
+              <!-- <a class="btn-book-a-table" href="{{ url('client/login') }}" style="margin-right:15px;color: white;font-size: medium">reservation Table |</a>--<
+             
                 @endauth
           </ul>
         </div>

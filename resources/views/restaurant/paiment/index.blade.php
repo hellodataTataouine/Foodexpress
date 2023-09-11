@@ -33,21 +33,26 @@
                         <table class="table" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                  
                                     <th>Methode De Paiement</th>
-                                    <th>Date Creation</th>
+                                    <th>Paypal_client_id</th>
+                                    <th>Paypal_client_secret</th>
+                                    
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($paimentMethods as $paimentMethod)
                                     <tr>
-                                        <td>{{ $paimentMethod->id }}</td>
-                                        <td>{{ $paimentMethod->type_methode }}</td>
-                                        <td>{{ $paimentMethod->created_at }}</td>
+                                      @php
+                                      $paimentType = \App\Models\PaimentMethod::find($paimentMethod->paiment_id);
+                                  @endphp
+                                        <td>{{ $paimentType->type_methode }}</td>
+                                      
+                                        <td>{{ $paimentMethod->client_id }}</td>
+                                        <td>{{ $paimentMethod->client_secret }}</td>
                                         <td style="display: flex; justify-content: space-between;">
-                                          <a href="{{ route('restaurant.produits.create', ['paimentMethod_id' => $paimentMethod->id]) }}" class="btn btn-success btn-sm">Ajouter a Restaurant</a>
-                                            <a href="{{ route('restaurant.paiment.edit', $paimentMethod) }}" class="btn btn-primary btn-sm col-s">Edit</a>
+                                          <a href="{{ route('restaurant.paiment.edit', ['id' => $paimentMethod->id]) }}" class="btn btn-primary btn-sm col-s">Edit</a>
                                             <form action="{{ route('restaurant.paiment.destroy', $paimentMethod) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')

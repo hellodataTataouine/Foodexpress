@@ -13,6 +13,9 @@ class PaimentRestaurant extends Model
     protected $fillable = [
         'restaurant_id',
         'paiment_id',
+        'client_id' ,
+        'client_secret',
+
     ];
 
     public function user()

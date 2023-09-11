@@ -43,7 +43,7 @@
         </div>
         <div class="form-group">
             <label for="postalcode">Postal Code</label>
-            <input type="text" name="postalcode" class="form-control" value="{{ $client->postalcode }}" required>
+            <input type="text" name="postalcode" class="form-control" value="{{ $client->codepostal }}" required>
         </div>
         <div class="form-group">
             <label for="phoneNum1">Phone Number 1</label>

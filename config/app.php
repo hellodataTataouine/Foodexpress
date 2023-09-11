@@ -172,7 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\ClientViewComposerServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
-
+         srmklive\PayPal\Providers\PayPalServiceProvider::class,
     ])->toArray(),
 
     /*

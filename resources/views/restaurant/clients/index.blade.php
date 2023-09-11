@@ -34,7 +34,7 @@
                 <th>Country</th>
                 <th>Address</th>
                 <th>Postal Code</th>
-                <th>Phone Number 1</th>
+                <th>Phone Number </th>
                 <th>Email</th>
                 <th>Actions</th>
             </tr>
@@ -46,11 +46,11 @@
                     <td>{{ $client->LastName }}</td>
                     <td>{{ $client->ville }}</td>
                     <td>{{ $client->Address }}</td>
-                    <td>{{ $client->postalcode }}</td>
+                    <td>{{ $client->codepostal }}</td>
                     <td>{{ $client->phoneNum1 }}</td>
-                    <td>{{ $client->Email }}</td>
+                    <td>{{ $client->email }}</td>
                     <td>
-                        <a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">View</a>
+                        <!--<a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">View</a>-->
                         <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Edit</a>
                         <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline">
                             @csrf
@@ -66,7 +66,9 @@
                                           <div class="text-end">
                                             <a href="{{ route('restaurant.clients.create') }}" class="btn btn-primary">Ajouter Client</a>
                                           </div>
-                                       
+                                          <div class="text-start">
+                                            {{ $clients->links('vendor.pagination.bootstrap-5') }}
+                                          </div>
                                         </div>
                                     </div>
                                     

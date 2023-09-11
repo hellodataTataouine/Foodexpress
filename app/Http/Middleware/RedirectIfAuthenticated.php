@@ -25,6 +25,7 @@ class RedirectIfAuthenticated
                     return redirect('/admin');
                 } else if (Auth::user()->is_admin == 0) {
                     return redirect('/restaurant');
+                    
                 } else {
                     return redirect('/');
                 }

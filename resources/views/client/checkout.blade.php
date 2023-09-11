@@ -24,10 +24,10 @@
                     </thead>
                     <tbody>
                         @foreach ($cartItems as $index => $cartItem)
-                            <tr>
+                            <tr data-product-id="{{ $cartItem['id'] }}">
                                 <td><img src="{{ asset($cartItem['image']) }}" alt="product"></td>
                                 <td>{{ $cartItem['name'] }}</td>
-                                <td>{{ $cartItem['unityPrice'] }}$</td>
+                                <td>{{ $cartItem['unityPrice'] }} £</td>
                                
                                 <td>
                                     @if (isset($cartItem['options']))
@@ -36,12 +36,12 @@
                                 </td>
                                 <td>
                                     {{ $cartItem['quantity'] }}
-                                    <!--<button class="btn-quantity" data-product="{{ $cartItem['id'] }}" data-action="decrease">-</button>
+                                <!-- <button class="btn-quantity" data-product="{{ $cartItem['id'] }}" data-action="decrease">-</button>
                                     <input type="number" name="quantity[{{ $cartItem['id'] }}]" id="quantity_{{ $cartItem['id'] }}" value="{{ $cartItem['quantity'] }}" min="1" max="100">
-                                    <button class="btn-quantity" data-product="{{ $cartItem['id'] }}" data-action="increase">+</button>
---> </td>
-                                <td>{{ $cartItem['price'] }}$</td>
-                                <td><button>Annuler </button></td>
+                                    <button class="btn-quantity" data-product="{{ $cartItem['id'] }}" data-action="increase">+</button> -->
+                                </td>
+                                <td>{{ $cartItem['price'] }} £</td>
+                                <td><button class="btn-remove" data-product-id="{{ $cartItem['id'] }}">Annuler</button></td>
                             </tr>
                         @endforeach
                         <tr class="total">
@@ -49,17 +49,60 @@
                     <h6 class="mb-0">Grand Total</h6>
                   </td>
                   <td></td>
-                  <td> <strong>{{ $totalPrice }}$</strong> </td>
+                  <td> <div class="totalprice"> <span><strong>{{ $totalPrice }} £</strong></span></div></td>
                 </tr>
                     </tbody> 
                 </table>
-                @if (auth()->check())
+                @if (auth('clientRestaurant')->check())
+
+
                     <!-- Show the regular checkout form for authenticated users -->
-                 
+                    <form id="checkoutForm" method="POST" action="{{ url('/checkout') }}">
                         @csrf
+
+
+                         <!-- Cart Details and Delivery Method -->
+  <div id="cartDetailsAndDeliveryMethod" >
+    <!-- Show the cart details and delivery method here -->
+    @if (count($livraisons) > 0)
+        <h3>Choisissez la méthode de livraison</h3>
+        <select id="delivery_method" name="delivery_method" class="form-control">
+            @foreach ($livraisons as $livraison)
+            @if ($livraison)
+                @php
+                    $livraisonType = \App\Models\Livraison::find($livraison->id);
+                @endphp
+                <!-- Assuming the name field for delivery method is 'id' -->
+                <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
+            @endif
+        @endforeach
+        </select>
+    @endif
+    <br>
+    </div>
+
+<!-- Payment Method -->
+<div id="paymentMethod" >
+    @if (count($paiments) > 0)
+        <h3>Choisissez le mode de paiement</h3>
+        <select name="payment_method" class="form-control">
+            @foreach ($paiments as $paiment)
+                @php
+                    $paimentType = \App\Models\PaimentMethod::find($paiment->id);
+                @endphp
+                <!-- Assuming the name field for payment method is 'id' -->
+                <option value="{{ $paiment->id }}">{{ $paimentType->type_methode }}</option>
+            @endforeach
+        </select>
+    @endif
+    <br>
+  
+   
+</div>
                         <!-- Other form fields for delivery method, payment method, etc. -->
-                        <button type="button" id="confirmOrderBtn" class="btn-custom">Confirm Order</button>
-                    
+                        <button type="submit" form="checkoutForm" class="btn-custom">Confirmer</button>
+                        
+                        </form>
                 @else
               
                 <div class="row">
@@ -105,14 +148,36 @@
               </div>
               </div>
               <div class="row">
-              <div class="form-group col-xl-12">
-                <label>Email Address <span class="text-danger">*</span></label>
-                <input type="email" placeholder="Email Address" name="email" class="form-control" value="" required="">
-              </div>
+              
               <div class="form-group col-xl-12 mb-0">
                 <label>Order Notes</label>
                 <textarea name="name" rows="5" class="form-control" placeholder="Order Notes (Optional)"></textarea>
               </div>
+              <br>
+              <div class="form-group">
+                <input id="checkbox" name="creer_un_compte" type="checkbox" class="form-control-light">
+                <label>Créer un compte</label>
+            </div>
+            <div id="accountFields" style="display: none;">
+                <div class="form-group col-xl-12">
+                    <label>Adresse Email  <span class="text-danger">*</span></label>
+                    <input type="email" placeholder="Email Address" name="email" class="form-control" value="" >
+                </div>
+                <div class="form-group">
+                    <label>Mot de passe <span class="text-danger">*</span></label>
+                 
+                    <input id="password" type="password" class="form-control form-control-light" name="password" placeholder="Mot de passe"  autocomplete="new-password">
+                </div>
+                <div class="form-group">
+                    <label>Confirmer votre Mot de passe <span class="text-danger">*</span></label>
+                 
+                    <input id="password-confirm" type="password" class="form-control form-control-light" name="password_confirmation" placeholder="Confirmation Mot de passe"  autocomplete="new-password">
+            </div>
+            </div>
+        
+       
+              <p>Vous avez déjà un compte? <a href="{{ route('client.login') }}">Connexion</a> </p>         
+                                    
               </div>
 
   <!-- Cart Details and Delivery Method -->
@@ -134,8 +199,7 @@
             @endif
             <br>
             </div>
-        <br>
-        <br>
+       
         <!-- Payment Method -->
         <div id="paymentMethod" >
             @if (count($paiments) > 0)
@@ -149,7 +213,9 @@
                         <option value="{{ $paiment->id }}">{{ $paimentType->type_methode }}</option>
                     @endforeach
                 </select>
+              
             @endif
+           
             <br>
           
            
@@ -158,107 +224,14 @@
               <div class="form-group col-xl-12 mb-0">
               <p class="small">Your personal data will be used to process your order <a class="btn-link" href="#">privacy policy.</a> </p>
             <button type="submit" form="checkoutForm" class="btn-custom">Confirmer</button>
+            <br>
+            <br />
             </div>
             </form>
               </div>
              
-             
-            <!-- /Buyer Info -->
-            <div class="col-xl-5 ">
-         
-              
-
-   
-      <div class="auth-wrapper">
-
-       
-                    <div class="auth-form">
-                        <!-- Show the registration form for non-authenticated users -->
-                        <h3>Créer un compte</h3>
-                            <form method="POST" id="registrationForm"  action="{{ url('/register-and-checkout') }}">
-                                @csrf
-                                    <div class="form-group">
-                                        <input id="name" type="text" class="form-control form-control-light @error('name') is-invalid @enderror" name="name" placeholder="Votre nom" value="{{ old('name') }}" required autocomplete="name" autofocus>
-                                        @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="prenom" type="text" class="form-control form-control-light @error('prenom') is-invalid @enderror" name="prenom" placeholder="Votre prénom" value="{{ old('prenom') }}" required autocomplete="prenom" autofocus>
-                                        @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="addresse" type="text" class="form-control form-control-light @error('addresse') is-invalid @enderror" name="addresse" placeholder="Votre Addresse" value="{{ old('addresse') }}" required autocomplete="addresse" autofocus>
-                                        @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="codePostal" type="text" class="form-control form-control-light @error('codePostal') is-invalid @enderror" name="codePostal" placeholder="Votre codePostal" value="{{ old('codePostal') }}" required autocomplete="codePostal" autofocus>
-                                        @error('codePostal')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="ville" type="text" class="form-control form-control-light @error('ville') is-invalid @enderror" name="ville" placeholder="Votre ville " value="{{ old('ville') }}" required autocomplete="ville" autofocus>
-                                        @error('ville')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
-                                    <div class="form-group">
-                                        <input id="email" type="email" class="form-control form-control-light @error('email') is-invalid @enderror" name="email" placeholder="Email" value="{{ old('email') }}" required autocomplete="email">
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                    <div class="form-group">
-                                    <input id="phone" type="text" class="form-control form-control-light @error('phone') is-invalid @enderror" name="phone" placeholder="Numero Telephone" value="{{ old('phone') }}" required autocomplete="phone">
-                                    @error('phone')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                    <div class="form-group">
-                                    <input id="phone2" type="text" class="form-control form-control-light @error('phone2') is-invalid @enderror" name="phone2" placeholder="Numero Telephone 2" value="{{ old('phone2') }}"  autocomplete="phone2">
-                                    @error('phone2')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                            <input id="password" type="password" class="form-control form-control-light @error('password') is-invalid @enderror" name="password" placeholder="Mot de passe" required autocomplete="new-password">
-                                    
-                                            @error('password')
-                                                <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
-                                                </span>
-                                            @enderror
-                                    </div>
-                                    
-                                    <div class="form-group">
-                                            <input id="password-confirm" type="password" class="form-control form-control-light" name="password_confirmation" placeholder="Confirmation Mot de passe" required autocomplete="new-password">
-                                    </div>
-                                            <button type="button" id="registerAndCheckoutBtn" class="btn-custom">S'inscrire et payer</button>
-                                            <p>Vous avez déjà un compte? <a href="{{ route('client.login') }}">Connexion</a> </p>         
-                                    
-                                        </div>
+           
+     
 </form>  
 
                                                                         
@@ -270,60 +243,13 @@
         
         </div>  
         
-    </div>
   
-        
-        <!-- Payment Method -->
-        <!-- Cart Details and Delivery Method -->
-        <div id="cartDetailsAndDeliveryMethod" style="display: none;">
-            <!-- Show the cart details and delivery method here -->
-            @if (count($livraisons) > 0)
-            <h3>Choisissez la méthode de livraison</h3>
-            <select id="delivery_method" name="delivery_method" class="form-control">
-                @foreach ($livraisons as $livraison)
-                @if ($livraison)
-                    @php
-                        $livraisonType = \App\Models\Livraison::find($livraison->id);
-                    @endphp
-                    <!-- Assuming the name field for delivery method is 'id' -->
-                    <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
-                @endif
-            @endforeach
-            </select>
-        @endif
-            <br>
-            <!-- Add form fields and buttons for the delivery method selection -->
-            <button type="button" id="confirmDeliveryMethodBtn" class="btn-custom">confirmer la méthode de livraison</button>
-        </div>
-        <br>
-        <br>
-        <!-- Payment Method -->
-        <div id="paymentMethod" style="display: none;">
-            @if (count($paiments) > 0)
-                <h3>Choisissez le mode de paiement</h3>
-                <select name="payment_method" class="form-control">
-                    @foreach ($paiments as $paiment)
-                        @php
-                            $paimentType = \App\Models\PaimentMethod::find($paiment->id);
-                        @endphp
-                        <!-- Assuming the name field for payment method is 'id' -->
-                        <option value="{{ $paiment->id }}">{{ $paimentType->type_methode }}</option>
-                    @endforeach
-                </select>
-            @endif
-            <br>
-            <!-- Show the payment method form fields here -->
-            <button type="submit" form="checkoutForm" class="btn-custom">Vérifier</button>
-
-           
-        </div>
-    </div>
 </div>
+
 <!-- Cart Details and Delivery Method -->
-<!-- Cart Details and Delivery Method -->
 
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     // JavaScript to handle form visibility toggling
     const confirmOrderBtn = document.getElementById('confirmOrderBtn');
@@ -335,83 +261,38 @@
     const successMessage = document.getElementById('successMessage');
 
 
-    // Show cart details and delivery method section when "Confirm Order" is clicked
-    if (confirmOrderBtn) {
-            confirmOrderBtn.addEventListener('click', () => {
-            confirmOrderBtn.style.display = 'none';
-            container_details.style.display = 'none';
-            cartDetailsAndDeliveryMethod.style.display = 'block';
+
+
+    $(document).ready(function () {
+        $(".btn-remove").click(function () {
+            var button = $(this); // Get the clicked button
+            var row = button.closest("tr");
+            var productId = row.attr("data-product-id");
             
-        });
-    }
-
-
-
-    if (confirmDeliveryMethodBtn) { // Check if the button element exists
-        confirmDeliveryMethodBtn.addEventListener('click', () => {
-      
-        const formData = new FormData(checkoutForm);
-
-fetch("{{ url('/checkout') }}", {
-  method: 'POST',
-  body: formData
-})
-.then(response => response.json())
-.then(data => {
-  if (data.success) {
-    //registrationForm.style.display = 'none';
-   // successMessage.style.display = 'block';
-    // Continue with the rest of the checkout process here
-  } else {
-    // Handle any registration errors here if needed
-    console.error(data.error); // Display the error message sent from the server
-  }
-})
-.catch(error => {
-  console.error(error);
-  // Handle any errors that may occur during the registration
-});
-
-    });}
-
-
-
-
-
-    // Show payment method section when "Confirm Delivery Method" is clicked
-    if (registerAndCheckoutBtn) {
-  registerAndCheckoutBtn.addEventListener('click', () => {
-    const formData = new FormData(registrationForm);
-
-    fetch("{{ url('/register-and-checkout') }}", {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success) {
-        registrationForm.style.display = 'none';
-        successMessage.style.display = 'block';
-        // Continue with the rest of the checkout process here
-      } else {
-        // Handle any registration errors here if needed
-        console.error(data.error); // Display the error message sent from the server
-      }
-    })
-    .catch(error => {
-      console.error(error);
-      // Handle any errors that may occur during the registration
-    });
-  });
-}
-   
-    document.addEventListener('DOMContentLoaded', function () {
-            // Attach click event listener to the quantity buttons
-            const quantityButtons = document.querySelectorAll('.btn-quantity');
-            quantityButtons.forEach(button => {
-                button.addEventListener('click', handleQuantityUpdate);
+            $.ajax({
+                url: '{{ route("remove.CartItem", ["subdomain" => $subdomain]) }}',
+        method: 'POST',
+        data: {
+            _token: '{{ csrf_token() }}',
+            productId: productId,
+        },
+                success: function (response) {
+                    // Update the UI and total price based on the response
+                    row.remove();
+                     // Update the cart item count in the header
+     var cartItemCount = $('.cart-item-count');
+    cartItemCount.text(response.cartItemCount);
+                    var totalPriceElement = $('.totalprice span');
+                     // Remove the row from the table
+                     totalPriceElement.text(response.totalPrice + '$'); // Update total price
+                },
+                error: function (error) {
+                    console.error('Error removing item:', error);
+                    // Handle error gracefully
+                }
             });
-    });
+        });
+    $(".btn-quantity").click(handleQuantityUpdate);
 
     function handleQuantityUpdate(event) {
         const productId = event.target.getAttribute('data-product');
@@ -432,26 +313,40 @@ fetch("{{ url('/checkout') }}", {
         updateQuantity(productId, newQuantity);
     }
 
-    // Function to update the quantity in the session
     function updateQuantity(productId, quantity) {
-        fetch('{{ route("update.quantity",["subdomain" => $subdomain]) }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ productId, quantity })
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log(data.message);
-            // You can update the UI here to reflect the updated quantity in the cart
-        })
-        .catch(error => {
-            console.error(error);
-            // Handle any errors that may occur during the update
-        });
-    }
+    fetch('{{ route("update.quantity",["subdomain" => $subdomain]) }}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body: JSON.stringify({ productId, quantity })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data.message);
+        // You can update the UI here to reflect the updated quantity in the cart
+    })
+    .catch(error => {
+        console.error(error);
+        // Handle any errors that may occur during the update
+    });
+}
+});
+$(document).ready(function() {
+    // Select the checkbox and the container to show/hide
+    var checkbox = $('#checkbox');
+    var accountFields = $('#accountFields');
+
+    // Toggle visibility when the checkbox state changes
+    checkbox.change(function() {
+        if (checkbox.is(':checked')) {
+            accountFields.show(); // Show the fields
+        } else {
+            accountFields.hide(); // Hide the fields
+        }
+    });
+});
    </script>
 <!-- Cart Items End -->
 

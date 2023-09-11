@@ -54,7 +54,7 @@
                                                     <td style="display: flex; justify-content: space-between;">
                                                         <button type="button" class="btn btn-success btn-sm"
                                                                 onclick="openModal({{ $category->id }}, '{{ $category->name }}')">
-                                                            Ajouter cette Categorie
+                                                            Ajouter Cette Categorie
                                                         </button>
                                                     </td>
                                                 </tr>
@@ -66,9 +66,16 @@
                                         </table>
                                         <div class="pagination justify-content-between">
                                             <div class="text-end">
+                                            <button type="button" class="btn btn-primary btn-sm"
+                                                                onclick="openModalAddcategory">
+                                                                Ajouter une catégorie 
+                                                        </button>
+                                                    </div>
+
+                                           <!-- <div class="text-end">
                                                 <a href="{{ route('restaurant.categories.create') }}"
                                                    class="btn btn-primary mb-3">Ajouter une categorie spécifique</a>
-                                            </div>
+                                            </div>-->
                                             <div class="text-start">
                                                 {{ $categories->links('vendor.pagination.bootstrap-5') }}
                                             </div>
@@ -107,6 +114,34 @@
             </div>
         </div>
     </div>
+
+
+
+    <div class="modal fade" id="specifiquecategoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="categoryModalLabel">Ajouter une categorie spécifique</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Input field for "nom de categorie" -->
+                    <div class="form-group">
+                        <label for="categoryName">Nom de categorie:</label>
+                        <input type="text" class="form-control" id="categoryName" placeholder="Nom de categorie">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary" onclick="saveCategory()">Enregistrer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+   
 
     <script>
         function myFunction() {
@@ -200,6 +235,21 @@
             $('#categoryModal').modal('hide');
         }
 
+      
 
+        function openModalAddCategory() {
+        // Show the modal
+        $('#specifiquecategoryModal').modal('show');
+    }
+    function saveCategory() {
+        // Retrieve the category name from the input field
+        var categoryName = document.getElementById("categoryName").value;
+
+        
+        
+        // Close the modal
+        var categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
+        categoryModal.hide();
+    }
     </script>
 @endsection

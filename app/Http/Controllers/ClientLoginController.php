@@ -30,8 +30,9 @@ class ClientLoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        if (Auth::attempt($credentials)) {
+      //  dd($credentials);
+        //dd(Auth::attempt($credentials));
+        if (Auth::guard('clientRestaurant')->attempt($credentials)) {
             return redirect()->intended('/store');
         }
 
@@ -43,7 +44,7 @@ class ClientLoginController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('clientRestaurant')->logout();
 
         return redirect('/store');
     }

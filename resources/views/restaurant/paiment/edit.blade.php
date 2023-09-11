@@ -27,17 +27,35 @@
                           </div>
                       @endif
                       <form action="{{ route('restaurant.paiment.update', $paimentMethod) }}" method="POST">
-                          @csrf
-                          @method('PUT')
-              
-                          <!-- Add the necessary form fields to edit the category -->
-                          <div class="form-group">
-                              <label for="type_methode">Nom Paiement Methode:</label>
-                              <input type="text" name="type_methode" id="type_methode" class="form-control" value="{{ $paimentMethod->type_methode }}">
-                          </div>
-              
-                          <button type="submit" class="btn btn-primary">Modifier</button>
-                      </form>
+                        @csrf
+                        @method('PUT')
+                        
+                        <!-- Add the necessary form fields to edit the category -->
+                        <div class="form-group">
+                            <label for="type_methode">Nom Paiement Methode:</label>
+                            @php
+                            $paimentType = \App\Models\PaimentMethod::find($paimentMethod->paiment_id);
+                        @endphp
+                              <td>{{ $paimentType->type_methode }}</td>
+                        </div>
+                    
+                        @if ($paimentMethod->type_methode == "Paypal")
+                        <!-- Additional fields for PayPal -->
+                        <div class="form-group">
+                            <label for="paypal_client_id">Paypal ClientId:</label>
+                            <input type="text" name="paypal_client_id" id="paypal_client_id" class="form-control" value="{{ $paimentMethod->client_id }}">
+                        </div>
+                        <div class="form-group">
+                            <label for="paypal_client_secret">Paypal ClientSecret:</label>
+                            <input type="text" name="paypal_client_secret" id="paypal_client_secret" class="form-control" value="{{ $paimentMethod->client_secret }}">
+                        </div>
+                        @endif
+                        
+                        <button type="submit" class="btn btn-primary">Modifier</button>
+                    </form>
+                  
+                    
+                    
                     </div>
                   </div>
                 </div>

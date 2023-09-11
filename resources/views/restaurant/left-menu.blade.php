@@ -1,4 +1,8 @@
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
       <a class="sidebar-brand brand-logo" href="#"><p   style="font-size: 25px; color: white;" alt="logo"><strong>HelloData</strong></p></a>
       <a class="sidebar-brand brand-logo-mini" href="#"><img src="images/logo-mini.svg" alt="logo" /></a>
@@ -64,6 +68,23 @@
           <span class="menu-title">Tableau de bord</span>
         </a>
       </li>
+      <li class="nav-item menu-items">
+        <a class="nav-link" data-toggle="collapse" href="#ui-Utilisateurs" aria-expanded="false" aria-controls="ui-Utilisateurs">
+          <span class="menu-icon">
+            <i class="mdi mdi-laptop"></i>
+          </span>
+          <span class="menu-title">Restaurant</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="ui-Utilisateurs">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.profile.edit') }}">Restaurant</a></li>
+           
+
+          </ul>
+        </div>
+      </li>
+
       <li class="nav-item menu-items home clients" id="u-Restaurants">
         <a class="nav-link" data-toggle="collapse" href="#ui-Restaurants" aria-expanded="false" aria-controls="ui-Restaurants">
           <span class="menu-icon">
@@ -83,6 +104,22 @@
           <span class="menu-icon">
             <i class="mdi mdi-laptop"></i>
           </span>
+          <span class="menu-title">Reservation tables</span>
+          <i class="menu-arrow"></i>
+        </a>
+        <div class="collapse" id="ui-Utilisateurs">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.resevation.index') }}">Liste Reservation </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.resevation.create') }}">Ajouter Client</a></li>
+
+          </ul>
+        </div>
+      </li>
+      <li class="nav-item menu-items">
+        <a class="nav-link" data-toggle="collapse" href="#ui-Utilisateurs" aria-expanded="false" aria-controls="ui-Utilisateurs">
+          <span class="menu-icon">
+            <i class="mdi mdi-laptop"></i>
+          </span>
           <span class="menu-title">Clients</span>
           <i class="menu-arrow"></i>
         </a>
@@ -94,6 +131,7 @@
           </ul>
         </div>
       </li>
+      
       <li class="nav-item menu-items categories">
         <a class="nav-link" data-toggle="collapse" href="#ui-Categories" aria-expanded="false" aria-controls="ui-Categories">
           <span class="menu-icon">
@@ -148,10 +186,9 @@
 
         <div class="collapse" id="ui-paiment">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.paiment.index') }}">Liste Methode Paiment</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.restaurant.paiment.create') }}">Ajouter Methode Paiment</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.index') }}">List Restaurant Methode Paiment</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.restaurant.paiment.create') }}">Ajouter Restaurant Methode Paiment</a></li>
+         
+          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.index') }}">List  Methode Paiment</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.create') }}">Ajouter  Methode Paiment</a></li>
         </ul>
         </div>
     </li>

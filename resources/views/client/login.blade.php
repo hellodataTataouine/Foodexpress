@@ -25,7 +25,15 @@
           </div>
         </div>
         <div class="auth-form">
-
+          @if ($errors->any())
+          <div class="alert alert-danger">
+              <ul>
+                  @foreach ($errors->all() as $error)
+                      <li>{{ $error }}</li>
+                  @endforeach
+              </ul>
+          </div>
+      @endif
           <h2>Log in</h2>
  
           <form method="post"  method="POST" action="{{ route('client.login.submit') }}" > 

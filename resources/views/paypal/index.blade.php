@@ -9,8 +9,8 @@
                     {{ session()->get('success') }}
                 </div>
             @endif
-            <div class="text-center ">
-                <a href="{{ route('make.payment') }}" class="w-full bg-indigo-500 uppercase rounded-xl font-extrabold text-white px-6 h-8">Pay with PayPal👉</a>
+            <div class="text-center">
+                <a href="{{ route('make.payment', ['subdomain' => $subdomain]) }}" class="w-full bg-indigo-500 uppercase rounded-xl font-extrabold text-white px-6 h-8">Pay with PayPal👉</a>
             </div>
         </div>
     </div>

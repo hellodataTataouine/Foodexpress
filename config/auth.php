@@ -39,6 +39,7 @@ return [
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+           
         ],
         'api' => [
             'driver' => 'token',
@@ -48,6 +49,11 @@ return [
         'client' => [
             'driver' => 'session',
             'provider' => 'clients',
+        ],
+        
+        'clientRestaurant' => [
+            'driver' => 'session',
+            'provider' => 'clientrestaurants',
         ],
     ],
 
@@ -79,6 +85,12 @@ return [
             'table' => 'users',
         ],
 
+
+        'clientrestaurants' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\ClientRestaurat::class,
+            'table' => 'clientrestaurant',
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -107,6 +119,12 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'clientrestaurants' => [
+            'provider' => 'clientrestaurants',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

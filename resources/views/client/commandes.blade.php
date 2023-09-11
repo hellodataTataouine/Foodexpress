@@ -5,7 +5,7 @@
 <!-- Cart Items Start -->
 <div class="section">
     <div class="container">
-        <h3>Votre Commandes</h3>
+        <h3>Vos Commandes</h3>
         @if (count($commandes) > 0)
             <table>
                 <thead>
