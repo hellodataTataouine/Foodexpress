@@ -62,8 +62,6 @@
                 @else
                 <a class="btn-book-a-table" href="{{ url('client/login') }}" style="margin-right:15px;color: white;font-size: medium">Connexion |</a>
                 <a class="btn-book-a-table" href="{{ url('client/register') }}" style="margin-right:15px;color: white;font-size: medium">Inscription</a>
-              <!-- <a class="btn-book-a-table" href="{{ url('client/login') }}" style="margin-right:15px;color: white;font-size: medium">reservation Table |</a>--<
-             
                 @endauth
           </ul>
         </div>

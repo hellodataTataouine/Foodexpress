@@ -27,11 +27,11 @@
                             <tr data-product-id="{{ $cartItem['id'] }}">
                                 <td><img src="{{ asset($cartItem['image']) }}" alt="product"></td>
                                 <td>{{ $cartItem['name'] }}</td>
-                                <td>{{ $cartItem['unityPrice'] }} £</td>
+                                <td>{{ $cartItem['unityPrice'] }} €</td>
                                
                                 <td>
-                                    @if (isset($cartItem['options']))
-                                    {!! htmlspecialchars(json_encode($cartItem['options'])) !!}
+                                    @if ((isset($cartItem['options'])) &&($cartItem['options'] != []))
+                                    {{$cartItem['options']}}
                                 @endif
                                 </td>
                                 <td>
@@ -40,7 +40,7 @@
                                     <input type="number" name="quantity[{{ $cartItem['id'] }}]" id="quantity_{{ $cartItem['id'] }}" value="{{ $cartItem['quantity'] }}" min="1" max="100">
                                     <button class="btn-quantity" data-product="{{ $cartItem['id'] }}" data-action="increase">+</button> -->
                                 </td>
-                                <td>{{ $cartItem['price'] }} £</td>
+                                <td>{{ $cartItem['price'] }} €</td>
                                 <td><button class="btn-remove" data-product-id="{{ $cartItem['id'] }}">Annuler</button></td>
                             </tr>
                         @endforeach
@@ -49,7 +49,7 @@
                     <h6 class="mb-0">Grand Total</h6>
                   </td>
                   <td></td>
-                  <td> <div class="totalprice"> <span><strong>{{ $totalPrice }} £</strong></span></div></td>
+                  <td> <div class="totalprice"> <span><strong>{{ $totalPrice }} €</strong></span></div></td>
                 </tr>
                     </tbody> 
                 </table>

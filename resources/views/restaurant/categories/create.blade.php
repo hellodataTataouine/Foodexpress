@@ -67,7 +67,7 @@
                                         <div class="pagination justify-content-between">
                                             <div class="text-end">
                                             <button type="button" class="btn btn-primary btn-sm"
-                                                                onclick="openModalAddcategory">
+                                                                onclick="openModalAddcategory()">
                                                                 Ajouter une catégorie 
                                                         </button>
                                                     </div>
@@ -97,19 +97,19 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="categoryModalLabel">Add Category</h5>
+                    <h5 class="modal-title" id="categoryModalLabel">Ajouter catégorie</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="mb-3">
-                        <label for="categoryNameInput" class="form-label">Category Name</label>
+                        <label for="categoryNameInput" class="form-label">Nom de catégorie</label>
                         <input type="text" class="form-control" id="categoryNameInput">
                     </div>
                     <div id="productCheckboxes"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" onclick="confirmAddCategory()">Add Category</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-primary" onclick="confirmAddCategory()">Ajouter</button>
                 </div>
             </div>
         </div>
@@ -133,7 +133,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary" onclick="saveCategory()">Enregistrer</button>
+                    <button type="button" class="btn btn-primary customizeBtn" onclick="saveCategory()">Enregistrer</button>
                 </div>
             </div>
         </div>
@@ -237,19 +237,62 @@
 
       
 
+        $(document).ready(function () {
         function openModalAddCategory() {
-        // Show the modal
-        $('#specifiquecategoryModal').modal('show');
-    }
+            // Show the modal
+            $('#specifiquecategoryModal').modal('show');
+        }
+    });
+   
+    </script>
+    <script>
+        $(document).ready(function () {
+            // Use event delegation for dynamically added elements
+            $(document).on('click', 'button.btn.btn-primary.btn-sm', function () {
+                openModalAddCategory();
+            });
+    
+            function openModalAddCategory() {
+                // Show the modal
+                $('#specifiquecategoryModal').modal('show');
+            }
+             
+      $('.customizeBtn').click(function() {
+        saveCategory();
+    });
+    
     function saveCategory() {
-        // Retrieve the category name from the input field
-        var categoryName = document.getElementById("categoryName").value;
+    // Retrieve the category name from the input field
+    var categoryName = document.getElementById("categoryName").value;
 
+    $.ajax({
+        url: '{{ route('restaurant.categories.specifique.create') }}',
+        method: 'POST',
+        data: {
+            categoryName: categoryName,
+            _token: '{{ csrf_token() }}'
+        },
+        success: function(response) {
+            // Handle the success response from the server
+            // You can update the page, show a success message, or perform other actions here
+            var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
+            categoryModal.hide();
+        },
+        error: function(error) {
+            // Handle the error response from the server
+            console.error('Error adding category:', error);
+            // Show an error message or handle the error gracefully
+            var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
+            categoryModal.hide();
+        }
+    });
+
+    // Close the modal
+}
+
+    });
         
-        
-        // Close the modal
-        var categoryModal = new bootstrap.Modal(document.getElementById("categoryModal"));
-        categoryModal.hide();
-    }
+
+      
     </script>
 @endsection

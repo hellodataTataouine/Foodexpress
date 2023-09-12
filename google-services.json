@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "541824085323",
+    "project_id": "notification-hd",
+    "storage_bucket": "notification-hd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:541824085323:android:3d2d59f68f1eeb9127ccce",
+        "android_client_info": {
+          "package_name": "hello.data"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlY5VxVzY41QOHaJV6uTG3ElmziZkq3b8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

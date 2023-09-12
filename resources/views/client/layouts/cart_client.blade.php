@@ -19,7 +19,7 @@
                 <a href="menu-item-v1.html"><img src="{{ asset($cartItem['image']) }}" alt="product"></a>
                 <div class="media-body">
                   <h5> <a href="menu-item-v1.html" title="{{ $cartItem['name'] }}">{{ $cartItem['name'] }}</a> </h5>
-                  <span>{{ $cartItem['quantity'] }}x {{ $cartItem['unityPrice'] }}$</span>
+                  <span>{{ $cartItem['quantity'] }}x {{ $cartItem['unityPrice'] }}€</span>
                 </div>
               </div>
               <div class="cart-sidebar-item-meta">
@@ -29,7 +29,7 @@
             @endif</span>
               </div>
               <div class="cart-sidebar-price">
-                {{ $cartItem['price'] }}$
+                {{ $cartItem['price'] }}€
               </div>
               <div class="remove-btn" data-item-id="{{ $cartItem['id'] }}" >
                 <i class="fas fa-times"></i> 
@@ -47,7 +47,7 @@
       </div>
     </div>
     <div class="cart-sidebar-footer">
-    <h4>Total: <span>{{ $totalPrice }}$</span> </h4>
+    <h4>Total: <span>{{ $totalPrice }}€</span> </h4>
       <a href="{{ url('/checkout') }}" class="btn-custom">Vérifier</a>
     </div>
   </aside>
@@ -81,7 +81,7 @@ $(document).ready(function() {
     cartItemCount.text(response.cartItemCount);
                     var totalPriceElement = $('.totalprice span');
                      // Remove the row from the table
-                     totalPriceElement.text(response.totalPrice + '£'); // Update total price
+                     totalPriceElement.text(response.totalPrice + '€'); // Update total price
                 },
                 error: function (error) {
                     console.error('Error removing item:', error);
@@ -115,7 +115,7 @@ $('body').addClass('disable-interaction');
   itemHTML += '<a href="menu-item-v1.html"><img src="' + cartItem.image + '" alt="product"></a>';
   itemHTML += '<div class="media-body">';
   itemHTML += '<h5><a href="menu-item-v1.html" title="' + cartItem.name + '">' + cartItem.name + '</a></h5>';
-  itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '£</span>';
+  itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '€</span>';
   itemHTML += '</div></div>';
   itemHTML += '<div class="cart-sidebar-item-meta">';
   
@@ -126,7 +126,7 @@ $('body').addClass('disable-interaction');
   
   itemHTML += '</div>';
   itemHTML += '<div class="cart-sidebar-price">';
-  itemHTML += cartItem.price + '£';
+  itemHTML += cartItem.price + '€';
   itemHTML += '</div>';
   itemHTML += '<div class="remove-btn" data-item-id="' + cartItem.id + '">';
   itemHTML +=  '<i class="fas fa-times"></i>';
@@ -140,7 +140,7 @@ $('body').addClass('disable-interaction');
   cartItemCount.text(response.cartItemCount);
 
   var totalPriceElement = $('.cart-sidebar-footer span');
-totalPriceElement.text(response.totalPrice + '£');
+totalPriceElement.text(response.totalPrice + '€');
       // Show the cart sidebar
       $('#cartSidebarWrapper&').addClass('active');
     },

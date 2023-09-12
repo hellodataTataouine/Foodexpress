@@ -78,7 +78,7 @@
         </a>
         <div class="collapse" id="ui-Utilisateurs">
           <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.profile.edit') }}">Restaurant</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.restaurant.edit') }}">Restaurant</a></li>
            
 
           </ul>

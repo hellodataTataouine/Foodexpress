@@ -197,4 +197,23 @@ class CategoriesRestaurantController extends Controller
         }
 
     }
+    public function createSpecifique(Request $request)
+    {
+
+        $userId = Auth::id();
+        $user = User::find($userId);
+    
+        if (!$user || !$user->restaurant) {
+            // Handle the case when the user does not have a restaurant
+            // For example, you can redirect to a page or show an error message
+            return redirect()->back();
+        }
+    
+        $restaurant = $user->restaurant;
+        $category = new CategoriesRestaurant();
+        $category->name = $request->categoryName;
+        $category->restaurant_id = $restaurant->id;
+        $category->save();
+        return response()->json(['success' => true, 'message' => 'Catégorie ajoutée']);
+     }
 }

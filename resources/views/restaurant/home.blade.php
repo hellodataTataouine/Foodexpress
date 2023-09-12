@@ -148,7 +148,7 @@ ul.product-list-dark li {
             <div class="modal-body">
               <form id="statusForm">
                 <div class="form-group">
-                  <label for="newStatus">Select New Status:</label>
+                  <label for="newStatus">Choisir le statut:</label>
                   <select class="form-control" id="newStatus" name="newStatus">
                     <option value="Nouveau">Nouveau</option>
                     <option value="En Cours">En Cours</option>
@@ -159,8 +159,8 @@ ul.product-list-dark li {
               </form>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary"  id="changeStatusBtn">Save Changes</button>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+              <button type="submit" class="btn btn-primary"  id="changeStatusBtn"> Changer</button>
             </div>
           </div>
         </div>

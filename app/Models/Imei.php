@@ -5,10 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Client;
-
+use Illuminate\Notifications\Notifiable;
 
 class Imei extends Model
 {
+    use Notifiable;
     
     protected $table = 'tbl_imei';
 
@@ -21,11 +22,11 @@ class Imei extends Model
        
     ];
 
-    
-
     public function restaurant()
     {
         return $this->belongsTo(Client::class,'restaurant_id');
     }
+
+
    
 }

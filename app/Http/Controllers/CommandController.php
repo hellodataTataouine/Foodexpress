@@ -6,10 +6,11 @@ use App\Models\CommandProduct;
 use App\Models\CommandProductOptions;
 use App\Models\PaimentMethod;
 use App\Models\User;
+use App\Notifications\FirebaseNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Client;
-
+use Illuminate\Support\Facades\Session;
 use App\Models\ProduitsRestaurants;
 use App\Models\CartOptionProductSelected;
 use App\Models\CartDetails;
@@ -20,9 +21,11 @@ use App\Models\Command;
 use App\Models\OptionsRestaurant;
 use Illuminate\Support\Facades\Hash;
 use SebastianBergmann\Environment\Console;
-
+use App\Notifications\FirebaseNotificationNotification;
+use Illuminate\Support\Facades\Notification;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
-use Session;    
+   
+
 
 
 class CommandController extends Controller
@@ -232,7 +235,11 @@ foreach ($cartItems as $cartItem) {
      $CartDetails->product_id = $cartItem['id'];
      $CartDetails->qte_produit =$cartItem['quantity'];
      $CartDetails->prixtotal_produit =$cartItem['price'];
-     $CartDetails->optionsdetails = json_encode($cartItem['options']); // Convert
+     if(($cartItem['options'] != []))
+     $CartDetails->optionsdetails = $cartItem['options'];
+    else
+    $CartDetails->optionsdetails = "";
+     // Convert
     // $CartDetails->cart_option_product_selected_id =  $cartOptionProductSelected->id;
    
     $CartDetails->save();
@@ -249,17 +256,39 @@ if($PaymentMethode->type_methode == 'PayPal'){
     $route = route('make.payment', ['subdomain' => $subdomain]);
     //dd($route);
     return redirect()->route('make.payment', ['subdomain' => $subdomain]);
-  
+   // $request->session()->forget('cart');
     //$this->handlePayment($request);
 
 }
 else {  
 // Clear the cart sessions
 $request->session()->forget('cart');
+
+$devices = $client->devices;
+dd($devices);
+// Create the notification instance
+$notification = new FirebaseNotification();
+
+try {
+    // Send the notification to all the devices associated with the client
+    Notification::send($devices, $notification);
+
+    // Notification sent successfully
+    Session::flash('success', 'Notification sent successfully.');
+} catch (\Exception $e) {
+    // Handle the exception and show an error message
+    Session::flash('error', 'Failed to send notification: ' . $e->getMessage());
+}
 return view('client.checkout_success', compact('subdomain', 'client','cart'));
 }
-     
+  
+
+
 }  
+
+// Get all the devices associated with this Client (restaurant)
+
+
 }
 
 

@@ -241,6 +241,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/categories/{id}/edit', [CategoriesRestaurantController::class, 'edit'])->name('restaurant.categories.edit');
      Route::put('/restaurant/categories/{category}', [CategoriesRestaurantController::class, 'update'])->name('restaurant.categories.update');
      Route::get('/restaurant/category/{category}', [CategoriesRestaurantController::class, 'produitsCategorie'])->name('restaurant.category.show');
+     Route::post('/restaurant/categories/specifique/create', [CategoriesRestaurantController::class, 'createSpecifique'])->name('restaurant.categories.specifique.create');
 
     Route::get('/restaurant/produits', [ProduitsRestoController::class, 'index'])->name('restaurant.produits.index');
     Route::get('/restaurant/produits/create', [ProduitsRestoController::class, 'create'])->name('restaurant.produits.create');
@@ -312,8 +313,8 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
 
 
 
-     Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'edit'])->name('restaurant.profile.edit');
-     Route::post('/restaurant/profile/{id}', [RestaurantProfileController::class, 'update'])->name('restaurant.profile.update');
+     Route::get('/restaurant/restaurant/edit', [RestaurantProfileController::class, 'edit'])->name('restaurant.restaurant.edit');
+     Route::put('/restaurant/restaurant', [RestaurantProfileController::class, 'update'])->name('restaurant.restaurant.update');
     
 
      
@@ -339,7 +340,7 @@ Route::get('/', function () {
     $host = request()->getHost();
     // Check if the host is 'localhost' or 'subdomain.localhost'
     if ($host === 'localhost') {
-        return redirect('/acceuil');
+        return redirect('/login');
     } else {
         // Extract the subdomain from the host
         $subdomain = explode('.', $host)[0];

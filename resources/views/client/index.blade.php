@@ -95,7 +95,7 @@
               <div class="product-desc">
                 <h4> <a href="menu-item-v1.html">{{ $product->nom_produit }}</a> </h4>
                 <p>{{ $product->description }}</p>
-                <p class="product-price">{{ $product->prix }} $</p>
+                <p class="product-price">{{ $product->prix }} €</p>
                 <div class="favorite">
                   <i class="far fa-heart"></i>
                 </div>
@@ -194,13 +194,13 @@ $.each(response.cartItems, function(index, cartItem) {
     itemHTML += '<a href="menu-item-v1.html"><img src="' + cartItem.image + '" alt="product"></a>';
     itemHTML += '<div class="media-body">';
     itemHTML += '<h5><a href="menu-item-v1.html" title="' + cartItem.name + '">' + cartItem.name + '</a></h5>';
-    itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '$</span>';
+    itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '€</span>';
     itemHTML += '</div></div>';
     itemHTML += '<div class="cart-sidebar-item-meta">';
     itemHTML += '<span>' + (cartItem.options || '') + '</span>';
     itemHTML += '</div>';
     itemHTML += '<div class="cart-sidebar-price">';
-    itemHTML += cartItem.price + '$';
+    itemHTML += cartItem.price + '€';
     itemHTML += '</div>';
     itemHTML += '<div class="remove-btn" data-item-id="' + cartItem.id + '">';
     itemHTML +=  '<i class="fas fa-times"></i>';
@@ -214,7 +214,7 @@ $.each(response.cartItems, function(index, cartItem) {
 cartItemCount.text(response.cartItemCount);
 
 var totalPriceElement = $('.cart-sidebar-footer span');
-totalPriceElement.text(response.totalPrice + '$');
+totalPriceElement.text(response.totalPrice + '€');
     // Show the cart sidebar
     $('#cartSidebarWrapper&').addClass('active');
    // location.reload();
@@ -249,7 +249,7 @@ totalPriceElement.text(response.totalPrice + '$');
             $('.custom-primary').empty();
             $('.final-price.custom-primary').empty();
             // Update the modal content with the returned data
-            $('.customize-title').html(response.product.nom_produit + ' <span class="custom-primary">'  + response.product.prix + '$</span>');
+            $('.customize-title').html(response.product.nom_produit + ' <span class="custom-primary">'  + response.product.prix + '€</span>');
             $('.customize-meta p').text(response.product.description);
   
             // Update the background image
@@ -328,7 +328,7 @@ totalPriceElement.text(response.totalPrice + '$');
 
 
   var label = $('<label class="custom-control-label" for="' + option.id + '"> ' + option.nom_option + ' </label>');
-                var price = $('<span> +' + option.prix + '$ </span>');
+                var price = $('<span> +' + option.prix + '€ </span>');
   
                 input.appendTo(customControl);
                 label.appendTo(customControl);
@@ -355,7 +355,7 @@ var addButton  = $('.qty-add');
 
 
 var priceLabel = $('.customize-total');
-    $('.final-price.custom-primary').text( response.product.prix + '$' );
+    $('.final-price.custom-primary').text( response.product.prix + '€' );
           
 
 addButton.off('click');
@@ -513,10 +513,10 @@ console.log('Option Quantity Price:', optionQuantityPrice);
   //var addToCartBtn = $('.order-item');
    // addToCartBtn.attr('data-product-price', totalPrice);
         // Update the total price display
-        $('.total-price').html(totalPrice + '$');
+        $('.total-price').html(totalPrice + '€');
        
         var priceTotal = $('.final-price.custom-primary');
-        priceTotal.text(totalPrice.toFixed(2) + '$');
+        priceTotal.text(totalPrice.toFixed(2) + '€');
       
       }
 
@@ -545,7 +545,7 @@ $(document).ready(function() {
   var productId = response.product.id; 
   var productName = response.product.nom_produit;
   var productImage = response.product.url_image;
-  var productPrice =  parseFloat(priceTotal.text().replace('$', ''));
+  var productPrice =  parseFloat(priceTotal.text().replace('€', ''));
   var productUnityPrice = response.product.prix;
   var productQuantity = $('#totalquantity').val();
   var customizationOptions = getSelectedOptions(); // Implement the logic to retrieve the selected options
@@ -606,9 +606,9 @@ $(document).ready(function() {
     var optionType = option.type;
     var optionQuantity = option.Quantity;
     if (optionType === 'number') {
-        designation += optionQuantity  + ' *' + optionName   + '(' + optionPrice + '$), ';
+        designation += optionQuantity  + '×' + optionName   + '(' + optionPrice + '€), ';
     } else {
-        designation += optionName + '('+ optionPrice + '$), ' 
+        designation += optionName + '('+ optionPrice + '€), ' 
     }
 });
 
@@ -644,7 +644,7 @@ function updateCartSidebar() {
     itemHTML += '<a href="menu-item-v1.html"><img src="' + cartItem.image + '" alt="product"></a>';
     itemHTML += '<div class="media-body">';
     itemHTML += '<h5><a href="menu-item-v1.html" title="' + cartItem.name + '">' + cartItem.name + '</a></h5>';
-    itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '$</span>';
+    itemHTML += '<span>' + cartItem.quantity + 'x ' + cartItem.unityPrice + '€</span>';
     itemHTML += '</div></div>';
     itemHTML += '<div class="cart-sidebar-item-meta">';
     
@@ -655,7 +655,7 @@ function updateCartSidebar() {
     
     itemHTML += '</div>';
     itemHTML += '<div class="cart-sidebar-price">';
-    itemHTML += cartItem.price + '$';
+    itemHTML += cartItem.price + '€';
     itemHTML += '</div>';
     itemHTML += '<div class="remove-btn" data-item-id="' + cartItem.id + '">';
     itemHTML +=  '<i class="fas fa-times"></i>';
@@ -669,7 +669,7 @@ function updateCartSidebar() {
     cartItemCount.text(response.cartItemCount);
 
     var totalPriceElement = $('.cart-sidebar-footer span');
-totalPriceElement.text(response.totalPrice + '$');
+totalPriceElement.text(response.totalPrice + '€');
         // Show the cart sidebar
         $('#cartSidebarWrapper&').addClass('active');
       },

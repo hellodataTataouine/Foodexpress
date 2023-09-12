@@ -54,4 +54,11 @@ class Client extends Model
         return $this->hasMany(Command::class);
     }
 
+    public function devices()
+    {
+        return $this->hasMany(Imei::class, 'restaurant_id');
+    }
+
+
+
 }
