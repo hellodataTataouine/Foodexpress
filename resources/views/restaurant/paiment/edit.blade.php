@@ -20,26 +20,27 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Edit Paiment Methode</h4>
+                      <h4 class="card-title">Modifier Méthode de Paiement </h4>
                       @if (session('success'))
                           <div class="alert alert-success">
                               {{ session('success') }}
                           </div>
                       @endif
-                      <form action="{{ route('restaurant.paiment.update', $paimentMethod) }}" method="POST">
+                      <form action="{{ route('restaurant.paiment.update', ['id' => $paimentMethod->id]) }}" method="POST">
                         @csrf
                         @method('PUT')
                         
+                        
                         <!-- Add the necessary form fields to edit the category -->
                         <div class="form-group">
-                            <label for="type_methode">Nom Paiement Methode:</label>
+                            <label for="type_methode">Modifier PayPal Paramètres:</label>
                             @php
                             $paimentType = \App\Models\PaimentMethod::find($paimentMethod->paiment_id);
                         @endphp
-                              <td>{{ $paimentType->type_methode }}</td>
+                              
                         </div>
                     
-                        @if ($paimentMethod->type_methode == "Paypal")
+                       
                         <!-- Additional fields for PayPal -->
                         <div class="form-group">
                             <label for="paypal_client_id">Paypal ClientId:</label>
@@ -49,7 +50,7 @@
                             <label for="paypal_client_secret">Paypal ClientSecret:</label>
                             <input type="text" name="paypal_client_secret" id="paypal_client_secret" class="form-control" value="{{ $paimentMethod->client_secret }}">
                         </div>
-                        @endif
+                     
                         
                         <button type="submit" class="btn btn-primary">Modifier</button>
                     </form>

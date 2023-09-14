@@ -24,16 +24,16 @@ class LivraisonMethodController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'type_methode' => 'required|unique:livraisons|max:255',
-        ]);
+       /* $request->validate([
+            'methode' => 'required|unique:livraisons|max:255',
+        ]);*/
 
         LivraisonMethod::create([
-            'type_methode' => $request->type_methode,
-            'created_at' => now(),
+            'methode' => $request->type_methode,
+           
         ]);
 
-        return redirect()->route('admin.livraison.create')->with('success', 'livraison Methode created successfully.');
+        return redirect()->route('admin.livraison.index')->with('success', 'livraison Methode ajoutée avec succès.');
     }
 
     public function edit($id)
@@ -45,16 +45,16 @@ class LivraisonMethodController extends Controller
     public function update(Request $request, $id)
     {
         $category = LivraisonMethod::find($id);
-        $category->type_methode = $request->input('type_methode');
+        $category->methode = $request->input('type_methode');
         $category->save();
-        return redirect()->route('admin.livraison.index')->with('success', 'livraison Methode Modifier Avec succeé');
+        return redirect()->route('admin.livraison.index')->with('success', ' Methode de livraison Modifier Avec succeé');
     }
 
     public function destroy($id)
     {
         $livraison = LivraisonMethod::findOrFail($id);
         $livraison->delete();
-        return redirect()->route('admin.livraison.index')->with('success', 'livraison deleted successfully.');
+        return redirect()->route('admin.livraison.index')->with('success', 'livraison supprimée avec succès.');
         // Redirect or return a response
     }
 }

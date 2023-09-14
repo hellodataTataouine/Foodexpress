@@ -70,9 +70,13 @@ ul.product-list-dark li {
                     <ul class="product-list-dark">
                       @foreach ($commande->cartDetails as $cartDetail)
                           <li>
+                            @if($cartDetail->produit != null)
                               <strong> {{ $cartDetail->produit->nom_produit }} :</strong>
                               <strong>Options:</strong>
                               {{ $cartDetail->optionsdetails }}
+                              @endif
+                             
+                        
                           </li>
                       @endforeach
                   </ul>
@@ -203,7 +207,7 @@ ul.product-list-dark li {
       
         success: function (response) {
           // Handle success, you can update the UI or show a success message here
-          console.log('Status updated successfully:', response);
+          console.log('Statut modifié avec succès', response);
           // Close the modal
           $('#statusModal').modal('hide');
            // Update the button's class and text based on the new status

@@ -133,7 +133,7 @@ class ProduitsRestoController extends Controller
           ]);
       }
           // Redirect to the product list page with a success message
-          return redirect()->route('restaurant.produits.index')->with('success', 'Product added successfully');
+          return redirect()->route('restaurant.produits.index')->with('success', 'Produit ajouté avec succès');
       
         }else {
             // Handle the case when the user does not have a restaurant
@@ -217,7 +217,7 @@ class ProduitsRestoController extends Controller
        
       
        
-              return redirect()->back()->with('success', 'Produit updated successfully.');
+              return redirect()->back()->with('success', 'Produit modifié avec succès.');
        
     }
 
@@ -242,7 +242,7 @@ class ProduitsRestoController extends Controller
      public function delete($id)
 {
     $produit = ProduitsRestaurants::findOrFail($id);
-      return view('restaurant.produits.delete', compact('produit'));
+    return view('restaurant.produits.delete', compact('produit'));
    
 }
     public function destroy($id)
@@ -256,7 +256,7 @@ class ProduitsRestoController extends Controller
 
     $produit->delete();
     
-        return redirect()->route('restaurant.produits.index')->with('success', 'Produit deleted successfully.');
+        return redirect()->route('restaurant.produits.index')->with('success', 'Produit supprimé avec succès.');
     
     }
 }

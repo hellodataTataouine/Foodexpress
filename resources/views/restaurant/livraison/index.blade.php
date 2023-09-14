@@ -1,3 +1,4 @@
+
 @extends('base')
 
 @section('title', 'Welcome')
@@ -19,55 +20,58 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Livraison</h4>
+                      <h4 class="card-title">Restaurants</h4>
                       @if (session('success'))
                           <div class="alert alert-success">
                               {{ session('success') }}
                           </div>
                       @endif
-                          
                       <div class="mb-3">
                         <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
                     </div>
-                      <div class="table-responsive">
+                      <div class="table-responsive"  style="width:101%">
                         <table class="table" id="myTable">
-                            <thead>
+                          <thead>
+                            <tr>
+                             
+                              <th> Nom </th>
+                            
+                              <th> Action </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($livraisonMethods as $LivraisonMethod)
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Methode De Livraison</th>
-                                    <th>Date Creation</th>
-                                    <th>Action</th>
+                                  @php
+                                  $livraisonType = \App\Models\LivraisonMethod::find($LivraisonMethod->livraison_id);
+                              @endphp
+                                  <td>{{ $livraisonType->methode }}</td>
+                                 
+                                 <!-- <td><a  href="{{ route('restaurant.livraison.edit', ['id' => $LivraisonMethod->id]) }}"  class="btn btn-primary">Modifier</a></td>-->
+                                  
+                                 
+                                    <td><form action="{{ route('restaurant.livraison.destroy', $LivraisonMethod) }}" method="POST">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="submit" class="btn btn-danger">Supprimer</button>
+                                  </form></td>
+                               
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($livraisons as $livraison)
-                                    <tr>
-                                        <td>{{ $livraison->id }}</td>
-                                        <td>{{ $livraison->type_methode }}</td>
-                                        <td>{{ $livraison->created_at }}</td>
-                                        <td style="display: flex; justify-content: space-between;">
-                                          <a href="{{ route('restaurantproduits.create', ['livraisons_id' => $livraison->id]) }}" class="btn btn-success btn-sm">Ajouter a Restaurant</a>
-                                            <a href="{{ route('restaurant.livraison.edit', $livraison) }}" class="btn btn-primary btn-sm col-s">Edit</a>
-                                            <form action="{{ route('restaurant.livraison.destroy', $livraison) }}" method="POST">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Are you sure you want to delete this livraisons Methode?')">Delete</button>
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                <tr><td colspan="4"></td></tr>
-                            </tbody>
+                              @endforeach
+                              <tr><td colspan="10"></td></tr>
+                          </tbody>
                         </table>
+
                         <div class="pagination justify-content-between">
                           <div class="text-end">
-                            <a href="{{ route('restaurant.livraison.create') }}" class="btn btn-primary mb-3">Ajouter Livraison Methode</a>
+                            <a href="{{ route('restaurant.livraison.create') }}" class="btn btn-primary mb-3">Ajouter  </a>
                           </div>
                           <div class="text-start">
-                            {{ $livraisons->links('vendor.pagination.bootstrap-5') }}
+                            {{ $livraisonMethods->links('vendor.pagination.bootstrap-5') }}
                           </div>
                         </div>
+
+                       
                       </div>
                     </div>
                   </div>

@@ -33,7 +33,7 @@
                           <!-- Add the necessary form fields to edit the category -->
                           <div class="form-group">
                               <label for="type_methode">Nom Livraison:</label>
-                              <input type="text" name="type_methode" id="type_methode" class="form-control" value="{{ $livraison->type_methode }}">
+                              <input type="text" name="type_methode" id="type_methode" class="form-control" value="{{ $livraison->methode }}">
                           </div>
               
                           <button type="submit" class="btn btn-primary">Modifier</button>

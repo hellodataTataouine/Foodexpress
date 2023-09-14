@@ -73,7 +73,7 @@ class FamilleOptionRestoController extends Controller
         $familleOption->restaurant_id =  $restaurant->id ;
         $familleOption->save();
 
-        return redirect()->route('restaurant.famille-options.index')->with('success', 'Famille option created successfully!');
+        return redirect()->route('restaurant.famille-options.index')->with('success', 'Famille option ajoutée  avec succès!');
     } else {
         // Handle the case when the user does not have a restaurant
         // For example, you can redirect to a page or show an error message
@@ -128,7 +128,7 @@ class FamilleOptionRestoController extends Controller
         $familleOption->save();
         
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option updated successfully.');
+        return redirect()->back()->with('success', 'Famille Option modifiée  avec succès.');
     }
     
 
@@ -159,7 +159,7 @@ class FamilleOptionRestoController extends Controller
             $familleOptionproduit->delete();
             }
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option deleted successfully.');
+        return redirect()->back()->with('success', 'Famille Option supprimée avec succès.');
       
     }
 }

@@ -162,11 +162,11 @@ class ClientStoreController extends Controller
                 // Update the cart items in the session
                 session()->put('cartItems', $cartItems);
 
-                return redirect()->route('panier.show', ['subdomain' => $subdomain])->with('success', 'Product removed from cart successfully.');
+                return redirect()->route('panier.show', ['subdomain' => $subdomain])->with('success', 'Produit supprimé avec succès.');
             }
         }
 
-        return redirect()->route('panier.show', ['subdomain' => $subdomain])->with('error', 'Failed to remove product from cart.');
+        return redirect()->route('panier.show', ['subdomain' => $subdomain])->with('error', 'Erreur de supprimer le produit.');
     }
 
     

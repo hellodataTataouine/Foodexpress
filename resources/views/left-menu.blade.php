@@ -52,10 +52,10 @@
           <div class="collapse" id="ui-Categories">
               <ul class="nav flex-column sub-menu">
                   <li class="nav-item">
-                      <a class="nav-link" href="{{ route('categories.index') }}">Liste Categories</a>
+                      <a class="nav-link" href="{{ route('categories.index') }}">Liste Catégories</a>
                   </li>
                   <li class="nav-item">
-                      <a class="nav-link" href="{{ route('categories.create') }}">Ajouter Categorie</a>
+                      <a class="nav-link" href="{{ route('categories.create') }}">Ajouter Catégorie</a>
                   </li>
               </ul>
           </div>

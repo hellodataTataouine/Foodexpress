@@ -47,7 +47,7 @@ class CategoriesRestaurantController extends Controller
           $produit->delete(); 
         }
         $category->delete();
-        return redirect()->route('restaurant.categories.index')->with('success', 'Category deleted successfully.');
+        return redirect()->route('restaurant.categories.index')->with('success', 'Categorie supprimée avec succès.');
     }
 
     
@@ -158,7 +158,7 @@ class CategoriesRestaurantController extends Controller
             }
         }
     
-        return redirect()->route('restaurant.categories.index')->with('success', 'Category created successfully');
+        return redirect()->route('restaurant.categories.index')->with('success', 'Categorie ajoutée avec succès');
     }
     
 

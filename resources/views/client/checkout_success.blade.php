@@ -17,7 +17,7 @@
     </div>
 @endif
        
-            <p>Votre Commande est confirmer</p>
+            <p>Votre Commande est confirmée</p>
     </div>
 </div>
 <!-- Cart Items End -->

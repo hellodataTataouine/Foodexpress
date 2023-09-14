@@ -16,16 +16,10 @@ class LivraisonRestaurant extends Model
     ];
     public function livraison()
     {
-        return $this->belongsTo(Livraison::class, 'livraison_id');
+        return $this->belongsTo(LivraisonMethod::class, 'livraison_id');
     }
     
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+   
 
-    public function livraisonMethod()
-    {
-        return $this->belongsTo(LivraisonMethod::class);
-    }
+   
 }

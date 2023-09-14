@@ -25,21 +25,27 @@
                                 {{ session('success') }}
                             </div>
                         @endif
-                      <div class="table-responsive">
+                    
                         <form method="POST" action="{{ route('restaurant.paiment.store') }}">
                             @csrf
-                
+              
                             <div class="form-group">
-                                <label for="type_methode">Paiment Methode Name</label>
-                                <input type="text" class="form-control" id="type_methode" name="type_methode" required>
-                                @error('name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                <label for="type_methode">Méthode de paiement </label>
+                                <select name="type_methode" class="form-control" rquired>
+@foreach ( $Paiements as $paiment )
+<option value="{{$paiment->id}}">{{$paiment->type_methode}}</option>
+    
+@endforeach
+
+
+                                </select>
                             </div>
-                
-                            <button type="submit" class="btn btn-primary">Ajouter Paiment Methode</button>
+                            <div class="form-group">
+                              <button type="submit" class="btn btn-primary">Ajouter</button>
+                          </div>
+                           
                         </form>
-                      </div>
+                   
                     </div>
                   </div>
                 </div>

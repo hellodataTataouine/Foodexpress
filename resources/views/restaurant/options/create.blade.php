@@ -30,7 +30,7 @@
                                             @csrf
                                             
                                             <div class="form-group" style="margin-top:10px;">
-                                                <label for="famille_option_id">Famille d'Option:</label>
+                                                <label for="famille_option_id">Famille d'options:</label>
                                                 <select name="famille_option_id" id="famille_option_id" class="form-control" required>
                                                     <option value="">Sélectionnez une famille</option>
                                                     @foreach ($familleOptions as $familleOption)
@@ -40,7 +40,7 @@
                                             </div>
                                             
                                             <div class="form-group">
-                                                <label for="nom_option">Nom de l'Option:</label>
+                                                <label for="nom_option">Nom d'option:</label>
                                                 <input type="text" name="nom_option" id="nom_option" class="form-control" required>
                                             </div>
                                             <div class="form-group">

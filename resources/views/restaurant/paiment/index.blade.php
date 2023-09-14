@@ -27,7 +27,7 @@
                       @endif
                           
                       <div class="mb-3">
-                        <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                        <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="rechercher" title="Taper nom méthode">
                     </div>
                       <div class="table-responsive">
                         <table class="table" id="myTable">
@@ -52,11 +52,14 @@
                                         <td>{{ $paimentMethod->client_id }}</td>
                                         <td>{{ $paimentMethod->client_secret }}</td>
                                         <td style="display: flex; justify-content: space-between;">
-                                          <a href="{{ route('restaurant.paiment.edit', ['id' => $paimentMethod->id]) }}" class="btn btn-primary btn-sm col-s">Edit</a>
-                                            <form action="{{ route('restaurant.paiment.destroy', $paimentMethod) }}" method="POST">
+                                          @if($paimentType->type_methode =="PayPal")
+                                          <a href="{{ route('restaurant.paiment.edit', ['id' => $paimentMethod->id]) }}" class="btn btn-primary btn-sm col-s">Modifier</a>
+                                          @endif
+
+                                            <form action="{{ route('restaurant.paiment.destroy', $paimentMethod->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Are you sure you want to delete this paimentMethod?')">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Etes-vous sûr de vouloir supprimer ce Méthode de paiement?')">Supprimer</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -67,7 +70,7 @@
                         </table>
                         <div class="pagination justify-content-between">
                           <div class="text-end">
-                            <a href="{{ route('restaurant.paiment.create') }}" class="btn btn-primary mb-3">Ajouter Paiement Methode</a>
+                            <a href="{{ route('restaurant.paiment.create') }}" class="btn btn-primary mb-3">Ajouter  </a>
                           </div>
                           <div class="text-start">
                             {{ $paimentMethods->links('vendor.pagination.bootstrap-5') }}

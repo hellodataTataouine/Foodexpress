@@ -187,8 +187,8 @@
         <div class="collapse" id="ui-paiment">
         <ul class="nav flex-column sub-menu">
          
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.index') }}">List  Methode Paiment</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.create') }}">Ajouter  Methode Paiment</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.index') }}">List  Méthodes Paiements</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.create') }}">Ajouter  Méthode Paiement</a></li>
         </ul>
         </div>
     </li>
@@ -202,11 +202,9 @@
         </a>
         <div class="collapse" id="ui-livraison">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.index') }}">Liste Methode Livraison</a></li>
-          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.create') }}">Ajouter Methode Livraison</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.restaurant.livraison.index') }}">List Restaurant Methode Livraison</a></li>
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.restaurant.livraison.create') }}">Ajouter Restaurant Methode Livraison</a></li>
-        </ul>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.index') }}">Liste Méthode Livraison</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.create') }}">Ajouter Méthode Livraison</a></li>
+          </ul>
         </div>
     </li>
       <li class="nav-item menu-items">
@@ -214,7 +212,7 @@
           <span class="menu-icon">
             <i class="mdi mdi-security"></i>
           </span>
-          <span class="menu-title">Parametres</span>
+          <span class="menu-title">Paramètres</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="auth">

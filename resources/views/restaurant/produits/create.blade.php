@@ -38,7 +38,7 @@
                                             @csrf
 
                                             
-                                            <div class="form-group">
+                                            <div >
                                                 <label for="categorie_rest_id">Categorie:</label>
                                                 <select name="categorie_rest_id" class="form-control" required>
                                                     @foreach ($categories as $category)

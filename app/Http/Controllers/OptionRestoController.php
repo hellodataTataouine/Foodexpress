@@ -73,7 +73,7 @@ class OptionRestoController extends Controller
        $option->restaurant_id = $restaurant->id;
         $option->save();
 
-        return redirect()->route('restaurant.options.index')->with('success', 'Option added successfully!');
+        return redirect()->route('restaurant.options.index')->with('success', 'Option ajoutée avec succès!');
   
     }else {
         // Handle the case when the user does not have a restaurant
@@ -85,7 +85,7 @@ class OptionRestoController extends Controller
         // Perform the removal logic here
         $option->delete();
 
-        return redirect()->back()->with('success', 'Option removed successfully!');
+        return redirect()->back()->with('success', 'Option supprimée avec succès!');
     }
     public function edit(OptionsRestaurant $option)
     {
@@ -114,7 +114,7 @@ class OptionRestoController extends Controller
         $option->prix = $request->input('prix');
         $option->save();
     
-        return redirect()->route('restaurant.options.index')->with('success', 'Option updated successfully!');
+        return redirect()->route('restaurant.options.index')->with('success', 'Option modifiée avec succès!');
     }
     
 

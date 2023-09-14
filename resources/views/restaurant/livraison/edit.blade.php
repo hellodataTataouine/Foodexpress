@@ -6,16 +6,16 @@
 @section('content')
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
-      @include('admin.left-menu')
+      @include('restaurant.left-menu')
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_navbar.html -->
-      @include('admin.top-menu')
+      @include('restaurant.top-menu')
         <!-- partial -->
         <div class="main-panel">
           <div class="content-wrapper">
 
-              @include('admin.stat')
+              @include('restaurant.stat')
             <div class="row ">
                 <div class="col-12 grid-margin">
                   <div class="card">
@@ -26,14 +26,14 @@
                               {{ session('success') }}
                           </div>
                       @endif
-                      <form action="{{ route('restaurant.livraison.update', $paimentMethod) }}" method="POST">
+                      <form action="{{ route('restaurant.livraison.update', $livraisonRestaurant) }}" method="POST">
                           @csrf
                           @method('PUT')
               
                           <!-- Add the necessary form fields to edit the category -->
                           <div class="form-group">
                               <label for="type_methode">Nom Livraison:</label>
-                              <input type="text" name="type_methode" id="type_methode" class="form-control" value="{{ $paimentMethod->type_methode }}">
+                              <input type="text" name="type_methode" id="type_methode" class="form-control" value="{{ $livraisonRestaurant->methode }}">
                           </div>
               
                           <button type="submit" class="btn btn-primary">Modifier</button>

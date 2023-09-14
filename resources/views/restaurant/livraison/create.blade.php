@@ -30,14 +30,18 @@
                             @csrf
                 
                             <div class="form-group">
-                                <label for="type_methode">Livraison Name</label>
-                                <input type="text" class="form-control" id="type_methode" name="type_methode" required>
-                                @error('name')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                <label for="methode_livraison">Méthode de livraison</label>
+                                <select id="methode_livraison" name="methode_livraison" class="form-control" rquired>
+                                  @foreach ($livraisonMethods  as $livraison )
+                                  <option value="{{$livraison->id}}">{{$livraison->methode}}</option>
+                                      
+                                  @endforeach
+                                </select>
+
+                                
                             </div>
                 
-                            <button type="submit" class="btn btn-primary">Ajouter Paiment Methode</button>
+                            <button type="submit" class="btn btn-primary">Ajouter</button>
                         </form>
                       </div>
                     </div>

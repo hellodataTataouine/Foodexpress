@@ -1,3 +1,28 @@
+
+
+<script>
+
+.outlined-form {
+    border: 2px solid #ffff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.outlined-input {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+}
+
+.outlined-button {
+    border: 2px solid #007bff; /* Change the border color to your desired color */
+    border-radius: 5px;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: #007bff; /* Change the text color to your desired color */
+}
+    </script>
 @extends('base')
 
 @section('content')
@@ -8,14 +33,14 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}">
+                    <form method="POST" action="{{ route('login') }}" class="outlined-form">
                         @csrf
 
                         <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
+                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Addresse Email ') }}</label>
 
                             <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror outlined-input" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
 
                                 @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -26,10 +51,10 @@
                         </div>
 
                         <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
+                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Mot de passe') }}</label>
 
                             <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror outlined-input" name="password" required autocomplete="current-password">
 
                                 @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -53,7 +78,7 @@
 
                         <div class="row mb-0">
                             <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
+                                <button type="submit" class="btn btn-primary outlined-button">
                                     {{ __('Login') }}
                                 </button>
 

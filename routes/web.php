@@ -169,23 +169,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
      Route::get('/admin/paiment-methods', [PaimentMethodController::class, 'index'])->name('admin.paiment.index');
      Route::get('/admin/paiment-methods/create', [PaimentMethodController::class, 'create'])->name('admin.paiment.create');
+     Route::get('/admin/paiment-methods/createresto/{paimentMethod_id}', [PaimentMethodController::class, 'createresto'])->name('admin.paiment.createresto');
+    
      Route::post('/admin/paiment-methods', [PaimentMethodController::class, 'store'])->name('admin.paiment.store');
      Route::get('/admin/paiment-methods/{id}/edit', [PaimentMethodController::class, 'edit'])->name('admin.paiment.edit');
      Route::put('/admin/paiment-methods/{id}', [PaimentMethodController::class, 'update'])->name('admin.paiment.update');
      Route::delete('/admin/paiment-methods/{id}', [PaimentMethodController::class, 'destroy'])->name('admin.paiment.destroy');
-
+     Route::post('/admin/paiment-methods', [PaimentMethodController::class, 'storeresto'])->name('admin.paiment.storeresto');
      Route::get('/admin/paiment-restaurants', [PaimentRestaurantController::class, 'index'])->name('admin.restaurant.paiment.index');
      Route::get('/admin/paiment-restaurants/create', [PaimentRestaurantController::class, 'create'])->name('admin.restaurant.paiment.create');
      Route::post('/admin/paiment-restaurants', [PaimentRestaurantController::class, 'store'])->name('admin.restaurant.paiment.store');
      Route::get('/admin/paiment-restaurants/{id}/edit', [PaimentRestaurantController::class, 'edit'])->name('admin.restaurant.paiment.edit');
-     Route::post('/admin/paiment-restaurants/{id}', [PaimentRestaurantController::class, 'update'])->name('admin.restaurant.paiment.update');
+    
      Route::delete('/admin/paiment-restaurants/{id}', [PaimentRestaurantController::class, 'destroy'])->name('admin.restaurant.paiment.destroy');
 
      Route::get('/admin/livraisonmethods', [LivraisonMethodController::class, 'index'])->name('admin.livraison.index');
      Route::get('/admin/livraisonmethods/create', [LivraisonMethodController::class, 'create'])->name('admin.livraison.create');
      Route::post('/admin/livraisonmethods', [LivraisonMethodController::class, 'store'])->name('admin.livraison.store');
      Route::get('/admin/livraisonmethods/{id}/edit', [LivraisonMethodController::class, 'edit'])->name('admin.livraison.edit');
-     Route::post('/admin/livraisonmethods/{id}', [LivraisonMethodController::class, 'update'])->name('admin.livraison.update');
+     Route::put('/admin/livraisonmethods/{id}', [LivraisonMethodController::class, 'update'])->name('admin.livraison.update');
      Route::delete('/admin/livraisonmethods/{id}', [LivraisonMethodController::class, 'destroy'])->name('admin.livraison.destroy');
 
 
@@ -282,26 +284,20 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/paiment-methods/create', [PaimentRestaurantController::class, 'create'])->name('restaurant.paiment.create');
      Route::post('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'store'])->name('restaurant.paiment.store');
      Route::get('/restaurant/paiment-methods/{id}/edit', [PaimentRestaurantController::class, 'edit'])->name('restaurant.paiment.edit');
-     Route::put('/restaurant/paiment-methods/{id}', [PaimentRestaurantController::class, 'update'])->name('restaurant.paiment.update');
      Route::delete('/restaurant/paiment-methods/{id}', [PaimentRestaurantController::class, 'destroy'])->name('restaurant.paiment.destroy');
-    
-    
-    
-    
-     Route::get('/restaurant/livraisonmethods', [LivraisonMethodController::class, 'index'])->name('restaurant.livraison.index');
-     Route::get('/restaurant/livraisonmethods/create', [LivraisonMethodController::class, 'create'])->name('restaurant.livraison.create');
-     Route::post('/restaurant/livraisonmethods', [LivraisonMethodController::class, 'store'])->name('restaurant.livraison.store');
-     Route::get('/restaurant/livraisonmethods/{id}/edit', [LivraisonMethodController::class, 'edit'])->name('restaurant.livraison.edit');
-     Route::post('/restaurant/livraisonmethods/{id}', [LivraisonMethodController::class, 'update'])->name('restaurant.livraison.update');
-     Route::delete('/restaurant/livraisonmethods/{id}', [LivraisonMethodController::class, 'destroy'])->name('restaurant.livraison.destroy');
-     Route::get('/restaurant/livraisonrestaurants', [LivraisonRestaurantController::class, 'index'])->name('restaurant.restaurant.livraison.index');
-     Route::get('/restaurant/livraisonrestaurants/create', [LivraisonRestaurantController::class, 'create'])->name('restaurant.restaurant.livraison.create');
-     Route::post('/restaurant/livraisonrestaurants', [LivraisonRestaurantController::class, 'store'])->name('restaurant.restaurant.livraison.store');
-     Route::get('/restaurant/livraisonrestaurants/{id}/edit', [LivraisonRestaurantController::class, 'edit'])->name('restaurant.restaurant.livraison.edit');
-     Route::post('/restaurant/livraisonrestaurants/{id}', [LivraisonRestaurantController::class, 'update'])->name('restaurant.restaurant.livraison.update');
-     Route::delete('/restaurant/livraisonrestaurants/{id}', [LivraisonRestaurantController::class, 'destroy'])->name('restaurant.restaurant.livraison.destroy');
-     Route::get('/restaurant/livraisonrestaurants/{restaurant}/details', [LivraisonRestaurantController::class, 'showDetails'])->name('restaurant.restaurants.details');
+     Route::get('/restaurant/paiment-methods/{id}/edit', [PaimentRestaurantController::class, 'edit'])->name('restaurant.paiment.edit');
 
+     Route::put('/restaurant/paiment-methods/{id}', [PaimentRestaurantController::class, 'update'])->name('restaurant.paiment.update');
+
+    
+    
+     Route::get('/restaurant/livraisonmethods', [LivraisonRestaurantController::class, 'index'])->name('restaurant.livraison.index');
+     Route::get('/restaurant/livraisonmethods/create', [LivraisonRestaurantController::class, 'create'])->name('restaurant.livraison.create');
+     Route::post('/restaurant/livraisonmethods', [LivraisonRestaurantController::class, 'store'])->name('restaurant.livraison.store');
+     Route::get('/restaurant/livraisonmethods/{id}/edit', [LivraisonRestaurantController::class, 'edit'])->name('restaurant.livraison.edit');
+     Route::put('/restaurant/livraisonmethods/{id}', [LivraisonRestaurantController::class, 'update'])->name('restaurant.livraison.update');
+     Route::delete('/restaurant/livraisonmethods/{LivraisonMethod}', [LivraisonRestaurantController::class, 'destroy'])->name('restaurant.livraison.destroy');
+    
 
 
      Route::get('/restaurant/resevation', [ReservationTableController::class, 'index'])->name('restaurant.resevation.index');

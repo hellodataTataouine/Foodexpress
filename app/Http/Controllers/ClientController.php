@@ -59,7 +59,7 @@ class ClientController extends BaseController
      $request->validate([
         'name' => 'required|unique:clients',
         'phoneNum1' => 'required|unique:clients',
-        'phoneNum2' => 'unique:clients',
+        
          'localisation' => 'required',
          'N_Siret' => 'required|unique:clients',
          'N_Tva' => 'required|unique:clients',
@@ -97,7 +97,8 @@ class ClientController extends BaseController
         // No image provided or selected
         $imageUrl = null;
     }
-   
+    $name = $request->name;
+    $nameWithoutSpaces = str_replace(' ', '', $name);
     // Create the client
     $client = Client::create([
         'name' => $request->name,
@@ -105,7 +106,7 @@ class ClientController extends BaseController
         'phoneNum2' => $request->phoneNum2,
         'localisation' => $request->localisation,
         'logo' => $imageUrl,
-        'url_platform' => $request->name . '.localhost:8000',
+        'url_platform' => $nameWithoutSpaces . '.localhost:8000',
         'date' => date('Y-m-d H:i:s'),
         'status' => '1',
         'N_Siret' => $request->N_Siret,
@@ -115,7 +116,7 @@ class ClientController extends BaseController
 
  // Create the corresponding user
  $user = User::create([
-    'name' => $request->name,
+    'name' => $request->username,
     'email' => $request->email,
     'password' => Hash::make($request->password),
     'restaurant_id' => $client->id,
@@ -288,11 +289,14 @@ class ClientController extends BaseController
         // Retrieve the values from the request
         $name = $request->input('name');
         $phoneNum1 = $request->input('phoneNum1');
-        $phoneNum2 = $request->input('phoneNum2');
+        $NumSiret = $request->input('N_Siret');
+        $TVA = $request->input('N_Tva');
+       // $phoneNum2 = $request->input('phoneNum2');
 
         $existingClient = Client::where('name', $name)
         ->orWhere('phoneNum1', $phoneNum1)
-        ->orWhere('phoneNum2', $phoneNum2)
+        ->orWhere('N_Siret', $NumSiret)
+        ->orWhere('N_Tva', $TVA)
         ->first();
 
       // Return a response indicating the uniqueness status

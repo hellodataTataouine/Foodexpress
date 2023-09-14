@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Client;
 use App\Models\PaimentMethod;
-use Illuminate\Http\Request;
+use App\Models\PaimentRestaurant;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 class PaimentMethodController extends Controller
 {
     public function index()
@@ -17,6 +20,12 @@ class PaimentMethodController extends Controller
     public function create()
     {
         return view('admin.paiment.create');
+    }
+    public function createresto($id)
+    {
+        $restauants = Client::all();
+        $paimentMethod = PaimentMethod::findOrFail($id);
+        return view('admin.paiment.createresto' , compact('paimentMethod' , 'restauants'));
     }
 
 
@@ -31,7 +40,29 @@ class PaimentMethodController extends Controller
             'created_at' => now(),
         ]);
 
-        return redirect()->route('admin.paiment.create')->with('success', 'Paiment Methode created successfully.');
+        return redirect()->route('admin.paiment.create')->with('success', ' Methode de paiement ajoutée avec succès.');
+    }
+    public function storeresto(Request $request)
+    {
+        $existingPaiement = PaimentRestaurant::where('methode', $request->type_methode)
+        ->Where('restaurant_id', $request->restaurant_id)
+     
+        ->first();
+
+      // Return a response indicating the uniqueness status
+      if ($existingPaiement) {
+        Session::flash('error', 'Cette méthode exist déja à ce restaurant');
+    } else {
+        PaimentRestaurant::create([
+            'methode' => $request->type_methode,
+            'restaurant_id' => $request->restaurant_id, 
+        ]);
+        return redirect()->route('admin.paiment.create')->with('success', ' Methode de paiement ajoutée avec succès.');
+    }
+
+        
+
+      
     }
 
     public function edit($id)
@@ -52,6 +83,6 @@ class PaimentMethodController extends Controller
     {
         $paimentMethod = PaimentMethod::findOrFail($id);
         $paimentMethod->delete();
-        return redirect()->route('admin.paiment.index')->with('success', 'paiment deleted successfully.');
+        return redirect()->route('admin.paiment.index')->with('success', 'méthode de paiement supprimée avec succès.');
     }
 }

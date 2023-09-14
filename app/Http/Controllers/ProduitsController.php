@@ -74,7 +74,7 @@ public function removeProductResto(Request $request)
         ->delete();
 
     return response()->json([
-        'message' => 'Product removed successfully',
+        'message' => 'Produit supprimé avec succès',
         'status' => 'not-selected'
     ]);
 }
@@ -237,7 +237,7 @@ foreach ($familleOptions as $familleOptionId) {
     ]);
 }
     // Redirect to the product list page with a success message
-    return redirect()->route('restaurant.produits.index')->with('success', 'Product added successfully');
+    return redirect()->route('restaurant.produits.index')->with('success', 'Produit ajoutée avec succès');
 }
 
 
@@ -286,7 +286,7 @@ foreach ($familleOptions as $familleOptionId) {
 
 
           
-            return redirect()->route('admin.produits.index')->with('success', 'Produit created successfully.');
+            return redirect()->route('admin.produits.index')->with('success', 'Produit ajouté avec succès.');
        
     }
 
@@ -353,7 +353,7 @@ foreach ($familleOptions as $familleOptionId) {
     }
 
    
-     return redirect()->route('admin.produits.index')->with('success', 'Produit updated successfully.');
+     return redirect()->route('admin.produits.index')->with('success', 'Produit modifié avec succès.');
     
    
 }
@@ -377,7 +377,7 @@ public function destroy($id)
     }
 
     $produit->delete();
-       return redirect()->route('admin.produits.index')->with('success', 'Produit deleted successfully.');
+       return redirect()->route('admin.produits.index')->with('success', 'Produit supprimé avec succès.');
    
 }
 
@@ -412,17 +412,13 @@ public function show($id)
                 ->where('produit_id', $produitId)
                 ->where('famille_option_id', $optionId)
                 ->delete();
-                if (Auth::user()->is_admin == 1) {
-                    return redirect()->route('admin.produits.edit', $produitId)->with('success', 'Option removed successfully');
-                } else {
-                    return redirect()->route('restaurant.produits.edit', $produitId)->with('success', 'Option removed successfully');
-                }
+               
+                    return redirect()->route('admin.produits.edit', $produitId)->with('success', 'Option supprimée avec succès');
+              
         } catch (\Exception $e) {
-            if (Auth::user()->is_admin == 1) {
+           
                 return redirect()->route('admin.produits.edit', $produitId)->with('error', 'An error occurred');
-            } else {
-                return redirect()->route('restaurant.produits.edit', $produitId)->with('error', 'An error occurred');
-            }
+           
         }
     }
     

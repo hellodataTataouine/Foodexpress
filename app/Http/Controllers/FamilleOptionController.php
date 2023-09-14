@@ -39,7 +39,7 @@ class FamilleOptionController extends Controller
         $familleOption->owner_id = Auth::id();
         $familleOption->save();
 
-        return redirect()->route('admin.famille-options.index')->with('success', 'Famille option created successfully!');
+        return redirect()->route('admin.famille-options.index')->with('success', 'la famille doption a été ajouté avec succès!');
     }
     public function edit($id)
     {
@@ -77,7 +77,7 @@ class FamilleOptionController extends Controller
         $familleOption->save();
         
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option updated successfully.');
+        return redirect()->back()->with('success', 'Famille Option  modifiée avec succès.');
     }
     
     public function destroy($id)
@@ -94,6 +94,6 @@ class FamilleOptionController extends Controller
         $familleOption->delete();
         
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option deleted successfully.');
+        return redirect()->back()->with('success', 'Famille Optiona  supprimer avec succès.');
     }
 }

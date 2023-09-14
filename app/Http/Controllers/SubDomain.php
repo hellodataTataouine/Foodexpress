@@ -76,7 +76,7 @@ class SubDomain extends Controller
         return response()->json(['message' => 'Commande modifiée']);
        
     } else {
-        return response()->json(['message' => 'Status updated successfully']);
+        return response()->json(['message' => 'Statut modifié avec succès']);
        
     }
 
@@ -119,7 +119,7 @@ class SubDomain extends Controller
             $user->password = Hash::make($request->input('new-password'));
             $user->save();
 
-            return redirect()->back()->with('success', 'Password changed successfully.');
+            return redirect()->back()->with('success', 'Password modifié avec succès.');
         } else {
             return redirect()->back()->withErrors(['current-password' => 'Invalid current password.']);
         }

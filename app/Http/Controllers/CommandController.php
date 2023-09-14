@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\ClientRestaurat;
 use App\Models\CommandProduct;
 use App\Models\CommandProductOptions;
+use App\Models\Imei;
 use App\Models\PaimentMethod;
 use App\Models\User;
 use App\Notifications\FirebaseNotification;
@@ -75,7 +76,7 @@ class CommandController extends Controller
        // Save the cart data back to the session
        session()->put('cart', $cart);
 
-       return response()->json(['success' => true, 'message' => 'Product added to cart successfully']);
+       return response()->json(['success' => true, 'message' => 'Produit  a été ajouté avec succès']);
    }
 
    public function fetchCart(Request $request)
@@ -263,21 +264,47 @@ if($PaymentMethode->type_methode == 'PayPal'){
 else {  
 // Clear the cart sessions
 $request->session()->forget('cart');
-
-$devices = $client->devices;
-dd($devices);
+$firebaseToken =Imei::whereNotNull('fcm_token')->pluck('fcm_token')->all();
+            
+        $SERVER_API_KEY = env('FCM_SERVER_KEY');
+    
+//dd($devices);
 // Create the notification instance
 $notification = new FirebaseNotification();
 
 try {
     // Send the notification to all the devices associated with the client
-    Notification::send($devices, $notification);
+   // Notification::send($token, $notification)->notify($notification);
+   $data = [
+    "registration_ids" => $firebaseToken,
+    "notification" => [
+        "title" => " Nouvelle Commande",
+        "body" => $Command->Clientfirstname . ' ' . $Command->clientlastname
+    ]
+];
+$dataString = json_encode($data);
 
+$headers = [
+    'Authorization: key=' . $SERVER_API_KEY,
+    'Content-Type: application/json',
+];
+
+$ch = curl_init();
+
+curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+curl_setopt($ch, CURLOPT_POST, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+         
+$response = curl_exec($ch);
+//dd($response);
     // Notification sent successfully
     Session::flash('success', 'Notification sent successfully.');
 } catch (\Exception $e) {
     // Handle the exception and show an error message
-    Session::flash('error', 'Failed to send notification: ' . $e->getMessage());
+    //Session::flash('error', 'Failed to send notification: ' . $e->getMessage());
 }
 return view('client.checkout_success', compact('subdomain', 'client','cart'));
 }
@@ -588,7 +615,7 @@ foreach ($cartItems as $cartItem) {
        
                } }
            return response()->json([
-               'message' => 'Quantity updated successfully',
+               'message' => 'Quantité a été modifié avec succès',
                
                 
                 'totalPrice' => $totalPrice,

@@ -33,7 +33,7 @@ class CategoriesController extends Controller
         }
         
         $category->delete();
-            return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully.');
+            return redirect()->route('admin.categories.index')->with('success', 'Categorie supprimeé avec succès.');
        
     }
 
@@ -54,7 +54,7 @@ class CategoriesController extends Controller
        
         $category->save();
 
-             return redirect()->route('admin.categories.create')->with('success', 'Categories created successfully.');
+             return redirect()->route('admin.categories.create')->with('success', 'Catégorie ajoutée avec succès.');
       
         
     }
@@ -84,7 +84,7 @@ class CategoriesController extends Controller
         if ($category) {
             $category->name = $request->input('name');
             $category->save();
-                return redirect()->route('admin.categories.index')->with('success', 'Categories Modifier Avec succée');
+                return redirect()->route('admin.categories.index')->with('success', 'Categorie Modifiée Avec succée');
            
         } else {
                 return redirect()->route('admin.categories.index')->with('error', 'Unauthorized access.');

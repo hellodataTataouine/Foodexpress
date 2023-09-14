@@ -178,7 +178,7 @@
             },
             success: function(response) {
                 // Handle success response
-                alert('Product added successfully');
+                alert('Produit ajouté avec succès');
                 // Redirect to the product list page
                 window.location.href = '{{ route('restaurant.produits.index') }}';
             },

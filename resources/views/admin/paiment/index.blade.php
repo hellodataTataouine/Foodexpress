@@ -19,12 +19,17 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">Paiment</h4>
+                      <h4 class="card-title">Paiement</h4>
                       @if (session('success'))
                           <div class="alert alert-success">
                               {{ session('success') }}
                           </div>
                       @endif
+                      @if (session('error'))
+                      <div class="alert alert-success">
+                          {{ session('success') }}
+                      </div>
+                  @endif
                           
                       <div class="mb-3">
                         <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
@@ -33,25 +38,26 @@
                         <table class="table" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Methode De Paiement</th>
-                                    <th>Date Creation</th>
+                                   
+                                    <th>Méthode De Paiement</th>
+                                  
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($paimentMethods as $paimentMethod)
                                     <tr>
-                                        <td>{{ $paimentMethod->id }}</td>
+                                       
                                         <td>{{ $paimentMethod->type_methode }}</td>
-                                        <td>{{ $paimentMethod->created_at }}</td>
+                                      
                                         <td style="display: flex; justify-content: space-between;">
-                                          <a href="{{ route('admin.produits.create', ['paimentMethod_id' => $paimentMethod->id]) }}" class="btn btn-success btn-sm">Ajouter a Restaurant</a>
-                                            <a href="{{ route('admin.paiment.edit', $paimentMethod) }}" class="btn btn-primary btn-sm col-s">Edit</a>
+                                         <!-- <a href="{{ route('admin.paiment.createresto', ['paimentMethod_id' => $paimentMethod->id]) }}" class="btn btn-success btn-sm">Ajouter Restaurant</a>-->
+
+                                            <a href="{{ route('admin.paiment.edit', $paimentMethod) }}" class="btn btn-primary btn-sm col-s">Modifier</a>
                                             <form action="{{ route('admin.paiment.destroy', $paimentMethod) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Are you sure you want to delete this paimentMethod?')">Delete</button>
+                                                <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Are you sure you want to delete this paimentMethod?')">Supprimer</button>
                                             </form>
                                         </td>
                                     </tr>

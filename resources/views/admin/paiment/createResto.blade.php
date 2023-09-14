@@ -18,37 +18,42 @@
                         <div class="col-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
-                                    <h4 class="card-title">Ajouter Paiment Methode</h4>
-                                    @if (session('success'))
-                                        <div class="alert alert-success">
-                                            {{ session('success') }}
-                                        </div>
-                                    @endif
+                                    <h4 class="card-title">Ajouter Paiement Methode</h4>
+                                    @if (Session::has('success'))
+                                    <div class="alert alert-success">
+                                        {{ Session::get('success') }}
+                                    </div>
+                                @endif
+                                
+                                @if (Session::has('error'))
+                                    <div class="alert alert-danger">
+                                        {{ Session::get('error') }}
+                                    </div>
+                                @endif
                                     <div class="table-responsive">
-                                        <form action="{{ route('admin.restaurant.paiment.store') }}" method="POST">
+                                        <form action="{{ route('admin.paiment.storeresto') }}" method="POST">
                                             @csrf
+                                            <div class="form-group">
+                                                <label for="paiment_id">Paiement Method:</label>
+                                              
+                                                    
+                                                    <input name="paiment_id" id="paiment_id" value = {{ $paimentMethod->type_methode }} @readonly(true) />
+                                                  
+                                            </div>
 
                                             <div class="form-group">
-                                                <label for="restaurant_id">Nom Restaurant :</label>
+                                                <label for="restaurant_id">Restaurant :</label>
                                                 <select name="restaurant_id" id="restaurant_id" class="form-control">
-                                                    @foreach ($users as $user)
-                                                    <option value="{{ $user->user_id }}" {{ $user->user_id == request()->route('user_id') ? 'selected' : '' }}>
-                                                        {{ $user->name }}
+                                                    @foreach ($restauants as $client)
+                                                    <option value="{{ $client->id }}" {{ $client->id== request()->route('id') ? 'selected' : '' }}>
+                                                        {{ $client->name }}
                                                     </option>
                                                     @endforeach
                                                 </select>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="paiment_id">Nom Payment Method :</label>
-                                                <select name="paiment_id" id="paiment_id" class="form-control">
-                                                    @foreach ($paimentMethods as $paimentMethod)
-                                                        <option value="{{ $paimentMethod->id }}">{{ $paimentMethod->type_methode }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-
-                                            <button type="submit" class="btn btn-primary">Ajouter Paiment Restaurant</button>
+                                           
+                                            <button type="submit" class="btn btn-primary">Ajouter Paiement Restaurant</button>
                                         </form>
                                     </div>
                                 </div>

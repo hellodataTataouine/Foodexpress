@@ -40,7 +40,7 @@ class OptionController extends Controller
       
         $option->save();
 
-        return redirect()->route('admin.options.index')->with('success', 'Option added successfully!');
+        return redirect()->route('admin.options.index')->with('success', 'Option ajoutée avec succès!');
     }
     
     public function remove(Option $option)
@@ -48,7 +48,7 @@ class OptionController extends Controller
         // Perform the removal logic here
         $option->delete();
 
-        return redirect()->back()->with('success', 'Option removed successfully!');
+        return redirect()->back()->with('success', 'Option supprimée avec succès!');
     }
 
 
@@ -72,7 +72,7 @@ class OptionController extends Controller
         $option->prix = $request->input('prix');
         $option->save();
     
-        return redirect()->route('admin.options.index')->with('success', 'Option updated successfully!');
+        return redirect()->route('admin.options.index')->with('success', 'Option modifiée avec succès!');
     }
     
 

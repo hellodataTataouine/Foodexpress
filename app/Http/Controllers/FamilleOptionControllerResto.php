@@ -37,7 +37,7 @@ class FamilleOptionControllerResto extends Controller
         $familleOption->owner_id = Auth::id();
         $familleOption->save();
 
-        return redirect()->route('restaurant.famille-options.index')->with('success', 'Famille option created successfully!');
+        return redirect()->route('restaurant.famille-options.index')->with('success', 'Famille option ajoutée avec succès!');
     }
     public function edit($id)
     {
@@ -75,7 +75,7 @@ class FamilleOptionControllerResto extends Controller
         $familleOption->save();
         
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option updated successfully.');
+        return redirect()->back()->with('success', 'Famille Option  modifiée avec succès.');
     }
     
     public function destroy($id)
@@ -85,7 +85,7 @@ class FamilleOptionControllerResto extends Controller
         
         // Check if the famille option exists
         if (!$familleOption) {
-            return redirect()->back()->with('error', 'Famille Option not found.');
+            return redirect()->back()->with('error', 'Famille Option non trouvée.');
         }
         
         $options = Option::where('famille_option_id', $id)->get();
@@ -102,6 +102,6 @@ class FamilleOptionControllerResto extends Controller
             $familleOptionproduit->delete();
             }
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option deleted successfully.');
+        return redirect()->back()->with('success', 'Famille Option  supprimée avec succès.');
     }
 }

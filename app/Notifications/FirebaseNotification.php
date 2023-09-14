@@ -26,7 +26,7 @@ class FirebaseNotification extends Notification
      *
      * @return array<int, string>
      */
-    public function via(object $notifiable): array
+    public function via(string $notifiable): array
     {
         return ['mail'];
     }
@@ -34,7 +34,7 @@ class FirebaseNotification extends Notification
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toMail(string $notifiable): MailMessage
     {
         return (new MailMessage)
                     ->line('The introduction to the notification.')
@@ -47,7 +47,7 @@ class FirebaseNotification extends Notification
      *
      * @return array<string, mixed>
      */
-    public function toArray(object $notifiable): array
+    public function toArray(string $notifiable): array
     {
         return [
             //

@@ -47,7 +47,7 @@ class ClientRestaurantController  extends Controller
 ClientRestaurat::create($validatedData);
 
       
-        return redirect()->route('restaurant.clients.index')->with('success', 'Client created successfully.');
+        return redirect()->route('restaurant.clients.index')->with('success', 'restaurant ajouté avec succès.');
     }
 
     // Display the specified resource.
@@ -77,13 +77,13 @@ ClientRestaurat::create($validatedData);
         ]);
 
         $client->update($validatedData);
-        return redirect()->route('restaurant.clients.index')->with('success', 'Client updated successfully.');
+        return redirect()->route('restaurant.clients.index')->with('success', 'Restaurant modifié avec succès.');
     }
 
     // Remove the specified resource from storage.
     public function destroy(ClientRestaurat $client)
     {
         $client->delete();
-        return redirect()->route('restaurant.clients.index')->with('success', 'Client deleted successfully.');
+        return redirect()->route('restaurant.clients.index')->with('success', 'Restaurant supprimé avec succès.');
     }
 }

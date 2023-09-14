@@ -4,7 +4,20 @@
   <!-- Aside (Mobile Navigation) -->
   @include('client.layouts.header_menu')
   <!-- Banner Start -->
- 
+  <style>
+    .product-image-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 150px; /* Set the desired height for the image container */
+    }
+    
+    /* Adjust the image size if necessary */
+    .product-image-container img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+      </style>
   <!-- Banner End -->
  <!-- Customize Modal Start -->
  <div class="modal fade" id="customizeModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -90,8 +103,9 @@
         <!-- Product Start -->
         <div class="col-lg-4 col-md-6 {{ $product->categorie_rest_id}}">
           <div class="product">
-            <a class="product-thumb" > <img src="{{ asset($product->url_image) }}" alt="menu item" /> </a>
-            <div class="product-body">
+            <div class="product-image-container">
+              <img src="{{ asset($product->url_image) }}" alt="menu item" class="center"   />
+            </div> <div class="product-body">
               <div class="product-desc">
                 <h4> <a href="menu-item-v1.html">{{ $product->nom_produit }}</a> </h4>
                 <p>{{ $product->description }}</p>

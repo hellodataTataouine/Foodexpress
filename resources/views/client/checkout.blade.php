@@ -70,10 +70,10 @@
             @foreach ($livraisons as $livraison)
             @if ($livraison)
                 @php
-                    $livraisonType = \App\Models\Livraison::find($livraison->id);
+                    $livraisonType = \App\Models\Livraison::find($livraison->livraison_id);
                 @endphp
                 <!-- Assuming the name field for delivery method is 'id' -->
-                <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
+                <option value="{{ $livraisonType->id }}"> {{ $livraisonType->methode }}</option>
             @endif
         @endforeach
         </select>
@@ -88,10 +88,10 @@
         <select name="payment_method" class="form-control">
             @foreach ($paiments as $paiment)
                 @php
-                    $paimentType = \App\Models\PaimentMethod::find($paiment->id);
+                    $paimentType = \App\Models\PaimentMethod::find($paiment->paiment_id);
                 @endphp
                 <!-- Assuming the name field for payment method is 'id' -->
-                <option value="{{ $paiment->id }}">{{ $paimentType->type_methode }}</option>
+                <option value="{{ $paimentType->id }}">{{ $paimentType->methode }}</option>
             @endforeach
         </select>
     @endif
@@ -189,10 +189,10 @@
                     @foreach ($livraisons as $livraison)
                     @if ($livraison)
                         @php
-                            $livraisonType = \App\Models\Livraison::find($livraison->id);
+                            $livraisonType = \App\Models\Livraison::find($livraison->livraison_id);
                         @endphp
                         <!-- Assuming the name field for delivery method is 'id' -->
-                        <option value="{{ $livraison->id }}"> {{ $livraisonType->type_methode }}</option>
+                        <option value="{{ $livraisonType->id }}"> {{ $livraisonType->methode }}</option>
                     @endif
                 @endforeach
                 </select>
@@ -207,10 +207,10 @@
                 <select name="payment_method" class="form-control">
                     @foreach ($paiments as $paiment)
                         @php
-                            $paimentType = \App\Models\PaimentMethod::find($paiment->id);
+                            $paimentType = \App\Models\PaimentMethod::find($paiment->paiment_id);
                         @endphp
                         <!-- Assuming the name field for payment method is 'id' -->
-                        <option value="{{ $paiment->id }}">{{ $paimentType->type_methode }}</option>
+                        <option value="{{ $paimentType->id }}">{{ $paimentType->type_methode }}</option>
                     @endforeach
                 </select>
               

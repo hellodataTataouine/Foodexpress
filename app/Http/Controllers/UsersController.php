@@ -63,7 +63,7 @@ class UsersController extends Controller
         $input = $request->all();
         User::create($input);
        
-        return redirect()->route('admin.users.index')->with('success', 'User created successfully!');
+        return redirect()->route('admin.users.index')->with('success', 'Utilisateur ajouté avec succès!');
        }
 
    
@@ -100,7 +100,7 @@ class UsersController extends Controller
         }*/
         $user->save();
     
-        return redirect()->route('admin.users.index')->with('success', 'User updated successfully!');
+        return redirect()->route('admin.users.index')->with('success', 'Utilisateur modifié avec succès!');
     }
 
     /**

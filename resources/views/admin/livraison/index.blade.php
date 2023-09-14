@@ -19,7 +19,7 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <h2 class="text-center">Livraison</h2>
+                      <h2 class="text-center">Méthode de Livraisons</h2>
                       @if (session('success'))
                           <div class="alert alert-success">
                               {{ session('success') }}
@@ -33,20 +33,19 @@
                         <table class="table" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                   
                                     <th>Methode De Livraison</th>
-                                    <th>Date Creation</th>
+                                    
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($livraisons as $livraison)
                                     <tr>
-                                        <td>{{ $livraison->id }}</td>
-                                        <td>{{ $livraison->type_methode }}</td>
-                                        <td>{{ $livraison->created_at }}</td>
+                                       
+                                        <td>{{ $livraison->methode }}</td>
+                                       
                                         <td style="display: flex; justify-content: space-between;">
-                                          <a href="{{ route('admin.produits.create', ['livraisons_id' => $livraison->id]) }}" class="btn btn-success btn-sm">Ajouter a Restaurant</a>
                                             <a href="{{ route('admin.livraison.edit', $livraison) }}" class="btn btn-primary btn-sm col-s">Modifier</a>
                                             <form action="{{ route('admin.livraison.destroy', $livraison) }}" method="POST">
                                                 @csrf
@@ -62,7 +61,7 @@
                         </table>
                         <div class="pagination justify-content-between">
                           <div class="text-end">
-                            <a href="{{ route('admin.livraison.create') }}" class="btn btn-primary mb-3">Ajouter Livraison Methode</a>
+                            <a href="{{ route('admin.livraison.create') }}" class="btn btn-primary mb-3">Ajouter méthode de Livraison </a>
                           </div>
                           <div class="text-start">
                             {{ $livraisons->links('vendor.pagination.bootstrap-5') }}

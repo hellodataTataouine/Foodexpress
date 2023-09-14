@@ -19,6 +19,7 @@ class Imei extends Model
         'N_Serie',
         'Date_Service',
         'restaurant_id',
+        'fcm_token'
        
     ];
 

@@ -157,8 +157,8 @@
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="{{ route('admin.paiment.index') }}">Liste Methode Paiment</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('admin.paiment.create') }}">Ajouter Methode Paiment</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.paiment.index') }}">List Restaurant Methode Paiment</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.paiment.create') }}">Ajouter Restaurant Methode Paiment</a></li>
+           <!-- <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.paiment.index') }}">List Restaurant Methode Paiment</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.paiment.create') }}">Ajouter Restaurant Methode Paiment</a></li>-->
           </ul>
           </div>
       </li>
@@ -174,8 +174,8 @@
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="{{ route('admin.livraison.index') }}">Liste Methode Livraison</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('admin.livraison.create') }}">Ajouter Methode Livraison</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.livraison.index') }}">List Restaurant Methode Livraison</a></li>
-            <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.livraison.create') }}">Ajouter Restaurant Methode Livraison</a></li>
+          <!--  <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.livraison.index') }}">List Restaurant Methode Livraison</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ route('admin.restaurant.livraison.create') }}">Ajouter Restaurant Methode Livraison</a></li>-->
           </ul>
           </div>
       </li>

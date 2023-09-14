@@ -49,7 +49,7 @@
                                                 <span id="localisation-error" style="color: red; display: none;">Veuillez entrer une adresse valide</span>
 
                                                 <br/>
-                                                <h4 class="card-title">Codes postaux des services</h4>
+                                                <h4 class="card-title">Zone de services</h4>
                                                 <p>Ajoutez un ou plusieurs codes postaux :</p>
                                                 <div id="postal-codes-container">
                                                     <div class="form-group">
@@ -64,14 +64,14 @@
                                                         </button>
                                                     </div>
                                                 </div>
-                                                <label for="localisation">Numero Siret:</label>
+                                                <label for="N_Siret">Numéro Siret:</label>
                                                 <input type="text" name="N_Siret" id="N_Siret"
                                                                 class="form-control" placeholder="Numero Siret" required>
                                                             <span id="N_Siret-error"
                                                             style="color: red; display: none;">Veuillez entrer un numéro de siret valide</span>
 
                                                             <br/>
-                                                                <label for="localisation">Numero TVA:</label>
+                                                                <label for="N_Tva">Numéro TVA:</label>
                                                                 <input type="text" name="N_Tva" id="N_Tva"
                                                                class="form-control" placeholder="Numero TVA" required>
                                                         <span id="N_Tva-error"
@@ -287,7 +287,7 @@
             navigateToSection(currentSection + 1);
         } else {
             // Show error message or take appropriate action
-            alert('Veuillez vous assurer que le champs sont uniques avant de continuer.');
+            alert('Veuillez vous assurer que les champs sont valides.');
         }            }
 
             function previousSection() {
@@ -333,6 +333,8 @@
             var name = document.getElementById('name').value;
             var phoneNum1 = document.getElementById('phoneNum1').value;
             var phoneNum2 = document.getElementById('phoneNum2').value;
+            var N_Siret = document.getElementById('N_Siret').value;
+            var N_Tva = document.getElementById('N_Tva').value;
 
             $.ajax({
                 url: '/admin/client/check-uniqueness',
@@ -341,6 +343,8 @@
                     name: name,
                     phoneNum1: phoneNum1,
                     phoneNum2: phoneNum2,
+                    N_Siret: N_Siret,
+                    N_Tva: N_Tva,
                     _token: '{{ csrf_token() }}'
                 },
                 success: function (response) {
@@ -349,7 +353,7 @@
 if (response.status === 'unique') {
     showNextSection();
 } else if (response.status === 'not-unique') {
-    alert('Veuillez vous assurer que le champs est unique avant de continuer.');
+    alert('Veuillez vous assurer que les numéros de téléphones, le nom de restaurant, le N° siret et le N° TVA soyaient uniques avant de continuer.');
     enableNextButton(); // Enable the next button
 }
                 },
@@ -376,7 +380,7 @@ if (response.status === 'unique') {
             if (response.status === 'unique') {
                 showNextSection();
             } else if (response.status === 'not-unique') {
-                alert('Veuillez vous assurer que le champs est unique avant de continuer.');
+                alert('Veuillez vous assurer que nom utilisateur et email soyaient uniques avant de continuer.');
                 enableNextButton(); // Enable the next button
             }
         },

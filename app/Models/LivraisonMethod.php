@@ -9,13 +9,10 @@ use Illuminate\Database\Eloquent\Model;
 class LivraisonMethod extends Model
 {
     protected $table = 'livraisons';
-    protected $fillable = ['type_methode', 'created_at'];
+    protected $fillable = ['methode'];
 
     
-    public function users()
-    {
-        return $this->hasMany(User::class);
-    }
+    
     public function livraisonRestaurant()
     {
         return $this->hasMany(LivraisonRestaurant::class);
