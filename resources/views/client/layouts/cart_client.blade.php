@@ -1,3 +1,16 @@
+<style>
+
+	.cart-sidebar-item-meta span {
+    display: block; /* Set to block-level element to ensure wrapping */
+   max-width:      350px; /* Limit the maximum width of the description */
+    word-wrap: break-word; /* Allow long words to be wrapped to the next line */
+}
+.media {
+    display: block; /* Set to block-level element to ensure wrapping */
+   max-width:      75px; /* Limit the maximum width of the description */
+    word-wrap: break-word; /* Allow long words to be wrapped to the next line */
+}   
+</style>
 <div class="cart-sidebar-wrapper" >
   <aside class="cart-sidebar">
     <div class="cart-sidebar-header">
@@ -16,39 +29,50 @@
           @foreach(session('cart') as $index => $cartItem)
             <div class="cart-sidebar-item">
               <div class="media">
-                <a href="menu-item-v1.html"><img src="{{ asset($cartItem['image']) }}" alt="product"></a>
+                <a><img src="{{ asset($cartItem['image']) }}" alt="product"></a>
                 <div class="media-body">
-                  <h5> <a href="menu-item-v1.html" title="{{ $cartItem['name'] }}">{{ $cartItem['name'] }}</a> </h5>
+                  <h5> <a title="{{ $cartItem['name'] }}">{{ $cartItem['name'] }}</a> </h5>
                   <span>{{ $cartItem['quantity'] }}x {{ $cartItem['unityPrice'] }}€</span>
                 </div>
               </div>
               <div class="cart-sidebar-item-meta">
-             
-              <span>@if(is_string($cartItem['options']))
-            {{ htmlspecialchars($cartItem['options']) }}
-            @endif</span>
-              </div>
+  <span>
+    @if(is_string($cartItem['options']))
+      {{ htmlspecialchars($cartItem['options']) }}
+    @endif
+  </span>
+				
+</div>
+				  
               <div class="cart-sidebar-price">
                 {{ $cartItem['price'] }}€
+              </div>
+			
+				 <div class="customizeBtnedit" data-bs-toggle="modal" data-bs-target="#customizeModal"
+                        data-product-id-edit="{{ $cartItem['id'] }}" data-product-name="{{ $cartItem['name'] }}"
+                        data-product-image="{{ $cartItem['image'] }}" data-product-item="{{ $cartItem['idItem'] }}" data-product-price="{{ $cartItem['price'] }}" data-product-qauntity="{{ $cartItem['quantity'] }}"  data-product-options='{{ json_encode($cartItem['options']) }}' >
+                <i class="fas fa-edit"></i> 
+               
               </div>
               <div class="remove-btn" data-item-id="{{ $cartItem['id'] }}" >
                 <i class="fas fa-times"></i> 
                 <span></span>
                 <span></span>
               </div>
+				
             </div>
             @php
               $totalPrice += $cartItem['price']; // Update total price for each item
             @endphp
           @endforeach
         @else
-          <p>No items in the cart.</p>
+          <p>Aucun article dans votre panier..</p>
         @endif
       </div>
     </div>
     <div class="cart-sidebar-footer">
     <h4>Total: <span>{{ $totalPrice }}€</span> </h4>
-      <a href="{{ url('/checkout') }}" class="btn-custom">Vérifier</a>
+      <a href="{{ url('/checkout') }}" class="btn-custom">Confirmer</a>
     </div>
   </aside>
   <div class="cart-sidebar-overlay cart-trigger">
@@ -61,7 +85,7 @@
 
 $(document).ready(function() {
   
-  $(".remove-btn").click(function () {
+$(document).on("click", ".remove-btn", function () {
              var button = $(this); // Get the clicked button
         var productId = button.data('item-id');
 
@@ -128,9 +152,31 @@ $('body').addClass('disable-interaction');
   itemHTML += '<div class="cart-sidebar-price">';
   itemHTML += cartItem.price + '€';
   itemHTML += '</div>';
+	
+  itemHTML += '<div class="customizeBtnedit" data-bs-toggle="modal" data-bs-target="#customizeModal" ' +
+    'data-product-id-edit="' + cartItem.id + '" ' +
+	  
+    'data-product-name="' + cartItem.name + '" ' +
+    'data-product-image="' + cartItem.image + '" ' +
+    'data-product-price="' + cartItem.price + '" ' +
+	  'data-product-qauntity="' + cartItem.quantity + '" ' +
+	    'data-product-item="' + cartItem.idItem + '" ' +
+    'data-product-options=\'' + JSON.stringify(cartItem.options) + '\'>';
+
+// Add the button icon
+itemHTML += '<i class="fas fa-edit"></i>';
+
+// Close the customizeBtn div element
+itemHTML += '</div>';
   itemHTML += '<div class="remove-btn" data-item-id="' + cartItem.id + '">';
   itemHTML +=  '<i class="fas fa-times"></i>';
-  itemHTML += '<span></span><span></span>';
+  itemHTML += '<span></span>';
+	  
+	  
+	  
+	
+	
+	   
   itemHTML += '</div></div>';
 
   cartSidebarScroll.append(itemHTML);
@@ -154,4 +200,6 @@ totalPriceElement.text(response.totalPrice + '€');
 } 
   
 });
+	
+	
 </script>

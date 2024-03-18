@@ -66,7 +66,7 @@
                                                 <a href="{{ route('restaurant.famille-options.create') }}" class="btn btn-primary">Ajouter Famille d'Option</a>
                                             </div>
                                             <div class="text-start">
-                                                {{ $familleOptions->links('vendor.pagination.bootstrap-5') }}
+                                               
                                             </div>
                                         </div>
                                     </div>
@@ -89,24 +89,32 @@
             </div>
         </div>
     </div>
-    <script>
-        function myFunction() {
-            var input, filter, table, tr, td, i, txtValue;
-            input = document.getElementById("myInput");
-            filter = input.value.toUpperCase();
-            table = document.getElementById("myTable");
-            tr = table.getElementsByTagName("tr");
-            for (i = 0; i < tr.length; i++) {
-                td = tr[i].getElementsByTagName("td")[1];
-                if (td) {
-                    txtValue = td.textContent || td.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
-                    }
+   <script>
+  function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var found = false; // Flag to check if the search term is found in any cell of the row
+        for (var j = 0; j < tr[i].cells.length; j++) { // Start from the second cell to skip the image cell
+            td = tr[i].cells[j];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break; // If found in any cell, break the inner loop
                 }
             }
         }
-    </script>
+        if (found) {
+            tr[i].style.display = ""; // Show the row
+        } else {
+            tr[i].style.display = "none"; // Hide the row
+        }
+    }
+}
+</script>
 @endsection

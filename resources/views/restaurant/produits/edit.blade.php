@@ -13,7 +13,6 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @include('restaurant.stat')
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
@@ -36,18 +35,19 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="description">Description:</label>
-                                                <input type="text" name="description" value="{{ $produit->description }}" required class="form-control">
+                                                <input type="text" name="description" value="{{ $produit->description }}"  class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <img id="produitImage" src="{{ asset($produit->url_image) }}" alt="Produit Image">
+                                                <img id="produitImage" src="{{ asset($produit->url_image) }}" alt="Produit Image" style="width:700px;height:400px;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="image">Image:</label>
-                                                <input type="file" name="image" accept="image/*" class="form-control">
+                                                <input type="file" name="image" accept="image/*" class="form-control" >
                                             </div>
                                             <div class="form-group">
                                                 <label for="prix">Prix:</label>
-                                                <input type="number" name="prix" value="{{ $produit->prix }}" required class="form-control">
+                                                <input type="text" name="prix" value="{{ $produit->prix }}" class="form-control"                                                 required pattern="^\d+(\.\d{1,2})?$" 			
+									           title="Veuillez entrer un nombre valide avec jusqu'à deux décimales (par exemple, 9,90)">
                                             </div>
                                             <div class="form-group">
                                                 <label for="categorie_id">Categorie:</label>
@@ -63,11 +63,55 @@
     <label for="famille_options"> Familles d'Options correspondants:</label>
     @foreach ($familleOptions as $familleOption)
             <div class="form-check">
-                <input type="checkbox" name="famille_options[]" class="form-check-input" value="{{ $familleOption->id }}" id="famille_option_{{ $familleOption->id }}" {{ in_array($familleOption->id, $produit->familleOptions->pluck('id')->toArray()) ? 'checked' : '' }}>
+                <input type="checkbox" name="famille_options[]" class="form-check-input" value="{{ $familleOption->id }}" id="famille_option_{{ $familleOption->id }}" {{ in_array($familleOption->id, $produit->familleOptions->pluck('id')->toArray()) ? 'checked' : '' }} onchange="updateChildTable()">
                 <label class="form-check-label" for="famille_option_{{ $familleOption->id }}">{{ $familleOption->nom_famille_option }}</label>
             </div>
         @endforeach
 </div>
+											<div class="table-responsive">
+                                   <h6 class="mb-4">Trie de familles d'options</h6> 
+                                    <table class="table table-bordered text-center" id="childProductsTable" style="border-radius: 10px; overflow: hidden;">
+                                        <input type="hidden" name="child_ids" id="childIdsInput" value="">
+                                        <input type="hidden" name="temporary_order" id="temporaryOrderInput" value="">
+                                            <thead>
+                                                <tr>
+                                                    <th>Position</th>
+                                                    <th>Désignation</th>
+                                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($currentOptions->sortBy('RowN') as $childProduct)
+                                               
+                                                <tr id="childProductRow_{{ $childProduct->id_familleoptions_rest  }}">
+                                                    <td>
+                                                        <button class="btn btn-link btn-sm" onclick="moveRow('{{ $childProduct->id_familleoptions_rest  }}', 'up')">&#9650;</button>
+                                                        {{ $temporaryOrder[$childProduct->id_familleoptions_rest ] }}
+                                                        <button class="btn btn-link btn-sm" onclick="moveRow('{{ $childProduct->id_familleoptions_rest  }}', 'down')">&#9660;</button>
+                                                    </td>
+                                                    <td>
+                                                        {{-- Check if the product exists before accessing its properties --}}
+                                                        @php  
+                                                            $childproduct = App\Models\familleOptionsRestaurant::find($childProduct->id_familleoptions_rest ); 
+                                                        @endphp
+
+                                                        {{ optional($childproduct)->nom_famille_option }} <br>
+                                                    
+                                                       
+                                                    </td>
+
+
+                                                   
+                                                    
+                                                   
+                                                    
+
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+										
                                            
                                             <div class="form-group">
                                                 <label for="status">Status</label>
@@ -154,5 +198,81 @@
 });
 
   </script>
-  
+   <script>
+                                var temporaryOrder = [];
+
+                                function moveRow(childProductId, direction) {
+                                    var currentRow = document.getElementById('childProductRow_' + childProductId);
+                                    var targetRow = direction === 'up' ? currentRow.previousElementSibling : currentRow.nextElementSibling;
+
+                                    if (!targetRow) {
+                                        return;
+                                    }
+
+                                    swapRows(currentRow, targetRow);
+                                    updateRowPositions();
+                                }
+
+                                function swapRows(row1, row2) {
+                                    var parent = row1.parentNode;
+                                    var clone1 = row1.cloneNode(true);
+                                    var clone2 = row2.cloneNode(true);
+                                    parent.replaceChild(clone1, row2);
+                                    parent.replaceChild(clone2, row1);
+                                }
+
+                                function updateRowPositions() {
+                                    var rows = document.querySelectorAll('#childProductsTable tbody tr');
+                                    rows.forEach(function (row, index) {
+                                        var childProductId = row.id.split('_')[1];
+                                        if (temporaryOrder[childProductId] !== null) {
+                                            temporaryOrder[childProductId] = index + 1;
+                                            row.children[0].innerHTML = `
+                                                <button class="btn btn-link btn-sm" onclick="moveRow('${childProductId}', 'up')" ${index === 0 ? 'disabled' : ''}>&#9650;</button>
+                                                ${temporaryOrder[childProductId] || ''}
+                                                <button class="btn btn-link btn-sm" onclick="moveRow('${childProductId}', 'down')" ${index === rows.length - 1 ? 'disabled' : ''}>&#9660;</button>
+                                            `;
+                                        }
+                                    });
+
+                                    temporaryOrder = Object.fromEntries(
+                                        Object.entries(temporaryOrder).filter(([key, value]) => value !== null)
+                                    );
+
+                                    document.getElementById('childIdsInput').value = JSON.stringify(Object.keys(temporaryOrder));
+                                    document.getElementById('temporaryOrderInput').value = JSON.stringify(temporaryOrder);
+                                }
+
+                                updateRowPositions();
+
+                           function updateChildTable() {
+    var selectedOptions = document.querySelectorAll('input[name="famille_options[]"]:checked');
+console.log('selectedOptions', selectedOptions);
+    var tableBody = document.getElementById('childProductsTable').querySelector('tbody');
+    tableBody.innerHTML = '';
+
+    selectedOptions.forEach(function (selectedOption, index) {
+        var newRow = document.createElement('tr');
+        var childProductId = selectedOption.value;
+
+        temporaryOrder[childProductId] = index + 1;
+
+        newRow.id = 'childProductRow_' + childProductId;
+        newRow.innerHTML = `
+            <td>
+                <button class="btn btn-link btn-sm" onclick="moveRow('${childProductId}', 'up')" ${index === 0 ? 'disabled' : ''}>&#9650;</button>
+                ${temporaryOrder[childProductId] || ''}
+                <button class="btn btn-link btn-sm" onclick="moveRow('${childProductId}', 'down')" ${index === selectedOptions.length - 1 ? 'disabled' : ''}>&#9660;</button>
+            </td>
+            <td>${selectedOption.nextElementSibling.textContent} <br></td>
+        `;
+
+        tableBody.appendChild(newRow);
+    });
+
+    updateRowPositions();
+}
+
+
+</script>
 @endsection

@@ -14,7 +14,6 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @include('restaurant.stat')
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">

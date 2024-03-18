@@ -77,7 +77,7 @@ class ClientStoreController extends Controller
         // Retrieve the cart items from the session
         $cartItems = session()->get('cartItems', []);
 
-        $allsubdomain = $subdomain . '.localhost:8000';
+        $allsubdomain = $subdomain . '.' . env('mainhost');
 
         // Create a new cart
         $cart = new CarteUser();
@@ -117,7 +117,9 @@ class ClientStoreController extends Controller
         $product = ProduitsRestaurants::find($productId);
 
         // Retrieve the product's famille options
-        $familleOptions = ProduitsFOptionsrestaurant::where('id_produit_rest', $productId)->get();
+    $familleOptions = ProduitsFOptionsrestaurant::where('id_produit_rest', $productId)
+    ->orderBy('RowN') // Add this line to sort by RowN
+    ->get();
 
         // Retrieve the options for each famille option
         foreach ($familleOptions as $familleOption) {
@@ -127,7 +129,7 @@ class ClientStoreController extends Controller
         foreach ($familleOptions as $familleOption) {
             $familleOption->famille_option = familleOptionsRestaurant::find($familleOption->id_familleoptions_rest);
         }
-
+//dd($product);
         // Return the product details as a JSON response
         return response()->json([
             'product' => $product,

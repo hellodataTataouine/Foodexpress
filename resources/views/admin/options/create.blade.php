@@ -45,7 +45,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="prix">Prix:</label>
-                                                <input type="number" name="prix" id="prix" class="form-control" required>
+                                                <input type="float" name="prix" id="prix" class="form-control" >
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary">Ajouter</button>

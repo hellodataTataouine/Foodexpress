@@ -15,7 +15,6 @@
         <div class="main-panel">
           <div class="content-wrapper">
 
-              @include('restaurant.stat')
             <div class="row ">
                 <div class="col-12 grid-margin">
                   <div class="card">
@@ -33,7 +32,7 @@
                         
                         <!-- Add the necessary form fields to edit the category -->
                         <div class="form-group">
-                            <label for="type_methode">Modifier PayPal Paramètres:</label>
+                            <label for="type_methode">Modifier Paramètres de paiement:</label>
                             @php
                             $paimentType = \App\Models\PaimentMethod::find($paimentMethod->paiment_id);
                         @endphp
@@ -43,11 +42,11 @@
                        
                         <!-- Additional fields for PayPal -->
                         <div class="form-group">
-                            <label for="paypal_client_id">Paypal ClientId:</label>
+                            <label for="paypal_client_id">ClientId:</label>
                             <input type="text" name="paypal_client_id" id="paypal_client_id" class="form-control" value="{{ $paimentMethod->client_id }}">
                         </div>
                         <div class="form-group">
-                            <label for="paypal_client_secret">Paypal ClientSecret:</label>
+                            <label for="paypal_client_secret">ClientSecret:</label>
                             <input type="text" name="paypal_client_secret" id="paypal_client_secret" class="form-control" value="{{ $paimentMethod->client_secret }}">
                         </div>
                      

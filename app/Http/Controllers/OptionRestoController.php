@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
+use App\Models\Client;
+use App\Models\ClientRestaurat;
+use App\Models\ProduitsRestaurants;
+use App\Models\Command;
+
 
 class OptionRestoController extends Controller
 {
@@ -20,8 +25,18 @@ class OptionRestoController extends Controller
         if ($user) {
         $restaurant = $user->restaurant;
  
-        $options = OptionsRestaurant::where('restaurant_id', $restaurant->id)->paginate(10);
-        return view('restaurant.options.index', compact('options'));
+        $options = OptionsRestaurant::where('restaurant_id', $restaurant->id)->get();
+			
+			// stats
+			
+		$clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
+		$produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
+		$commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
+		$NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
+            ->where('statut', 'Nouveau')
+            ->count();
+			
+        return view('restaurant.options.index', compact('options', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
         }else {
             // Handle the case when the user does not have a restaurant
             // For example, you can redirect to a page or show an error message
@@ -72,8 +87,9 @@ class OptionRestoController extends Controller
         $option->prix = $request->input('prix');
        $option->restaurant_id = $restaurant->id;
         $option->save();
-
-        return redirect()->route('restaurant.options.index')->with('success', 'Option ajoutée avec succès!');
+ $options = OptionsRestaurant::where('famille_option_id_rest', $request->input('famille_option_id'))->get();
+        return view('restaurant.options.index', compact('options'))->with('success', 'Option ajoutée avec succès!');
+        //return redirect()->route('restaurant.options.index')->with('success', 'Option ajoutée avec succès!');
   
     }else {
         // Handle the case when the user does not have a restaurant
@@ -103,18 +119,19 @@ class OptionRestoController extends Controller
     
     public function update(Request $request, OptionsRestaurant $option)
     {
-        $request->validate([
+       /* $request->validate([
             'famille_option_id_rest' => 'required',
             'nom_option' => 'required',
             'prix' => 'required|numeric',
-        ]);
+        ]);*/
     
         $option->famille_option_id_rest = $request->input('famille_option_id');
         $option->nom_option = $request->input('nom_option');
         $option->prix = $request->input('prix');
         $option->save();
-    
-        return redirect()->route('restaurant.options.index')->with('success', 'Option modifiée avec succès!');
+    $options = OptionsRestaurant::where('famille_option_id_rest', $request->input('famille_option_id'))->get();
+        return view('restaurant.options.index', compact('options'))->with('success', 'Option modifiée avec succès!');
+       // return redirect()->back()->with('success', 'Option modifiée avec succès!');
     }
     
 

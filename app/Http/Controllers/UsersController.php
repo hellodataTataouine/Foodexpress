@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Hash;
 
 class UsersController extends Controller
 {
@@ -93,7 +93,10 @@ class UsersController extends Controller
         $user->restaurant_id = $request->input('restaurant_id');
         $user->name = $request->input('name');
         $user->email = $request->input('email');
-        $user->password = $request->input('password');
+		
+        $user->password = Hash::make($request->input('password'));
+		 
+		  $user->is_admin = 0;
         // Check if a new password is provided
        /* if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));

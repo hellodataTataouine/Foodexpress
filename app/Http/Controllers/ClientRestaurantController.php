@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\ClientRestaurat;
 
+
+
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,6 +22,9 @@ class ClientRestaurantController  extends Controller
         $restaurant = $user->restaurant;
 
         $clients = ClientRestaurat::where('restaurant_id', $restaurant->id)->paginate(10);
+		
+
+
         
         return view('restaurant.clients.index', compact('clients'));}
     }
@@ -31,24 +36,34 @@ class ClientRestaurantController  extends Controller
     }
 
     // Store a newly created resource in storage.
-    public function store(Request $request)
-    {
+   public function store(Request $request)
+{
+    $userId = Auth::id();
+    $user = User::find($userId);
+    if ($user) {
+        $restaurant = $user->restaurant;
+
         $validatedData = $request->validate([
             'FirstName' => 'required',
             'LastName' => 'required',
             'ville' => 'required',
             'Address' => 'required',
-            'postalcode' => 'required',
+            'codepostal' => 'required',
             'phoneNum1' => 'required',
-            'Email' => 'required|email|unique:clientRestaurant,Email',
+            'email' => 'required|email|unique:clientRestaurant,email',
             'password' => 'required|min:6',
         ]);
-        $validatedData['password'] = Hash::make($request->input('password'));
-ClientRestaurat::create($validatedData);
+		
 
-      
-        return redirect()->route('restaurant.clients.index')->with('success', 'restaurant ajouté avec succès.');
+        $validatedData['password'] = Hash::make($request->input('password'));
+        $validatedData['restaurant_id'] = $restaurant->id;
+//dd($validatedData);
+        ClientRestaurat::create($validatedData);
+
+        return redirect()->route('restaurant.clients.index')->with('success', 'Client ajouté avec succès.');
     }
+}
+
 
     // Display the specified resource.
     public function show(ClientRestaurat $client)

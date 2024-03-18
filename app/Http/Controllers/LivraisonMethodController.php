@@ -53,6 +53,11 @@ class LivraisonMethodController extends Controller
     public function destroy($id)
     {
         $livraison = LivraisonMethod::findOrFail($id);
+		  $Livraisonsrestaurants = LivraisonRestaurant::where('livraison_id', $id)->get();
+        foreach( $Livraisonsrestaurants as $Livraisonsrestaurant ){
+          $Livraisonsrestaurant->delete(); 
+        }
+
         $livraison->delete();
         return redirect()->route('admin.livraison.index')->with('success', 'livraison supprimée avec succès.');
         // Redirect or return a response

@@ -50,7 +50,7 @@
                                         
                                             <div class="form-group">
                                                 <label for="prix">Prix:</label>
-                                                <input type="number" name="prix" id="prix" class="form-control" value="{{ $option->prix }}" required>
+                                                <input type="float" name="prix" id="prix" class="form-control" value="{{ $option->prix }}">
                                             </div>
                                         
                                             <div class="form-group">

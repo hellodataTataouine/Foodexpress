@@ -21,7 +21,7 @@
             </div>
           </div>
           <a href="#" id="profile-dropdown" data-toggle="dropdown"><i class="mdi mdi-dots-vertical"></i></a>
-          <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
+         <!-- <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list" aria-labelledby="profile-dropdown">
             <a href="#" class="dropdown-item preview-item">
               <div class="preview-thumbnail">
                 <div class="preview-icon bg-dark rounded-circle">
@@ -54,7 +54,7 @@
                 <p class="preview-subject ellipsis mb-1 text-small">To-do list</p>
               </div>
             </a>
-          </div>
+          </div> -->
         </div>
       </li>
       <li class="nav-item nav-category">
@@ -68,22 +68,7 @@
           <span class="menu-title">Tableau de bord</span>
         </a>
       </li>
-      <li class="nav-item menu-items">
-        <a class="nav-link" data-toggle="collapse" href="#ui-Utilisateurs" aria-expanded="false" aria-controls="ui-Utilisateurs">
-          <span class="menu-icon">
-            <i class="mdi mdi-laptop"></i>
-          </span>
-          <span class="menu-title">Restaurant</span>
-          <i class="menu-arrow"></i>
-        </a>
-        <div class="collapse" id="ui-Utilisateurs">
-          <ul class="nav flex-column sub-menu">
-            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.restaurant.edit') }}">Restaurant</a></li>
-           
-
-          </ul>
-        </div>
-      </li>
+     
 
       <li class="nav-item menu-items home clients" id="u-Restaurants">
         <a class="nav-link" data-toggle="collapse" href="#ui-Restaurants" aria-expanded="false" aria-controls="ui-Restaurants">
@@ -99,6 +84,12 @@
           </ul>
         </div>
       </li>
+      @php
+    $reservation = Auth::user()->restaurant->reservation_table;
+@endphp
+
+@if($reservation == 1)
+
       <li class="nav-item menu-items">
         <a class="nav-link" data-toggle="collapse" href="#ui-Utilisateurs" aria-expanded="false" aria-controls="ui-Utilisateurs">
           <span class="menu-icon">
@@ -109,8 +100,10 @@
         </a>
         <div class="collapse" id="ui-Utilisateurs">
           <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.tables.index') }}">Liste tables </a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.tables.create') }}">Ajouter table</a></li>
             <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.resevation.index') }}">Liste Reservation </a></li>
-            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.resevation.create') }}">Ajouter Client</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.resevation.create') }}">Ajouter Reservation</a></li>
 
           </ul>
         </div>
@@ -131,7 +124,7 @@
           </ul>
         </div>
       </li>
-      
+      @endif
       <li class="nav-item menu-items categories">
         <a class="nav-link" data-toggle="collapse" href="#ui-Categories" aria-expanded="false" aria-controls="ui-Categories">
           <span class="menu-icon">
@@ -175,19 +168,35 @@
           </ul>
         </div>
       </li>
+		<li class="nav-item menu-items client">
+        <a class="nav-link" data-toggle="collapse" href="#ui-clients" aria-expanded="false" aria-controls="ui-clients">
+          <span class="menu-icon">
+            <i class="mdi mdi-folder"></i>
+          </span>
+          <span class="menu-title">Clients</span>
+          <i class="menu-arrow"></i>
+        </a>
+
+        <div class="collapse" id="ui-clients">
+        <ul class="nav flex-column sub-menu">
+         
+          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.clients.index') }}">Liste  de Clients</a></li>
+          </ul>
+        </div>
+    </li>
       <li class="nav-item menu-items paiment">
         <a class="nav-link" data-toggle="collapse" href="#ui-paiment" aria-expanded="false" aria-controls="ui-paiment">
           <span class="menu-icon">
             <i class="mdi mdi-currency-usd"></i>
           </span>
-          <span class="menu-title">Mode De Paiment</span>
+          <span class="menu-title">Méthodes de Paiments</span>
           <i class="menu-arrow"></i>
         </a>
 
         <div class="collapse" id="ui-paiment">
         <ul class="nav flex-column sub-menu">
          
-          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.index') }}">List  Méthodes Paiements</a></li>
+          <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.index') }}">Liste de  Méthodes Paiements</a></li>
           <li class="nav-item"><a class="nav-link" href="{{ route('restaurant.paiment.create') }}">Ajouter  Méthode Paiement</a></li>
         </ul>
         </div>
@@ -197,12 +206,12 @@
           <span class="menu-icon">
             <i class="mdi mdi-speedometer"></i>
           </span>
-          <span class="menu-title">Mode Livraison</span>
+          <span class="menu-title">Méthodes de Livraisons</span>
           <i class="menu-arrow"></i>
         </a>
         <div class="collapse" id="ui-livraison">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.index') }}">Liste Méthode Livraison</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.index') }}">Liste de Méthode Livraisons</a></li>
           <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.create') }}">Ajouter Méthode Livraison</a></li>
           </ul>
         </div>
@@ -215,7 +224,14 @@
           <span class="menu-title">Paramètres</span>
           <i class="menu-arrow"></i>
         </a>
-        <div class="collapse" id="auth">
+		   <div class="collapse" id="auth">
+          <ul class="nav flex-column sub-menu">
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.restaurant.edit') }}">Modifer Restaurant</a></li>
+            <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.profile.edit') }}">Modifer Profile</a></li>
+
+          </ul>
+        </div>
+    <!--    <div class="collapse" id="auth">
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"> <a class="nav-link" href="pages/samples/blank-page.html"> Blank Page </a></li>
             <li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
@@ -223,7 +239,7 @@
             <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Login </a></li>
             <li class="nav-item"> <a class="nav-link" href="pages/samples/register.html"> Register </a></li>
           </ul>
-        </div>
+		  </div>   -->
       </li>
     </ul>
   </nav>

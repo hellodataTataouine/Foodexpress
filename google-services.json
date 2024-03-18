@@ -1,26 +1,36 @@
 {
   "project_info": {
-    "project_number": "541824085323",
-    "project_id": "notification-hd",
-    "storage_bucket": "notification-hd.appspot.com"
+    "project_number": "933777023998",
+    "project_id": "foodexpress-399910",
+    "storage_bucket": "foodexpress-399910.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:541824085323:android:0155477476c7eace27ccce",
+        "mobilesdk_app_id": "1:933777023998:android:92d5eada2e48163efd56af",
         "android_client_info": {
-          "package_name": "com.example.orders_terminal"
+          "package_name": "com.foodexpress"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "933777023998-4t7m90h16kogqnnd6tnu359nnfkqlgkq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
-          "current_key": "AIzaSyBlY5VxVzY41QOHaJV6uTG3ElmziZkq3b8"
+          "current_key": "AIzaSyA6k9gd632EXOjy5fNA75Klpa0Sr-piEcM"
         }
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933777023998-4t7m90h16kogqnnd6tnu359nnfkqlgkq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

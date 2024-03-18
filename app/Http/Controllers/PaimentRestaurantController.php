@@ -11,16 +11,34 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Psy\Readline\Hoa\Console;
 
+use App\Models\ClientRestaurat;
+use App\Models\ProduitsRestaurants;
+use App\Models\Command;
+
 class PaimentRestaurantController extends Controller
 {
 
     public function index()
     {
+		 $userId = Auth::id();
+    $user = User::find($userId);
+    if ($user) {
+    $restaurant = $user->restaurant;
         // Retrieve a list of PaimentRestaurants
-        $paimentMethods = PaimentRestaurant::paginate(10);
+        $paimentMethods = PaimentRestaurant::where('restaurant_id', $restaurant->id)->paginate(10);
+		
+		
+			// stats
+			
+		$clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
+		$produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
+		$commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
+		$NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
+            ->where('statut', 'Nouveau')
+            ->count();
 
-        return view('restaurant.paiment.index', compact('paimentMethods'));
-    }
+        return view('restaurant.paiment.index', compact('paimentMethods', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
+    }}
 
     public function create()
     {

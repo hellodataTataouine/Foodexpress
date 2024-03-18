@@ -15,7 +15,6 @@
         <div class="main-panel">
           <div class="content-wrapper">
 
-              @include('restaurant.stat')
             <div class="row ">
                 <div class="col-12 grid-margin">
                   <div class="card">
@@ -29,18 +28,20 @@
     <table id="myTable" class="table" style="width: 100%">
                                              <thead>
             <tr>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Country</th>
-                <th>Address</th>
-                <th>Postal Code</th>
-                <th>Phone Number </th>
-                <th>Email</th>
-                <th>Actions</th>
+             <th>Prénom</th>
+             <th>Nom de famille</th>
+             <th>Pays</th>
+             <th>Adresse</th>
+             <th>Code postal</th>
+              <th>Numéro de téléphone</th>
+             <th>Email</th>
+				  <th>Date d'inscription</th>
+             <th>Actions</th>
+
             </tr>
         </thead>
         <tbody>
-            @foreach($clients as $client)
+            @foreach($clients ->sortByDesc('created_at') as $client)
                 <tr>
                     <td>{{ $client->FirstName }}</td>
                     <td>{{ $client->LastName }}</td>
@@ -49,15 +50,17 @@
                     <td>{{ $client->codepostal }}</td>
                     <td>{{ $client->phoneNum1 }}</td>
                     <td>{{ $client->email }}</td>
+					 <td>{{ $client->created_at }}</td>
                     <td>
-                        <!--<a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">View</a>-->
-                        <a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Edit</a>
-                        <form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this client?')">Delete</button>
-                        </form>
-                    </td>
+                      <!--<a href="{{ route('clients.show', $client->id) }}" class="btn btn-info">Voir</a>-->
+<a href="{{ route('clients.edit', $client->id) }}" class="btn btn-primary">Modifier</a>
+<form action="{{ route('clients.destroy', $client->id) }}" method="POST" style="display:inline">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce client ?')">Supprimer</button>
+</form>
+</td>
+
                 </tr>
             @endforeach
         </tbody>

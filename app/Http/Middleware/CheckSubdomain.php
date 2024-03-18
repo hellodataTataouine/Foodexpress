@@ -8,10 +8,11 @@ class CheckSubdomain
 {
     public function handle($request, Closure $next)
     {
+        
         $subdomain = $request->getHost();
         $subdomain = preg_replace('/:\d+$/', '', $subdomain).':8000'; 
         // Remove the port number if present
-        if($subdomain == 'localhost:8000'){
+        if($subdomain == env('mainhost')){
             $client = 1;
         } else {
             // Check if the subdomain exists in the clients table
@@ -25,6 +26,8 @@ class CheckSubdomain
         }
         // Set the client model instance on the request object for later use if needed
         $request->client = $client;
+      //  dd($next($request));
         return $next($request);
+        
     }
 }

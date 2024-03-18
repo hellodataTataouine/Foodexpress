@@ -36,7 +36,6 @@ class FamilleOptionController extends Controller
         $familleOption = new FamilleOption();
         $familleOption->nom_famille_option = $request->input('nom_famille_option');
         $familleOption->type = $request->input('type');
-        $familleOption->owner_id = Auth::id();
         $familleOption->save();
 
         return redirect()->route('admin.famille-options.index')->with('success', 'la famille doption a été ajouté avec succès!');
@@ -89,7 +88,19 @@ class FamilleOptionController extends Controller
         if (!$familleOption) {
             return redirect()->back()->with('error', 'Famille Option not found.');
         }
+          $options = Option::where('famille_option_id', $id)->get();
+        foreach( $options as $option ){
+          $option->delete(); 
+        }
+
+        // Delete the famille option
+        $familleOption->delete();
+        $familleOptionRestaurant = ProduitsFamilleOption::where('famille_option_id', $id)->get();
+                   
         
+        foreach ($familleOptionRestaurant as $familleOptionproduit) {
+            $familleOptionproduit->delete();
+            }
         // Delete the famille option
         $familleOption->delete();
         

@@ -10,6 +10,10 @@ use App\Models\Client;
 use Auth;
 use Illuminate\Http\Request;
 
+use App\Models\ClientRestaurat;
+use App\Models\ProduitsRestaurants;
+use App\Models\Command;
+
 class LivraisonRestaurantController extends Controller
 {
 
@@ -21,7 +25,18 @@ class LivraisonRestaurantController extends Controller
     $restaurant = $user->restaurant;
     $livraisonMethods  = LivraisonRestaurant::where('restaurant_id', $restaurant->id)
     ->paginate(10);
-    return view('restaurant.livraison.index', compact('livraisonMethods'));
+		
+		// stats
+			
+		$clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
+		$produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
+		$commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
+		$NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
+            ->where('statut', 'Nouveau')
+            ->count();
+
+	
+    return view('restaurant.livraison.index', compact('livraisonMethods', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
 }else {
     // Handle the case when the user does not have a restaurant
     // For example, you can redirect to a page or show an error message

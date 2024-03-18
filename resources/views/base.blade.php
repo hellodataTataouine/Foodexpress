@@ -18,6 +18,8 @@
         <link rel="stylesheet" href="{{ asset('vendors/owl-carousel-2/owl.theme.default.min.css') }}">      
         <link rel="stylesheet" href="{{ asset('css/style.css') }}">
         <link rel="shortcut icon" href="{{ asset('images/favicon.png') }}" />
+		          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
       </head>

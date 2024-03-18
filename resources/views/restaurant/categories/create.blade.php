@@ -13,7 +13,6 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @include('restaurant.stat')
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
@@ -38,7 +37,7 @@
                                         <table class="table" id="myTable">
                                             <thead>
                                             <tr>
-                                                <th>ID</th>
+                                              
                                                 <th>Nom</th>
                                                 <th>Date de Création</th>
                                                 <th>Action</th>
@@ -47,7 +46,7 @@
                                             <tbody>
                                             @foreach ($categories as $category)
                                                 <tr data-category-id="{{ $category->id }}">
-                                                    <td>{{ $category->id }}</td>
+                                                 
                                                     <td class="category-name"
                                                         value="{{ $category->name }}">{{ $category->name }}</td>
                                                     <td>{{ $category->date_creation }}</td>
@@ -67,7 +66,7 @@
                                         <div class="pagination justify-content-between">
                                             <div class="text-end">
                                             <button type="button" class="btn btn-primary btn-sm"
-                                                                onclick="openModalAddcategory()">
+                                                               >
                                                                 Ajouter une catégorie 
                                                         </button>
                                                     </div>
@@ -124,24 +123,62 @@
                     <h5 class="modal-title" id="categoryModalLabel">Ajouter une categorie spécifique</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <form action="{{ route('restaurant.categories.specifique.create') }}" method="POST" enctype="multipart/form-data" id="addProduitForm">
                 <div class="modal-body">
                     <!-- Input field for "nom de categorie" -->
                     <div class="form-group">
                         <label for="categoryName">Nom de categorie:</label>
-                        <input type="text" class="form-control" id="categoryName" placeholder="Nom de categorie">
+                        <input type="text" class="form-control" id="categoryName" placeholder="Nom de categorie" required>
                     </div>
+                    <div class="form-group">
+                        <label for="image">Image:</label>
+                        <input type="file" name="image" class="form-control" 
+                            id="imageInput" accept="image/*" onchange="validateImage(this)">
+						 
+                        <div class="image-preview" ></div>
+                                                               
+												 <small class="text-muted">Taille maximale du fichier : 2 Mo, Dimensions minimales : 200x200 pixels</small>
+                                            </div>
+						  @if ($errors->has('image'))
+    <div class="alert alert-danger">
+        {{ $errors->first('image') }}
+    </div>
+@endif
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary customizeBtn" onclick="saveCategory()">Enregistrer</button>
+                    <button type="button" class="btn btn-primary customizeBtn" >Enregistrer</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+    <script>
+        $(document).ready(function () {
+            // Listen for changes in the file input
+            $('#imageInput').on('change', function (e) {
+                var files = e.target.files;
+                var imagePreview = $('.image-preview');
+                imagePreview.empty();
+
+                // Loop through the selected files and create an image preview for each
+                for (var i = 0; i < files.length; i++) {
+                    var file = files[i];
+                    var reader = new FileReader();
+
+                    reader.onload = function (e) {
+                        var image = $('<img style="width:700px;height:400px;">').attr('src', e.target.result).addClass('img-fluid');
+                        imagePreview.append(image);
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
 
     <script>
         function myFunction() {
@@ -264,30 +301,41 @@
     function saveCategory() {
     // Retrieve the category name from the input field
     var categoryName = document.getElementById("categoryName").value;
-
+    var imageData = new FormData();
+    var imageInput = $('#imageInput')[0].files[0];
+    imageData.append('categoryName', categoryName);
+    imageData.append('image', imageInput);
     $.ajax({
         url: '{{ route('restaurant.categories.specifique.create') }}',
         method: 'POST',
-        data: {
-            categoryName: categoryName,
-            _token: '{{ csrf_token() }}'
-        },
-        success: function(response) {
+      
+        data: imageData,
+                headers: {
+                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                },
+        contentType: false,
+        processData: false,
+        cache: false,
+        success: function (response) {
             // Handle the success response from the server
-            // You can update the page, show a success message, or perform other actions here
-            var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
-            categoryModal.hide();
+            //var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
+           // categoryModal.hide();
+		 $('#specifiquecategoryModal').modal('hide');
+		// window.location.href = '{{ route('restaurant.categories.index') }}';
+		  var successMessage = 'catégorie ajoutée avec succès!';
+        var encodedMessage = encodeURIComponent(successMessage);
+        var redirectUrl = '{{ route('restaurant.categories.index') }}?success=' + encodedMessage;
+		  window.location.href = redirectUrl;
+       
         },
-        error: function(error) {
+        error: function (error) {
             // Handle the error response from the server
             console.error('Error adding category:', error);
-            // Show an error message or handle the error gracefully
-            var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
-            categoryModal.hide();
+			  $('#specifiquecategoryModal').modal('hide');
+           // var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
+           // categoryModal.hide();
         }
     });
-
-    // Close the modal
 }
 
     });
@@ -295,4 +343,30 @@
 
       
     </script>
+<script>
+    function validateImage(input) {
+        const file = input.files[0];
+
+        // Vérifier la taille du fichier (en octets)
+        const maxSize = 2 * 1024 * 1024; // 2 Mo
+        if (file.size > maxSize) {
+            alert('La taille du fichier dépasse 2 Mo. Veuillez choisir un fichier plus petit.');
+            input.value = ''; // Effacer le champ de fichier
+            return;
+        }
+
+        // Vérifier les dimensions de l'image
+        const largeurMin = 200;
+        const hauteurMin = 200;
+        const image = new Image();
+        image.src = URL.createObjectURL(file);
+
+        image.onload = function () {
+            if (image.width < largeurMin || image.height < hauteurMin) {
+                alert('Les dimensions minimales sont de 200x200 pixels. Veuillez choisir une image plus grande.');
+                input.value = ''; // Effacer le champ de fichier
+            }
+        };
+    }
+</script>
 @endsection

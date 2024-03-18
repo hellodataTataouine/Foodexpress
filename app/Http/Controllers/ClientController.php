@@ -21,8 +21,11 @@ class ClientController extends BaseController
 
     public function index($subdomain)
     {
-        $client = Client::where('url_platform', strtolower($subdomain . '.localhost:8000'))->firstOrFail();
-        if ($client->status != 1) {
+       
+        $client = Client::where('url_platform', strtolower($subdomain . '.'  . env('mainhost')))->firstOrFail();
+      
+      
+       if ($client->status != 1) {
             abort(404);
         }
         $clients = Client::where('url_platform', $client->url_platform)->get();
@@ -106,7 +109,7 @@ class ClientController extends BaseController
         'phoneNum2' => $request->phoneNum2,
         'localisation' => $request->localisation,
         'logo' => $imageUrl,
-        'url_platform' => $nameWithoutSpaces . '.localhost:8000',
+        'url_platform' => $nameWithoutSpaces . '.' . env('mainhost'),
         'date' => date('Y-m-d H:i:s'),
         'status' => '1',
         'N_Siret' => $request->N_Siret,
@@ -269,7 +272,7 @@ class ClientController extends BaseController
     // Generate a unique URL based on the given name
     private function generateUniqueUrl($name)
     {
-        $baseDomain = 'localhost:8000';
+        $baseDomain = env('mainhost');
         $url = strtolower(str_replace(' ', '', $name));
         $suffix = '';
         $counter = 1;

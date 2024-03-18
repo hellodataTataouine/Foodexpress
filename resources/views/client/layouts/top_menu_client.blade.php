@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HelloData</title>
+  <title>foodexpress.site</title>
 
   <!-- Vendor Stylesheets -->
   <link rel="stylesheet" href="{{ asset('assetsClients/css/plugins/bootstrap.min.css') }}">
@@ -24,8 +24,25 @@
 </head>
 
 <body> 
+	@php
+    $livraisonExists = false; // Flag to check if Livraison method exists
+@endphp
 
-  @include('client.layouts.popup_client')
+@foreach ($livraisons as $livraison)
+    @if ($livraison)
+        @php
+            $livraisonType = \App\Models\Livraison::find($livraison->livraison_id);
+            if ($livraisonType->methode == "Livraison") {
+                $livraisonExists = true; // Set flag if Livraison method exists
+            }
+        @endphp
+    @endif
+@endforeach
+
+@if ($livraisonExists)
+    @include('client.layouts.popup_client')
+@endif      
+
   <!-- Preloader Start -->
   <div class="ct-preloader">
     <div class="ct-preloader-inner">

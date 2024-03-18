@@ -19,7 +19,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,600;1,700&family=Amatic+SC:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
 
-  <link href="{{ asset('assetsClient/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
+<link href="{{ asset('assetsClients/css/plugins/bootstrap.min.css') }}" rel="stylesheet">
   <link href="{{ asset('assetsClient/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
   <link href="{{ asset('assetsClient/vendor/aos/aos.css') }}" rel="stylesheet">
   <link href="{{ asset('assetsClient/vendor/glightbox/css/glightbox.min.css') }}" rel="stylesheet">
@@ -45,6 +45,9 @@
         @auth
         <a class="btn-book-a-table" href="{{ url('/store') }}">Store</a>
         <a class="btn-book-a-table" href="{{ url('/panier') }}">Panier</a>
+
+        <a class="btn-book-a-table" href="{{ route('profile.edit') }}">Modifier Profil</a>
+
         <form action="{{ route('client.logout') }}" method="POST">
             @csrf
             <button type="submit" class="btn-book-a-table">Déconnexion</button>

@@ -13,53 +13,64 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @include('restaurant.stat')
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
                                 <div class="card-body">
                                    
-                                    <h1>Add Client</h1>
-    <form action="{{ route('clients.store') }}" method="POST">
-        @csrf
-        <div class="form-group">
-            <label for="FirstName">First Name</label>
-            <input type="text" name="FirstName" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="LastName">Last Name</label>
-            <input type="text" name="LastName" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="ville">Ville</label>
-            <input type="text" name="ville" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="Address">Address</label>
-            <input type="text" name="Address" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="postalcode">Postal Code</label>
-            <input type="text" name="postalcode" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="phoneNum1">Phone Number 1</label>
-            <input type="text" name="phoneNum1" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="phoneNum2">Phone Number 2</label>
-            <input type="text" name="phoneNum2" class="form-control" >
-        </div>
-        <div class="form-group">
-            <label for="Email">Email</label>
-            <input type="email" name="Email" class="form-control" required>
-        </div>
-        <div class="form-group">
-            <label for="Password">Password</label>
-            <input type="password" name="password" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Add</button>
-    </form>
+<style>
+    .required {
+        color: red;
+    }
+</style>
+
+<h1>Ajouter un client</h1>
+<form action="{{ route('clients.store') }}" method="POST">
+    @csrf
+    <div class="form-group">
+        <label for="FirstName">Prénom <span class="required">*</span></label>
+        <input type="text" name="FirstName" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="LastName">Nom de famille <span class="required">*</span></label>
+        <input type="text" name="LastName" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="ville">Ville <span class="required">*</span></label>
+        <input type="text" name="ville" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="Address">Adresse <span class="required">*</span></label>
+        <input type="text" name="Address" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="codepostal">Code postal <span class="required">*</span></label>
+        <input type="text" name="codepostal" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="phoneNum1">Numéro de téléphone 1 <span class="required">*</span></label>
+        <input type="text" name="phoneNum1" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="phoneNum2">Numéro de téléphone 2</label>
+        <input type="text" name="phoneNum2" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="email">Email <span class="required">*</span></label>
+        <input type="email" name="email" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="Password">Mot de passe <span class="required">*</span></label>
+        <input type="password" name="password" class="form-control" required>
+    </div>
+		<p>Les champs marqués par <span class="required">*</span> sont obligatoires.</p>
+    <button type="submit" class="btn btn-primary">Ajouter</button>
+</form>
+								
+
+
+
+
 
 
 

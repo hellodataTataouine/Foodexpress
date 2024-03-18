@@ -1,19 +1,45 @@
 <style>
+    ul.product-list-dark {
+        list-style-type: none;
+        padding: 0;
+    }
 
- ul.product-list-dark {
-    list-style-type: none;
-    padding: 0;
-}
+    ul.product-list-dark li {
+        margin-bottom: 10px;
+        padding: 10px;
+        background-color: #ffffff;
+        border: 1px solid #555;
+        color: #000000;
+    }
 
-ul.product-list-dark li {
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #ffffff; /* Dark background color */
-    border: 1px solid #555; /* Dark border color */
-    color: #000000; /* Light text color */
-    
-}
+    .options {
+        white-space: pre-wrap;
+        word-wrap: break-word;
+    }
+	 /* Add CSS styles to create a strong border outline for table rows */
+    /* Add CSS styles to create a strong border outline for table rows */
+    table.table {
+        border-collapse: collapse;
+        width: 100%;
+    }
 
+    table.table th, table.table td {
+		
+        padding: 8px;
+    }
+	
+
+    table.table tr {
+        border: 2px solid #000; /* You can adjust the border style and color as needed */
+    }
+
+    table.table th {
+        background-color: #f2f2f2; /* Optional background color for header cells */
+    }
+
+    table.table tr:hover {
+        background-color: #e0e0e0; /* Optional background color for hover effect */
+    }
 </style>
 
 @extends('base')
@@ -40,9 +66,9 @@ ul.product-list-dark li {
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title">All Commandes</h4>
+                      <h4 class="card-title">Tous Commandes</h4>
                       <div class="mb-3">
-                        <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                        <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Rechercher.." title="Tapez un nom">
                     </div>
                       <div class="table-responsive"  >
 
@@ -57,43 +83,50 @@ ul.product-list-dark li {
                             
                               <th class="col-md-1"> Mode De Paiement </th>
                               <th class="col-md-1"> Statut  </th>
+								  <th class="col-md-1"> Action </th>
                              
                             </tr>
                           </thead>
                           <tbody>
-                          @forelse ($commandes as $commande)
+                       @forelse($commandes->sortByDesc('id') as $commande)
             <tr>
                 
-                <td>{{ $commande->clientfirstname }}</td>
-                <td>
-                    <!-- Nested loop for products and their options -->
-                    <ul class="product-list-dark">
-                      @foreach ($commande->cartDetails as $cartDetail)
-                          <li>
-                            @if($cartDetail->produit != null)
-                              <strong> {{ $cartDetail->produit->nom_produit }} :</strong>
-                              <strong>Options:</strong>
-                              {{ $cartDetail->optionsdetails }}
-                              @endif
-                             
-                        
-                          </li>
-                      @endforeach
-                  </ul>
-                </td>
+                <td>{{ $commande->clientfirstname }} {{ $commande->clientlastname }}</td>
+<td style="max-width: 200px;">
+    <!-- Nested loop for products and their options -->
+    <ul class="product-list-dark">
+        @foreach ($commande->cartDetails as $cartDetail)
+            <li>
+                @if($cartDetail->produit != null)
+                    <strong>{{ $cartDetail->qte_produit }} × {{ $cartDetail->produit->nom_produit }}</strong> 
+				 <span class="options">
+					 @if($cartDetail->optionsdetails != null)
+                 <strong>Options:</strong>
+                   
+                        {{ $cartDetail->optionsdetails }}
+                    </span>
+				@endif
+                @endif
+            </li>
+        @endforeach
+    </ul>
+</td>
+
                 <td>{{ $commande->prix_total }}</td>
-                @if ($commande->mode_livraison == 1)
-                    <td>Sur place</td>
+                @if ($commande->mode_livraison == 11)
+                    <td>Livraison</td>
                 @else
-                    <td>A domicile</td>
+                    <td>Click & Collect</td>
                 @endif
 
               
                 @if ($commande->methode_paiement == 1)
-                    <td>Espece</td>
-                @else
+                    <td>PayPal</td>
+                @elseif ($commande->methode_paiement == 9)
                     <td>Carte Bancaire</td>
-                @endif
+				@else
+				 <td>Sur Place</td>
+				   @endif
 
                 @if ($commande->statut == "Nouveau")
                 <td><button type="button" class="btn btn-primary status-button" data-command-id="{{ $commande->id }}">Nouveau</button></td>
@@ -108,7 +141,16 @@ ul.product-list-dark li {
                 @else
                 <td><button type="button" class="btn btn-primary status-button" data-command-id="{{ $commande->id }}">Nouveau</button></td>
             @endif
-            
+				<td><form
+                                                                action="{{ route('restaurant.commandes.destroy', $commande->id) }}"
+                                                                method="POST" style="margin-left:15px;">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit"
+                                                                    class="btn btn-danger col" onclick="return confirm('Voulez-vous vraiment supprimer cette commande ?')">Supprimer</button>
+                                                            </form>
+                           </td>
+
 
             <!-- Nested loop for products and their options-->
             <!-- Nested loop for products and their options-->
@@ -116,19 +158,13 @@ ul.product-list-dark li {
         @empty
             <!-- This will be displayed if $commandes is empty -->
             <tr>
-                <td colspan="7">No commands found.</td>
+                <td colspan="7">Aucune commande trouvée.</td>
             </tr>
         @endforelse
                               <tr><td colspan="10"></td></tr>
                           </tbody>
                         </table>
-                        <div class="pagination justify-content-between">
-                          <div class="text-end">
-                          </div>
-                          <div class="text-start">
-                            {{ $commandes->links('vendor.pagination.bootstrap-5') }}
-                          </div>
-                        </div>
+                   
                       </div>
                     </div>
                   </div>
@@ -233,7 +269,13 @@ ul.product-list-dark li {
           console.error('Error updating status:', error);
           // Close the modal
           $('#statusModal').modal('hide');
-           
+           if (error.responseJSON && error.responseJSON.message) {
+            // Display the error message from the server if available
+            alert('Error: ' + error.responseJSON.message);
+        } else {
+            // Display a generic error message if no specific message is available
+            alert('An error occurred while updating the status.');
+        }
             
         },
       });
@@ -243,25 +285,50 @@ ul.product-list-dark li {
 
  
 </script>
-       <script>
+<script>
+    function myFunction() {
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
 
-        function myFunction() {
-          var input, filter, table, tr, td, i, txtValue;
-          input = document.getElementById("myInput");
-          filter = input.value.toUpperCase();
-          table = document.getElementById("myTable");
-          tr = table.getElementsByTagName("tr");
-          for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[1];
+    for (i = 0; i < tr.length; i++) {
+        var found = false; // Flag to check if the search term is found in any cell of the row
+        for (var j = 0; j < tr[i].cells.length; j++) { // Start from the second cell to skip the image cell
+            td = tr[i].cells[j];
             if (td) {
-              txtValue = td.textContent || td.innerText;
-              if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                tr[i].style.display = "";
-              } else {
-                tr[i].style.display = "none";
-              }
-            }       
-          }
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break; // If found in any cell, break the inner loop
+                }
+            }
         }
-            </script>
+        if (found) {
+            tr[i].style.display = ""; // Show the row
+        } else {
+            tr[i].style.display = "none"; // Hide the row
+        }
+    }
+}
+
+    $(document).ready(function () {
+        $(".status-button").on("click", function () {
+            var commandId = $(this).data("command-id");
+            $("#statusForm").attr("data-command-id", commandId);
+            $("#statusModal").modal("show");
+        });
+
+        $("#changeStatusBtn").on("click", function () {
+            var newStatus = $("#newStatus").val();
+            var commandId = $("#statusForm").data("command-id");
+
+            // You can add AJAX code to update the status here
+
+            $("#statusModal").modal("hide");
+        });
+    });
+</script>
+
      @endsection

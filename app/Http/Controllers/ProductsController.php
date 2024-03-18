@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\ProduitsRestaurants;
 use App\Models\CategoriesRestaurant;
+use App\Models\LivraisonRestaurant;
 use App\Models\familleOptionsRestaurant;
 use App\Models\UserProduct;
 use Illuminate\Pagination\Paginator;
@@ -17,11 +18,13 @@ class ProductsController  extends controller
 
     public function index($subdomain)
     {
-        $sub = $subdomain . '.localhost:8000';
+       // dd($subdomain);
+        $sub = $subdomain . '.' . env('mainhost');
         $client = Client::where('url_platform', $sub)->firstOrFail();
     
         // Retrieve the categories that exist in the produits table
         $categories = CategoriesRestaurant::where('restaurant_id', $client->id)->get();
+		$livraisons = LivraisonRestaurant::where('restaurant_id', $client->id)->get();
         $categoryIds = $categories->pluck('id')->toArray();
     
         // Retrieve the first product for each category
@@ -49,7 +52,7 @@ class ProductsController  extends controller
     
         $cart = session()->get('cart', []);
     
-        return view('client.index', compact('client', 'products', 'categories', 'subdomain', 'firstProducts', 'familleOptions', 'cart', 'paginator'));
+        return view('client.index', compact('client', 'products', 'categories', 'livraisons' , 'subdomain', 'firstProducts', 'familleOptions', 'cart', 'paginator'));
     }
     
 

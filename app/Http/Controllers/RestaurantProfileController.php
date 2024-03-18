@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\Hash;
 class RestaurantProfileController extends Controller
 {
     /**
@@ -87,6 +87,42 @@ class RestaurantProfileController extends Controller
     
                 $client->logo = $imageUrl;
             }
+			
+			
+			    // Handle accueil image update
+            if ($request->hasFile('imageslide')) {
+                $image = $request->file('imageslide');
+                $imagePath = 'uploads/';
+                $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path($imagePath), $imageName);
+                $imageUrl = $imagePath . $imageName;
+    
+                // Delete the previous logo image if it exists
+                if ($client->Slide_photo && Storage::exists($client->Slide_photo)) {
+                    Storage::delete($client->Slide_photo);
+                }
+    
+                $client->Slide_photo = $imageUrl;
+            }
+			
+			
+			  // Handle category image update
+            if ($request->hasFile('imagecategory')) {
+                $image = $request->file('imagecategory');
+                $imagePath = 'uploads/';
+                $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path($imagePath), $imageName);
+                $imageUrl = $imagePath . $imageName;
+    
+                // Delete the previous logo image if it exists
+                if ($client->Category_photo && Storage::exists($client->Category_photo)) {
+                    Storage::delete($client->Category_photo);
+                }
+    
+                $client->Category_photo = $imageUrl;
+            }
+			
+			
     
             $client->name = $request->input('name');
             $client->phoneNum1 = $request->input('phoneNum1');
@@ -148,4 +184,49 @@ class RestaurantProfileController extends Controller
     {
         //
     }
+	 public function editprofile()
+    {
+		      $userId = Auth::id();
+        $user = User::find($userId);
+        if ($user) {
+        
+        $restaurant = $user->restaurant;
+
+       // $client = Client::where('id', $restaurant->id)->first();  
+    
+        // Pass the $client object to the view
+        return view('restaurant.profile.edit');}
+      }
+    
+	  public function updateprofile(Request $request)
+    {
+		  $user = Auth::user();
+
+    $userId = $user->id;
+       /* $request->validate([
+           
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email,'.$userId,
+            'password' => 'required|min:8',
+            //'password_confirmation' => 'required|min:8',
+        ]);*/
+    
+        $restaurant = $user->restaurant;
+      
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+		  $user->password = Hash::make($request->input('new_password'));
+        //$user->password = $request->input('new_password');
+		   $user->restaurant_id = $restaurant->id;
+		  $user->is_admin = 0;
+		 
+        // Check if a new password is provided
+       /* if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }*/
+        $user->save();
+    
+        return redirect()->route('indexrestaurant')->with('success', 'votre profile est modifié avec succès!');
+    }
+
 }

@@ -14,7 +14,7 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @include('restaurant.stat')
+             
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
@@ -33,7 +33,7 @@
                                         <table id="myTable" class="table" style="width: 100%">
                                             <thead>
                                                 <tr>
-                                                    <th>ID</th>
+                                               
                                                     <th>Nom Option</th>
                                                     <th>Famille Option</th>
                                                     <th>Prix</th>
@@ -43,7 +43,7 @@
                                             <tbody>
                                                 @foreach ($options as $option)
                                                     <tr>
-                                                        <td>{{ $option->id }}</td>
+                                                      
                                                         <td>{{ $option->nom_option }}</td>
                                                         <td>{{ $option->familleOption->nom_famille_option }}</td>
                                                         <td>{{ $option->prix }}</td>
@@ -62,7 +62,7 @@
                                             <a href="{{ route('restaurant.options.create') }}" class="btn btn-primary">Ajouter Option</a>
                                           </div>
                                           <div class="text-start">
-                                            {{ $options->links('vendor.pagination.bootstrap-5') }}
+                                          
                                           </div>
                                         </div>
                                     </div>
@@ -90,22 +90,30 @@
     <script>
 
 function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var found = false; // Flag to check if the search term is found in any cell of the row
+        for (var j = 0; j < tr[i].cells.length; j++) { // Start from the second cell to skip the image cell
+            td = tr[i].cells[j];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break; // If found in any cell, break the inner loop
+                }
+            }
+        }
+        if (found) {
+            tr[i].style.display = ""; // Show the row
+        } else {
+            tr[i].style.display = "none"; // Hide the row
+        }
+    }
 }
 function removeOption(optionId) {
     if (confirm('Are you sure you want to remove this option?')) {

@@ -246,49 +246,46 @@ foreach ($familleOptions as $familleOptionId) {
     
 
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'nom_produit' => 'required',
-            'description' => 'required',
-            'image' => 'image',
-            'prix' => 'required',
-            'categorie_id' => 'required',
-        ]);
+   public function store(Request $request)
+{
+    $request->validate([
+        'nom_produit' => 'required',
+        'prix' => 'required',
+        'categorie_id' => 'required',
+        'image' => 'nullable|image',
+    ]);
 
-        $produit = new Produits;
-        $produit->nom_produit = $request->nom_produit;
-        $produit->description = $request->description;
-        $produit->prix = $request->prix;
-        $produit->categorie_id = $request->categorie_id;
-        $produit->status = $request->status ?? 0;
-       
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = 'uploads/' . $imageName;
-            $image->move(public_path('uploads'), $imageName);
-            $produit->url_image = $imagePath;
-        }
+    $produit = new Produits;
+    $produit->nom_produit = $request->nom_produit;
+    $produit->prix = $request->prix;
+    $produit->categorie_id = $request->categorie_id;
+    $produit->status = $request->status ?? 0;
 
-        $produit->save();
-
-       
- // Attach famille options to the produit
- $familleOptions = $request->input('famille_options');
- foreach ($familleOptions as $familleOptionId) {
-     ProduitsFamilleOption::create([
-         'produit_id' => $produit->id,
-         'famille_option_id' => $familleOptionId,
-     ]);
- }
-
-
-          
-            return redirect()->route('admin.produits.index')->with('success', 'Produit ajouté avec succès.');
-       
+    // Handle optional image upload
+    if ($request->hasFile('image')) {
+        $image = $request->file('image');
+        $imageName = time() . '.' . $image->getClientOriginalExtension();
+        $imagePath = 'uploads/' . $imageName;
+        $image->move(public_path('uploads'), $imageName);
+        $produit->url_image = $imagePath;
     }
+
+    // Attach famille options to the produit if provided
+    $familleOptions = $request->input('famille_options');
+    if ($familleOptions) {
+        foreach ($familleOptions as $familleOptionId) {
+            ProduitsFamilleOption::create([
+                'produit_id' => $produit->id,
+                'famille_option_id' => $familleOptionId,
+            ]);
+        }
+    }
+
+    // Save the product
+    $produit->save();
+
+    return redirect()->route('admin.produits.index')->with('success', 'Produit ajouté avec succès.');
+}
 
 
 
@@ -313,16 +310,14 @@ foreach ($familleOptions as $familleOptionId) {
 {
     $request->validate([
         'nom_produit' => 'required',
-        'description' => 'required',
-        'image' => 'image',
         'prix' => 'required',
         'categorie_id' => 'required',
-       
+        'image' => 'nullable|image',
     ]);
 
     $produit = Produits::findOrFail($id);
 
-    // Handle image update
+    // Handle optional image update
     if ($request->hasFile('image')) {
         $image = $request->file('image');
         $imagePath = 'uploads/';
@@ -330,32 +325,30 @@ foreach ($familleOptions as $familleOptionId) {
         $image->move($imagePath, $imageName);
         $imageUrl = $imagePath . '/' . $imageName;
 
-        // Delete the previous image file if it exists
+        // Delete the previous image 
         if ($produit->url_image) {
             Storage::delete($produit->url_image);
         }
 
         $produit->url_image = $imageUrl;
     }
+
     $produit->nom_produit = $request->nom_produit;
-    $produit->description = $request->description;
     $produit->prix = $request->prix;
     $produit->categorie_id = $request->categorie_id;
-   
-   
+
+    if ($request->has('description')) {
+        $produit->description = $request->description;
+    }
+
     $produit->save();
 
-
-    
     $familleOptions = $request->input('famille_options');
     if ($familleOptions) {
         $produit->familleOptions()->sync($familleOptions);
     }
 
-   
-     return redirect()->route('admin.produits.index')->with('success', 'Produit modifié avec succès.');
-    
-   
+    return redirect()->route('admin.produits.index')->with('success', 'Produit modifié avec succès.');
 }
 
 

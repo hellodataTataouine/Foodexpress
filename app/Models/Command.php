@@ -23,6 +23,7 @@ class Command extends Model
          'methode_paiement',
          'mode_livraison',
          'prix_total',
+		'delivery_time',
         // Add other relevant fields for commands
     ];
 

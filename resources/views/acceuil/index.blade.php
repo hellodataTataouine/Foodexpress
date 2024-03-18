@@ -39,7 +39,7 @@
           <a class="navbar-brand" href="index.html">
             <img src="{{ asset('assetsAcceuil/images/logo.png')}}" alt="" />
             <span>
-              HelloData
+              HelloData11
             </span>
           </a>
 

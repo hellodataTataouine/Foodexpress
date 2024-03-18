@@ -33,7 +33,7 @@
                         <table class="table" id="myTable">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                   
                                     <th>Nom</th>
                                     <th>Date de Création</th>
                                     <th>Action</th>
@@ -42,7 +42,7 @@
                             <tbody>
                                 @foreach ($categories as $category)
                                     <tr>
-                                        <td>{{ $category->id }}</td>
+                                      
                                         <td>{{ $category->name }}</td>
                                         <td>{{ $category->date_creation }}</td>
                                         <td style="display: flex; justify-content: space-between;">

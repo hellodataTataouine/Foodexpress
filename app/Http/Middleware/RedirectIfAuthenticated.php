@@ -21,14 +21,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                if (Auth::user()->is_admin == 1) {
-                    return redirect('/admin');
-                } else if (Auth::user()->is_admin == 0) {
-                    return redirect('/restaurant');
-                    
-                } else {
-                    return redirect('/');
-                }
+                return redirect(RouteServiceProvider::HOME);
             }
         }
 

@@ -6,19 +6,27 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\LivraisonRestaurant;
 
 
 
 class ClientLoginController extends Controller
 {
 
-    public function showLoginForm(Request $request)
-    {
-        $subdomain = $request->getHost();
-        $subdomain = preg_replace('/:\d+$/', '', $subdomain).':8000'; 
+  public function showLoginForm($subdomain)
+{
+     $sub = $subdomain . '.' . env('mainhost');
+        $client = Client::where('url_platform', $sub)->firstOrFail();
+		$livraisons = LivraisonRestaurant::where('restaurant_id', $client->id)->get();
+// dd($client);
+    if ($client !== null) {
+      
         $cart = session()->get('cart', []);
-        return view('client.login',compact('subdomain','cart'));
+        return view('client.login', compact('client', 'subdomain', 'cart', 'livraisons'));
+    } else {
+        return view('client.register');
     }
+}
     public function showRegistrationForm()
     {
         return view('client.register');
@@ -38,7 +46,7 @@ class ClientLoginController extends Controller
 
         // Authentication failed
         return redirect()->back()->withInput()->withErrors([
-            'email' => 'Invalid credentials.',
+            'email' => 'Email ou Mot de passe non valides.',
         ]);
     }
 
@@ -51,7 +59,7 @@ class ClientLoginController extends Controller
     public function register(Request $request)
     {
         $sub = $request->getHost();
-        $subdomainVerif = preg_replace('/:\d+$/', '', $sub).':8000'; 
+        $subdomainVerif = preg_replace('/:\d+$/', '', $sub); 
         $client = Client::where('url_platform', $subdomainVerif)->firstOrFail();
         $restaurant_id = $client->id;
         $request->validate([

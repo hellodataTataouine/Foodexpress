@@ -8,6 +8,12 @@ use App\Models\familleOptionsRestaurant;
 use App\Models\User;
 use App\Models\OptionsRestaurant;
 use Illuminate\Support\Facades\Auth;
+
+use App\Models\Client;
+use App\Models\ClientRestaurat;
+use App\Models\ProduitsRestaurants;
+use App\Models\Command;
+
 class FamilleOptionRestoController extends Controller
 {
     /**
@@ -22,8 +28,19 @@ class FamilleOptionRestoController extends Controller
             
             $restaurant = $user->restaurant;
      
-            $familleOptions = FamilleOptionsRestaurant::where('restaurant_id', $restaurant->id)->paginate(10);
-            return view('restaurant.famille-options.index', compact('familleOptions'));
+            $familleOptions = FamilleOptionsRestaurant::where('restaurant_id', $restaurant->id)->get();
+				
+					// stats
+			
+		$clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
+		$produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
+		$commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
+		$NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
+            ->where('statut', 'Nouveau')
+            ->count();
+				
+				
+            return view('restaurant.famille-options.index', compact('familleOptions', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
       
         
         } else {
@@ -128,7 +145,7 @@ class FamilleOptionRestoController extends Controller
         $familleOption->save();
         
         // Redirect back with success message
-        return redirect()->back()->with('success', 'Famille Option modifiée  avec succès.');
+        return redirect()->route('restaurant.famille-options.index')->with('success', 'Famille Option modifiée  avec succès.');
     }
     
 

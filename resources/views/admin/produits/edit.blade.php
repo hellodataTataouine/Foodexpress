@@ -45,7 +45,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="description">Description:</label>
-                                                <input type="text" name="description" value="{{ $produit->description }}" required class="form-control">
+                                                <input type="text" name="description" value="{{ $produit->description }}" class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <img id="produitImage" src="{{ asset($produit->url_image) }}" alt="Produit Image">
@@ -56,7 +56,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="prix">Prix:</label>
-                                                <input type="number" name="prix" value="{{ $produit->prix }}" required class="form-control">
+                                                <input type="float" name="prix" value="{{ $produit->prix }}" required class="form-control">
                                             </div>
                                             
                                             <div class="form-group">

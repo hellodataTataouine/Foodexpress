@@ -35,8 +35,8 @@
                                 <tr>
                                   
                                     <th>Methode De Paiement</th>
-                                    <th>Paypal_client_id</th>
-                                    <th>Paypal_client_secret</th>
+                                    <th>client_id</th>
+                                    <th>client_secret</th>
                                     
                                     <th>Action</th>
                                 </tr>
@@ -52,7 +52,7 @@
                                         <td>{{ $paimentMethod->client_id }}</td>
                                         <td>{{ $paimentMethod->client_secret }}</td>
                                         <td style="display: flex; justify-content: space-between;">
-                                          @if($paimentType->type_methode =="PayPal")
+                                          @if($paimentType->type_methode == "PayPal" || $paimentType->type_methode == "Carte Bancaire" )
                                           <a href="{{ route('restaurant.paiment.edit', ['id' => $paimentMethod->id]) }}" class="btn btn-primary btn-sm col-s">Modifier</a>
                                           @endif
 

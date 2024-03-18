@@ -44,7 +44,7 @@
                             </p>
                             <a href="#" class="btn-book-a-table addToCartBtn"
                                 data-toggle="modal" data-target="#productModal"
-                                data-product-id="{{ $product->id }}">Add to Panier</a>
+                                data-product-id="{{ $product->id }}">Ajouter au Panier</a>
                         </div><!-- Menu Item -->
                         @endforeach
                     </div>

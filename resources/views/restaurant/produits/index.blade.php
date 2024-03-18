@@ -71,8 +71,8 @@
                                                         <td> 
         <button class="select-btn btn {{ $produit->status ? 'btn-success' : 'btn-danger' }}" 
                 data-product="{{ $produit->id }}" 
-                data-selected="{{ $produit->status ? 'selected' : 'not-selected' }}">
-            {{ $produit->status ? 'Selected' : 'Not Selected' }}
+                data-selected="{{ $produit->status ? 'Actif' : 'Non Actif' }}">
+            {{ $produit->status ? 'Actif' : 'Non Actif' }}
         </button>
    
     </td>
@@ -100,9 +100,7 @@
                                           <div class="text-end">
                                            <a href="{{ route('restaurant.produits.create') }}" class="btn btn-primary">Créer un produit</a>
                                           </div>
-                                          <div class="text-start">
-                                            {{ $products->links('vendor.pagination.bootstrap-5') }}
-                                          </div>
+                                         
                                         </div>
                                     </div>
                                 </div>
@@ -141,42 +139,7 @@
         }
 
     </style>
-  <script>
-     /* $(document).ready(function() {
-   $('.status-toggle-btn').click(function() {
-        var button = $(this); // Store the button element reference
 
-        var productId = button.data('id');
-        var currentStatus = button.data('status');
-        var newStatus = (currentStatus == 1) ? 0 : 1; // Toggle the status
-
-        // Send AJAX request to update the status
-        $.ajax({
-            url: '/admin/update-status',
-            type: 'POST',
-            data: {
-                productId: productId,
-                newStatus: newStatus,
-                _token: '{{ csrf_token() }}'
-            },
-            success: function(response) {
-                // Update the button text and data attribute
-                if (newStatus == 1) {
-                    button.removeClass('btn-danger').addClass('btn-success').text('Active');
-                } else {
-                    button.removeClass('btn-success').addClass('btn-danger').text('Inactive');
-                }
-                button.data('status', newStatus);
-            },
-            error: function(xhr, status, error) {
-                // Handle the error if needed
-                console.log(error);
-            }
-        });
-    });
-});*/
-
-    </script>
     <script>
         const images = document.querySelectorAll('.zoomable-image');
         const modalImage = document.querySelector('.modal-image');
@@ -193,33 +156,49 @@
         });
 
     </script>
-    <script>
-
+   
 <script>
 function myFunction() {
-  var input, filter, table, tr, td, i, txtValue;
-  input = document.getElementById("myInput");
-  filter = input.value.toUpperCase();
-  table = document.getElementById("myTable");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[1];
-    if (td) {
-      txtValue = td.textContent || td.innerText;
-      if (txtValue.toUpperCase().indexOf(filter) > -1) {
-        tr[i].style.display = "";
-      } else {
-        tr[i].style.display = "none";
-      }
-    }       
-  }
+    var input, filter, table, tr, td, i, txtValue;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("myTable");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        var found = false; // Flag to check if the search term is found in any cell of the row
+        for (var j = 1; j < tr[i].cells.length; j++) { // Start from the second cell to skip the image cell
+            td = tr[i].cells[j];
+            if (td) {
+                txtValue = td.textContent || td.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    found = true;
+                    break; // If found in any cell, break the inner loop
+                }
+            }
+        }
+        if (found) {
+            tr[i].style.display = ""; // Show the row
+        } else {
+            tr[i].style.display = "none"; // Hide the row
+        }
+    }
 }
-    </script>
+</script>
+
+
+
+
+
+
+
+<!-- Rest of your HTML code remains the same -->
+
     <script>
     $(function () {
         $('.select-btn').click(function () {
             var button = $(this);
-            var status = button.data('selected') === 'selected' ? 0 : 1; // Toggle the status
+            var status = button.data('Actif') === 'Actif' ? 0 : 1; // Toggle the status
 
             var produit_id = button.data('product');
 
@@ -234,11 +213,11 @@ function myFunction() {
                 },
                 success: function (data) {
                     if (status == 1) {
-                        button.removeClass('btn-danger').addClass('btn-success').text('Selected');
-                        button.data('selected', 'selected');
+                        button.removeClass('btn-danger').addClass('btn-success').text('Actif');
+                        button.data('Actif', 'Actif');
                     } else {
-                        button.removeClass('btn-success').addClass('btn-danger').text('Not Selected');
-                        button.data('selected', 'not Selected');
+                        button.removeClass('btn-success').addClass('btn-danger').text('Non Actif');
+                        button.data('Actif', 'Non Actif');
                     }
                     console.log(data.success);
                 }

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoriesRestaurant extends Model
 {
-    protected $fillable = ['name','restaurantid','date_creation'];
+    protected $fillable = ['name','restaurantid','url_image','date_creation'];
     protected $dates = ['date_creation'];
     public $timestamps = true;
     protected $table = 'categories_restaurant';

@@ -13,7 +13,6 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
-                    @include('restaurant.stat')
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
@@ -165,9 +164,32 @@
                                             </div>
                                         @endif
                                         <div class="form-group">
-                                        <label for="image">Image:</label>
+                                        <label for="image">Image du Logo:</label>
                                             
                                                 <input type="file" id="image" name="image" accept="image/*" class="form-control">
+                                            </div>
+											<h4 >Image de Page d'accueil:</h4>
+                                        @if ($client->Slide_photo)
+                                        <div class="form-group">
+                                        <img  id="clientSlide" src="{{ asset($client->Slide_photo) }}" alt="image d'accueil" width="100" height="100">
+                                            </div>
+                                        @endif
+                                        <div class="form-group">
+                                        <label for="image">Image :</label>
+                                            
+                                                <input type="file" id="imageslide" name="imageslide" accept="image/*" class="form-control">
+                                            </div>
+											
+											<h4 >Image de catégorie "Tous":</h4>
+                                        @if ($client->Category_photo)
+                                        <div class="form-group">
+                                        <img  id="clientCategory" src="{{ asset($client->Category_photo) }}" alt="categorie_tous" width="100" height="100">
+                                            </div>
+                                        @endif
+                                        <div class="form-group">
+                                        <label for="image">Image :</label>
+                                            
+                                                <input type="file" id="imagecategory" name="imagecategory" accept="image/*" class="form-control">
                                             </div>
                                        
                                         <br>
@@ -200,6 +222,33 @@
                 // Update the image source with the new URL
                 $('#clientLogo').attr('src', imageURL);
             });
+	 
+	 
+	 $('input[name="imageslide"]').change(function () {
+                // Get the selected file
+                var file = $(this).prop('files')[0];
+
+                // Create a URL object from the file
+                var imageURL = URL.createObjectURL(file);
+
+                // Update the image source with the new URL
+                $('#clientSlide').attr('src', imageURL);
+            });
+	 
+	 
+	 
+	 $('input[name="imagecategory"]').change(function () {
+                // Get the selected file
+                var file = $(this).prop('files')[0];
+
+                // Create a URL object from the file
+                var imageURL = URL.createObjectURL(file);
+
+                // Update the image source with the new URL
+                $('#clientCategory').attr('src', imageURL);
+            });
+	 
+	 
         });
 
  

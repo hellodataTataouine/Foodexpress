@@ -16,8 +16,12 @@
         {{ Session::get('error') }}
     </div>
 @endif
+		<br>
+		<br>
+		<br>
+		<br>
        
-            <p>Votre Commande est confirmée</p>
+            <p>Votre Commande est confirmée, merci pour votre confiance.</p>
     </div>
 </div>
 <!-- Cart Items End -->

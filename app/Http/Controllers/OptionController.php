@@ -30,7 +30,7 @@ class OptionController extends Controller
         $request->validate([
             'famille_option_id' => 'required',
             'nom_option' => 'required',
-            'prix' => 'required|numeric',
+            'prix' => 'nullable|numeric',
         ]);
 
         $option = new Option();
@@ -64,7 +64,7 @@ class OptionController extends Controller
         $request->validate([
             'famille_option_id' => 'required',
             'nom_option' => 'required',
-            'prix' => 'required|numeric',
+            'prix' => 'nullable|numeric',
         ]);
     
         $option->famille_option_id = $request->input('famille_option_id');

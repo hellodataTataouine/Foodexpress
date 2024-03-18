@@ -16,7 +16,6 @@
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
-                              @include('restaurant.stat')
                            <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
@@ -55,20 +54,22 @@
 
                                             <div class="form-group">
                                                 <label for="description">Description:</label>
-                                                <textarea name="description" class="form-control" required></textarea>
+                                                <textarea name="description" class="form-control" ></textarea>
                                             </div>
 
                                             <div class="form-group">
                                                 <label for="image">Image:</label>
-                                                <input type="file" name="image" class="form-control" required
+                                                <input type="file" name="image" class="form-control"
                                                     id="imageInput">
                                                 <div class="image-preview" ></div>
                                             </div>
 
-                                            <div class="form-group">
-                                                <label for="prix">Prix:</label>
-                                                <input type="number" name="prix" class="form-control" required>
-                                            </div>
+                                      <div class="form-group">
+										<label for="prix">Prix :</label>
+										<input type="text" name="prix" class="form-control" required pattern="^\d+(\.\d{1,2})?$" 										title="Veuillez entrer un nombre valide avec jusqu'à deux décimales (par exemple, 9,90)">
+									</div>
+
+
 
                                             <div class="form-group">
     <label for="famille_options">Choisir les familles d'Options correspondants:</label>

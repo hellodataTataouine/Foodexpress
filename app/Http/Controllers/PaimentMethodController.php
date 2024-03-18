@@ -82,6 +82,10 @@ class PaimentMethodController extends Controller
     public function destroy($id)
     {
         $paimentMethod = PaimentMethod::findOrFail($id);
+		 $paymentsrestaurants =PaimentRestaurant::where('paiment_id', $id)->get();
+        foreach( $paymentsrestaurants as $paymentsrestaurant ){
+          $paymentsrestaurant->delete(); 
+        }
         $paimentMethod->delete();
         return redirect()->route('admin.paiment.index')->with('success', 'méthode de paiement supprimée avec succès.');
     }

@@ -13,7 +13,6 @@
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper"> 
-                    @include('restaurant.stat')
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
@@ -45,10 +44,11 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="prix">Prix:</label>
-                                                <input type="number" name="prix" id="prix" class="form-control" required>
+                                                <input type="text" name="prix" id="prix" class="form-control" pattern="^\d+(\.\d{1,2})?$" 										title="Veuillez entrer un nombre valide avec jusqu'à deux décimales (par exemple, 9,90)">
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" class="btn btn-primary">Créer</button>
+												 <a href="{{ URL::previous() }}" class="btn btn-secondary">Retour</a>
                                             </div>
                                         </form>
                                     </div>

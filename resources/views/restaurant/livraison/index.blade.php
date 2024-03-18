@@ -27,7 +27,7 @@
                           </div>
                       @endif
                       <div class="mb-3">
-                        <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Search for names.." title="Type in a name">
+                        <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Rechercher.." title="Type in a name">
                     </div>
                       <div class="table-responsive"  style="width:101%">
                         <table class="table" id="myTable">
