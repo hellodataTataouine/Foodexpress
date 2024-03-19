@@ -330,7 +330,7 @@ Brand Area
                 <div class="col-xl-3 col-lg-4 col-md-6 feature-card-wrap2">
                     <div class="feature-card style2">
                         <div class="feature-card-icon">
-                            <img src="images/img/dev_icon.svg" alt="icon" width="50%">
+                            <img src="images/img/icon/web-development-svg.svg" alt="icon">
                         </div>
                         <h3 class="box-title"><a href="#web_dev">Crée un site web de restauration</a></h3>
                         <p class="feature-card_text" align="justify">Vous cherchez à amener votre restaurant au niveau supérieur? Un site web dédié pourrait être exactement ce qu'il vous faut pour stimuler votre visibilité en ligne et augmenter vos ventes</p>
@@ -339,7 +339,7 @@ Brand Area
                 <div class="col-xl-3 col-lg-4 col-md-6 feature-card-wrap2">
                     <div class="feature-card style2">
                         <div class="feature-card-icon">
-                            <img src="images/img/commande_icon.png" alt="icon" width="50%">
+                            <img src="images/img/icon/check-list-svg.svg" alt="icon">
                         </div>
                         <h3 class="box-title"><a href="#commande2">Système de commande en ligne</a></h3>
                         <p class="feature-card_text" align="justify">Prends des commandes en ligne sans appliquer de coûts élevés. Garantis le service à tes clients réguliers sans aucune commission et maintiens ton autonomie en ligne.</p>
@@ -348,7 +348,7 @@ Brand Area
                 <div class="col-xl-3 col-lg-4 col-md-6 feature-card-wrap2">
                     <div class="feature-card style2">
                         <div class="feature-card-icon">
-                            <img src="images/img/reservation_icon.png" alt="icon" width="50%">
+                            <img src="images/img/icon/calendar-check-svg.svg" alt="icon">
                         </div>
                         <h3 class="box-title"><a href="#reservation2">Système de réservation en ligne</a></h3>
                         <p class="feature-card_text" align="justify">Économisez  de temps et d'argent et Bénéficiez d'un système de réservation en ligne  disponible à tout moment, tous les jours de la semaine.</p>
@@ -358,7 +358,7 @@ Brand Area
                 <div class="col-xl-3 col-lg-4 col-md-6 feature-card-wrap2">
                     <div class="feature-card style2">
                         <div class="feature-card-icon">
-                            <img src="images/img/support_icon.png" alt="icon" width="50%">
+                            <img src="images/img/icon/support-svg.svg" alt="icon">
                         </div>
                         <h3 class="box-title"><a href="service-details,html">Support</a></h3>
                         <p class="feature-card_text" align="justify">Accédez à une assistance téléphonique et à distance ,découvrez une variété de conseils pour optimiser votre activité dans le domaine de la restauration.</p>
