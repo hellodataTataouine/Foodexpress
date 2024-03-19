@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Client;
 use App\Http\Controllers\Auth\LoginController;
@@ -29,7 +31,7 @@ use App\Http\Controllers\PaimentRestaurantController;
 use App\Http\Controllers\LivraisonMethodController;
 use App\Http\Controllers\LivraisonRestaurantController;
 use App\Http\Controllers\PostalCodeController;
-use App\Http\Controllers\CartController;
+//use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ImeiController;
 
@@ -60,7 +62,8 @@ use App\Http\Controllers\StripePaymentController;
 |
 */
 
-
+ //Route::get('/',[FrontendController::class,'index'])->name('foodexpress');
+Route::post('/sendmessage',[MessagesController::class,'store'])->name('sendmessage');
 //for subdomain
 Route::domain('{subdomain}.localhost')->group(function () {
 	//Route::get('/mentions-legales', function () {
@@ -104,7 +107,7 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
     
     Route::post('/update-quantity', [CommandController::class, 'updateQuantity'])->name('update.quantity');
     
-    Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
+   // Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/fetch-cart', [CommandController::class, 'fetchCart'])->name('cart.fetch');
    // Route::get('/fetch-cart', [CartController::class, 'fetchCart'])->name('cart.fetch');
     Route::get('/checkout', [CommandController::class, 'checkout'])->name('client.checkout');
@@ -171,7 +174,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     });
      Route::get('/home', [ClientController::class, 'clients'])->name('indexAdmin');
      Route::get('/admin/home', [ClientController::class, 'clients'])->name('indexAdmin');
-
+     Route::get('/admin/messages',[MessagesController::class,'index'])->name('admin.messages.show');
      Route::get('/admin/clients/create', [ClientController::class, 'create']);
      Route::post('/admin/clients', [ClientController::class, 'store'])->name('admin.clients.store');
      Route::get('/admin/clients', [ClientController::class, 'clients'])->name('admin.clients');
@@ -414,8 +417,8 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 Route::get('/', function () {
     $host = request()->getHost();
     // Check if the host is 'localhost' or 'subdomain.localhost'
-    if ($host === 'localhost:8000') {
-        return redirect('/login');
+    if ($host === 'localhost') {
+        return view('frontend.index');
     } else {
         // Extract the subdomain from the host
         $subdomain = explode('.', $host)[0];
@@ -449,7 +452,7 @@ Route::get('/home', function () {
             $redirectSubdomain = empty($subdomain) ? 'localhost' : $subdomain;
         
             return redirect("http://$redirectSubdomain.localhost:8000/restaurant/home?1");*/
-    } else {
+   } else {
         session()->flush(); // Destroy the session
         abort(403, 'Unauthorized');
     }
