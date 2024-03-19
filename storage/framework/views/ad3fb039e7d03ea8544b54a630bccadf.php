@@ -5,10 +5,13 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Food Express</title>
-    <meta name="author" content="Themeholy">
-    <meta name="description" content="Food Express">
-    <meta name="keywords" content="Food Express">
-    <meta name="robots" content="INDEX,FOLLOW">
+    <meta name="author" content="FoodExpress">
+    <meta name="description" content="FoodExpress , Maximisez votre Présence et Vos Ventes en Ligne Grâce à nos solutions digitales">
+    <meta name="keywords" content="FoodExpress ,Restaurant ,Coffee shop ,Fast food">
+    
+    <meta name="msapplication-TileImage" content="images/img/logo_final.png">
+    
+    
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -26,11 +29,9 @@
     <link rel="icon" type="image/png" sizes="192x192" href="images/img/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="images/img/favicons/favicon-96x96.png">-->
-    <link rel="icon" type="image/png"  href="images/img/logo_final_icon.png">
+    
     <link rel="manifest" href="images/img/favicons/manifest.json"> 
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-TileImage" content="images/img/logo_final_icon.png">
-    <meta name="theme-color" content="#ffffff">
+    
 
     <!--==============================
 	  Google Fonts
@@ -1151,7 +1152,7 @@ Contact Area
                         </div>
                     </div>
                     
-                    <p class="form-messages mb-0 mt-3 alert alert-success">
+                    <p id="alert" class="form-messages mb-0 mt-3 auto-close alert alert-success">
                         
                     </p>
                 
