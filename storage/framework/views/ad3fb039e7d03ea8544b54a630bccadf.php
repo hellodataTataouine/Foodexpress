@@ -7,7 +7,7 @@
     <title>Food Express</title>
     <meta name="author" content="FoodExpress">
     <meta name="description" content="FoodExpress , Maximisez votre Présence et Vos Ventes en Ligne Grâce à nos solutions digitales">
-    <meta name="keywords" content="FoodExpress ,Restaurant ,café ,Fast-food ,saladetcie ,ochalet ,restaurant autour de moi ,orlando's , mie&cie">
+    <meta name="keywords" content="FoodExpress ,Restaurant ,café ,Fast-food ,saladetcie ,ochalet ,restaurant autour de moi ,orlando's , mie&cie ,europe ,france ,commander">
     
     <meta name="msapplication-TileImage" content="images/img/logo_final.png">
     
@@ -212,7 +212,7 @@ Hero Area
                 <div class="row justify-content-center align-items-center">
                     <div class="col-xxl-5 col-xl-6">
                         <div class="hero-style8">
-                            <span class="sub-title">Solutions Digitales pour un restaurant</span>
+                            <span class="sub-title">Solutions Digitales pour un restaurant 2.0</span>
                             <h1 class="hero-title"> <span class="text-theme">Food<span class="fw-normal">Express</span></span> </h1>
                             <p class="hero-text">Maximisez votre Présence et Vos Ventes en Ligne Grâce à nos solutions digitales de pointe, vous pouvez désormais offrir à vos clients une expérience incomparable. Créez en un clin d'œil votre propre site web, permettant à vos clients de passer des commandes et de réserver des tables en ligne. Faites de chaque interaction une expérience mémorable et propulsez votre entreprise vers de nouveaux sommets.</p>
                             <div class="btn-group mt-30">
@@ -794,7 +794,7 @@ Price Area
                                         
                                     </ul>
                                 </div>
-                                <a href="#" class="th-btn btn-fw style-radius">Sélectionner le plan</a>
+                                <a href="#contact" class="th-btn btn-fw style-radius">Sélectionner le plan</a>
                             </div>
                         </div>
                     </div>
@@ -832,7 +832,7 @@ Price Area
                                         <!--<li><i class="fas fa-circle-check"></i>100+ integrations</li>-->
                                     </ul>
                                 </div>
-                                <a href="#" class="th-btn btn-fw style-radius">Réserver maintenent</a>
+                                <a href="#contact" class="th-btn btn-fw style-radius">Sélectionner le plan</a>
                             </div>
                         </div>
                     </div>
@@ -870,7 +870,7 @@ Price Area
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Assistance 24/7</li>
                                     </ul>
                                 </div>
-                                <a href="contact.html" class="th-btn btn-fw style-radius">Sélectionner le plan</a>
+                                <a href="#contact" class="th-btn btn-fw style-radius">Sélectionner le plan</a>
                             </div>
                         </div>
                     </div>
@@ -1132,9 +1132,9 @@ Contact Area
                         <div class="form-group col-md-6">
                             <select name="subject" id="subject" class="form-select">
                                 <option value="null" disabled selected hidden>Sélectionner le sujet</option>
-                                <option value="Création d'un site web">Création d'un site web</option>
-                                <option value="Réservation d'une table">Réservation d'une table</option>
-                                <option value="Réservation d'une table">Prends des commandes</option>
+                                <option value="Création d'un site web">Plan basic</option>
+                                <option value="Réservation d'une table">Réservation en ligne</option>
+                                <option value="Réservation d'une table">Plan premium</option>
                              <!--   <option value="Digital Marketing">Digital Marketing</option>-->
                             </select>
                             <i class="fal fa-chevron-down"></i>
