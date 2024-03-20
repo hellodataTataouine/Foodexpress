@@ -7,7 +7,7 @@
     <title>Food Express</title>
     <meta name="author" content="FoodExpress">
     <meta name="description" content="FoodExpress , Maximisez votre Présence et Vos Ventes en Ligne Grâce à nos solutions digitales">
-    <meta name="keywords" content="FoodExpress ,Restaurant ,café ,Fast-food ,saladetcie ,ochalet ,restaurant autour de moi ,orlando's , mie&cie">
+    <meta name="keywords" content="FoodExpress ,Restaurant ,café ,Fast-food ,saladetcie ,ochalet ,restaurant autour de moi ,orlando's , mie&cie ,europe ,france ,commander">
     {{-- <meta name="msapplication-TileColor" content="#ffffff"> --}}
     <meta name="msapplication-TileImage" content="images/img/logo_final.png">
     {{-- <meta name="theme-color" content="#ffffff"> --}}
