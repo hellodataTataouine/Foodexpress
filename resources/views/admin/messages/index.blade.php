@@ -1,4 +1,7 @@
 @extends('base')
+@section('title','Messages')
+    
+@endsection
 @section('content')
 
 <div class="container-scroller">

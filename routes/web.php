@@ -65,7 +65,7 @@ use App\Http\Controllers\StripePaymentController;
  //Route::get('/',[FrontendController::class,'index'])->name('foodexpress');
 Route::post('/sendmessage',[MessagesController::class,'store'])->name('sendmessage');
 //for subdomain
-Route::domain('{subdomain}.localhost')->group(function () {
+Route::domain('{subdomain}.'.env('mainhost'))->group(function () {
 	//Route::get('/mentions-legales', function () {
     //return view('client.mentions-legales');
 //});
@@ -386,7 +386,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/resevation/{id}/edit', [ReservationTableController::class, 'edit'])->name('restaurant.resevation.edit');
      Route::put('/restaurant/resevation/{id}', [ReservationTableController::class, 'update'])->name('restaurant.resevation.update');
      Route::delete('/restaurant/resevation/{id}', [ReservationTableController::class, 'destroy'])->name('restaurant.resevation.destroy');
- Route::get('/restaurant/resevation/fetch', [ReservationTableController::class, 'Availabletables'])->name('restaurant.fetch.available.tables');
+    Route::get('/restaurant/resevation/fetch', [ReservationTableController::class, 'Availabletables'])->name('restaurant.fetch.available.tables');
     Route::post('/updatereservation/status', [ReservationTableController::class, 'updateStatus'])->name('update.reservationstatus');
 
 
@@ -417,12 +417,13 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 Route::get('/', function () {
     $host = request()->getHost();
     // Check if the host is 'localhost' or 'subdomain.localhost'
+    
     if ($host === 'localhost') {
         return view('frontend.index');
     } else {
         // Extract the subdomain from the host
         $subdomain = explode('.', $host)[0];
-        return redirect("http://$subdomain.localhost:8000/store");
+        return redirect("http://$subdomain.".env('mainhost')."/store");
     }
 });
 
