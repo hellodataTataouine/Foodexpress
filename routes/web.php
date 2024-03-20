@@ -420,7 +420,11 @@ Route::get('/', function () {
     
     if ($host === 'localhost') {
         return view('frontend.index');
-    } else {
+    }
+    else if($host=== env('mainhost')){
+        return view ('frontend.index');
+    }
+    else {
         // Extract the subdomain from the host
         $subdomain = explode('.', $host)[0];
         return redirect("http://$subdomain.".env('mainhost')."/store");
