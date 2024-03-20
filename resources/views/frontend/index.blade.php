@@ -7,11 +7,11 @@
     <title>Food Express</title>
     <meta name="author" content="FoodExpress">
     <meta name="description" content="FoodExpress , Maximisez votre Présence et Vos Ventes en Ligne Grâce à nos solutions digitales">
-    <meta name="keywords" content="FoodExpress ,Restaurant ,Coffee shop ,Fast food">
+    <meta name="keywords" content="FoodExpress ,Restaurant ,café ,Fast-food ,saladetcie ,ochalet ,restaurant autour de moi ,orlando's , mie&cie">
     {{-- <meta name="msapplication-TileColor" content="#ffffff"> --}}
     <meta name="msapplication-TileImage" content="images/img/logo_final.png">
     {{-- <meta name="theme-color" content="#ffffff"> --}}
-    {{-- <meta name="robots" content="INDEX,FOLLOW"> --}}
+    <meta name="robots" content="INDEX,FOLLOW">
 
     <!-- Mobile Specific Metas -->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,7 +29,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="images/img/favicons/android-icon-192x192.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/img/favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="96x96" href="images/img/favicons/favicon-96x96.png">-->
-    {{-- <link rel="icon" type="image/png"  href="images/img/logo_final_icon.png"> --}}
+    <link rel="icon" type="image/png"  href="images/img/logo_final_icon.png">
     <link rel="manifest" href="images/img/favicons/manifest.json"> 
     
 
