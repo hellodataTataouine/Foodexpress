@@ -412,9 +412,9 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 //Route::get('/store', [ClientStoreController::class, 'store'])->name('store.index');
 //Route::get('/acceuil', [AcceuilController::class, 'index'])->name('acceuil.index');
 Route::get('/', function () {
-    $host = request()->getHost();
+    $host = request()->getHost() ;
     // Check if the host is 'localhost' or 'subdomain.localhost'
-    if ($host === 'localhost:8000') {
+    if ($host === 'localhost') {
         return redirect('/login');
     } else {
         // Extract the subdomain from the host
