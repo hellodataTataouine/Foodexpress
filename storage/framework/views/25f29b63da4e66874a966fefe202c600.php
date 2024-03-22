@@ -197,5 +197,5 @@
           }
         }
             </script>
-     <?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?>
 <?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/admin/clients/index.blade.php ENDPATH**/ ?>

@@ -73,6 +73,8 @@ class MessagesController extends Controller
     public function show(Messages $messages)
     {
         //
+        $msg= Messages::find($messages->id);
+        return view('admin.messages.index',compact('msg'));
     }
 
     /**

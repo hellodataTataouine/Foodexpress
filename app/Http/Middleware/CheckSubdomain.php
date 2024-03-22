@@ -33,11 +33,12 @@ class CheckSubdomain
     public function handle($request, Closure $next)
     {
         $subdomain = $request->getHost();
-        if ($subdomain=='localhost'){
+       /* if ($subdomain=='localhost'){
             $subdomain = preg_replace('/:\d+$/', '', $subdomain).":8000";
         }else{
             $subdomain = preg_replace('/:\d+$/', '', $subdomain);
-        }
+        }*/
+        $subdomain = preg_replace('/:\d+$/', '', $subdomain).":8000";
         
         // Remove the port number if present
         if($subdomain == env('mainhost')){

@@ -429,7 +429,7 @@ Route::get('/', function () {
         $subdomain = explode('.', $host)[0];
         return redirect("http://$subdomain.".env('mainhost')."/store");
     }
-});
+})->name('foodexpress.index');
 
 Route::get('/home', function () {
     if (auth()->check() && auth()->user()->is_admin == 1) {

@@ -11,12 +11,12 @@ class AuthController extends Controller
     {
         Auth::logout();
 
-        return redirect()->route('restaurant.login');
+        return redirect()->route('foodexpress.index');
     }
     public function logoutResto(Request $request)
     {
         Auth::logout();
 
-        return redirect()->route('/');
+        return redirect()->route('foodexpress.index');
     }
 }
