@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\FrontendController;
+use App\Http\Controllers\MessagesController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Client;
 use App\Http\Controllers\Auth\LoginController;
@@ -11,7 +13,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProduitsController;
 use App\Http\Controllers\ProduitsRestoController;
 use App\Http\Controllers\HoraireController;
-use App\Http\Middleware\CheckSubdomain;
+
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AcceuilController;
 use App\Http\Controllers\ClientLoginController;
@@ -29,7 +31,7 @@ use App\Http\Controllers\PaimentRestaurantController;
 use App\Http\Controllers\LivraisonMethodController;
 use App\Http\Controllers\LivraisonRestaurantController;
 use App\Http\Controllers\PostalCodeController;
-use App\Http\Controllers\CartController;
+//use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommandController;
 use App\Http\Controllers\ImeiController;
 
@@ -60,26 +62,16 @@ use App\Http\Controllers\StripePaymentController;
 |
 */
 
-
+ //Route::get('/',[FrontendController::class,'index'])->name('foodexpress');
+Route::post('/sendmessage',[MessagesController::class,'store'])->name('sendmessage');
 //for subdomain
 Route::domain('{subdomain}.localhost')->group(function () {
-	//Route::get('/mentions-legales', function () {
-    //return view('client.mentions-legales');
-//});
-	//Route::get('/contact', function () {
-   // return view('client.contact');
-// });
+    Route::get('/store', [ProductsController::class, 'index'])->name('client.products.index');
 	Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
 	Route::get('/politique-de-cookies',[CookiePolicyController::class, 'show'])->name('cookie.policy');
 		Route::get('/mentions-legales',[MentionsLegalesController::class, 'show'])->name('mentions.legales');
-
-
-	
-	//Route::get('/politique-de-cookies', function () {
-    //return view('client.politique-de-cookies');
-//});
-    Route::get('/store', [ProductsController::class, 'index'])->name('client.products.index');
+        
     Route::get('/panier/add/{productId}', [ClientStoreController::class, 'addToCart'])->name('panier.add');
     Route::get('/panier', [ClientStoreController::class, 'index'])->name('panier.show');
     Route::delete('panier/remove/{productId}', [ClientStoreController::class, 'removeFromCart'])->name('panier.remove');
@@ -104,7 +96,7 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
     
     Route::post('/update-quantity', [CommandController::class, 'updateQuantity'])->name('update.quantity');
     
-    Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
+   // Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/fetch-cart', [CommandController::class, 'fetchCart'])->name('cart.fetch');
    // Route::get('/fetch-cart', [CartController::class, 'fetchCart'])->name('cart.fetch');
     Route::get('/checkout', [CommandController::class, 'checkout'])->name('client.checkout');
@@ -171,7 +163,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
     });
      Route::get('/home', [ClientController::class, 'clients'])->name('indexAdmin');
      Route::get('/admin/home', [ClientController::class, 'clients'])->name('indexAdmin');
-
+     Route::get('/admin/messages',[MessagesController::class,'index'])->name('admin.messages.show');
      Route::get('/admin/clients/create', [ClientController::class, 'create']);
      Route::post('/admin/clients', [ClientController::class, 'store'])->name('admin.clients.store');
      Route::get('/admin/clients', [ClientController::class, 'clients'])->name('admin.clients');
@@ -383,7 +375,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/resevation/{id}/edit', [ReservationTableController::class, 'edit'])->name('restaurant.resevation.edit');
      Route::put('/restaurant/resevation/{id}', [ReservationTableController::class, 'update'])->name('restaurant.resevation.update');
      Route::delete('/restaurant/resevation/{id}', [ReservationTableController::class, 'destroy'])->name('restaurant.resevation.destroy');
- Route::get('/restaurant/resevation/fetch', [ReservationTableController::class, 'Availabletables'])->name('restaurant.fetch.available.tables');
+    Route::get('/restaurant/resevation/fetch', [ReservationTableController::class, 'Availabletables'])->name('restaurant.fetch.available.tables');
     Route::post('/updatereservation/status', [ReservationTableController::class, 'updateStatus'])->name('update.reservationstatus');
 
 
@@ -414,16 +406,21 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 Route::get('/', function () {
     $host = request()->getHost() ;
     // Check if the host is 'localhost' or 'subdomain.localhost'
+    
     if ($host === 'localhost') {
-        return redirect('/login');
-    } else {
+        return view('frontend.index');
+    }
+    else if($host=== env('mainhost')){
+        return view ('frontend.index');
+    }
+    else {
         // Extract the subdomain from the host
         $subdomain = explode('.', $host)[0];
-        return redirect("http://$subdomain.localhost:8000/store");
+        return redirect("http://$subdomain.".env('mainhost')."/store");
     }
 });
 
-Route::get('/home', function () {
+/*Route::get('/home', function () {
     if (auth()->check() && auth()->user()->is_admin == 1) {
             return redirect("http://" . env('mainhost') . "/admin/clients");
     } elseif (auth()->check() && auth()->user()->is_admin == 3) {
@@ -439,21 +436,12 @@ Route::get('/home', function () {
         return redirect("http://" . env('mainhost') . "/restaurant/home?1");
 
 
-      /*  if (auth()->check() && auth()->user()->is_admin == 0) {
-            $userId = auth()->user()->id;
-            $clientInfo = Client::where('user_id', $userId)->first();
-            $pathUrl = $clientInfo->url_platform.'/restaurant/home?res';
-            $subdomain = explode('.', $clientInfo->url_platform)[0];
-        
-            // If the subdomain is empty (for admin users), use "localhost"
-            $redirectSubdomain = empty($subdomain) ? 'localhost' : $subdomain;
-        
-            return redirect("http://$redirectSubdomain.localhost:8000/restaurant/home?1");*/
-    } else {
+     
+   } else {
         session()->flush(); // Destroy the session
         abort(403, 'Unauthorized');
     }
-});
+});*/
 
 
    Route::get('/google',function(){

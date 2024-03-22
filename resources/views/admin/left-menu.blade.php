@@ -195,7 +195,14 @@
             </ul>
         </div>
     </li>
-    
+    <li class="nav-item menu-items messages">
+      <a class="nav-link" href="{{ route('admin.messages.show')}}">
+      <span class="menu-icon">
+        <i class="mdi mdi-message-text-outline"></i>
+      </span>
+      <span class="menu-title">Messages</span>
+      </a>
+    </li>
     </ul>
   </nav>
   
