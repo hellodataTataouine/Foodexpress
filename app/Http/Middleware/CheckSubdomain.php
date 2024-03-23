@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 use App\Models\Client;
 class CheckSubdomain
 {
@@ -33,11 +34,11 @@ class CheckSubdomain
     public function handle($request, Closure $next)
     {
         $subdomain = $request->getHost();
-       /* if ($subdomain=='localhost'){
+        if (strpos($subdomain, 'localhost') !== false) {
             $subdomain = preg_replace('/:\d+$/', '', $subdomain).":8000";
         }else{
             $subdomain = preg_replace('/:\d+$/', '', $subdomain);
-        }*/
+        }
         $subdomain = preg_replace('/:\d+$/', '', $subdomain).":8000";
         
         // Remove the port number if present

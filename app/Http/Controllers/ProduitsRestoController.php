@@ -23,7 +23,7 @@ class ProduitsRestoController extends Controller
      */
     public function index()
     {
-
+        $var=0;
         $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
@@ -45,7 +45,7 @@ class ProduitsRestoController extends Controller
             ->count();
 
       
-          return view('restaurant.produits.index', compact('products', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
+          return view('restaurant.produits.index', compact('var','products', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
       
     }else {
         // Handle the case when the user does not have a restaurant
@@ -303,5 +303,22 @@ public function getAllProducts() {
     
         return redirect()->route('restaurant.produits.index')->with('success', 'Produit supprimé avec succès.');
     
+    }
+    public function updateProductRowN(Request $request) {
+        //dd($request);
+        $productId = $request->input('productId');
+        $rowN = $request->input('rowN');
+    
+        // Find the category
+        $product = ProduitsRestaurants::find($productId);
+    
+        if (!$product) {
+            return response()->json(['success' => false, 'message' => 'Category not found']);
+        }
+        // Update the RowN property and save
+        $product->RowN = $rowN;
+        $product->save();
+    
+        return response()->json(['success' => true, 'message' => 'RowN updated']);
     }
 }

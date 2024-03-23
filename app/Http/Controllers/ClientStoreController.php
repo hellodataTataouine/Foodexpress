@@ -123,7 +123,12 @@ class ClientStoreController extends Controller
 
         // Retrieve the options for each famille option
         foreach ($familleOptions as $familleOption) {
-            $familleOption->options = OptionsRestaurant::where('famille_option_id_rest', $familleOption->id_familleoptions_rest)->get();
+           $familleOption->options = OptionsRestaurant::where('famille_option_id_rest', $familleOption->id_familleoptions_rest)
+                                                ->where('status', 1)
+                                                ->orderBy('RowN')
+                                                ->get();
+			
+	
         }
         // Retrieve the name of the famille option
         foreach ($familleOptions as $familleOption) {
@@ -133,9 +138,8 @@ class ClientStoreController extends Controller
         // Return the product details as a JSON response
         return response()->json([
             'product' => $product,
-            'familleOptions' => $familleOptions
-        ]);
-    }
+            'familleOptions' => $familleOptions]);
+}
     public function getCurrentCartId()
     {
         return session('cart_id');

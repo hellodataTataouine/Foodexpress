@@ -13,7 +13,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ProduitsController;
 use App\Http\Controllers\ProduitsRestoController;
 use App\Http\Controllers\HoraireController;
-use App\Http\Middleware\CheckSubdomain;
+
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Controllers\AcceuilController;
 use App\Http\Controllers\ClientLoginController;
@@ -65,24 +65,13 @@ use App\Http\Controllers\StripePaymentController;
  //Route::get('/',[FrontendController::class,'index'])->name('foodexpress');
 Route::post('/sendmessage',[MessagesController::class,'store'])->name('sendmessage');
 //for subdomain
-Route::domain('{subdomain}.'.env('mainhost'))->group(function () {
-	//Route::get('/mentions-legales', function () {
-    //return view('client.mentions-legales');
-//});
-	//Route::get('/contact', function () {
-   // return view('client.contact');
-// });
+Route::domain('{subdomain}.localhost')->group(function () {
+    Route::get('/store', [ProductsController::class, 'index'])->name('client.products.index');
 	Route::get('/contact', [ContactController::class, 'showContactForm'])->name('contact.show');
 Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
 	Route::get('/politique-de-cookies',[CookiePolicyController::class, 'show'])->name('cookie.policy');
 		Route::get('/mentions-legales',[MentionsLegalesController::class, 'show'])->name('mentions.legales');
-
-
-	
-	//Route::get('/politique-de-cookies', function () {
-    //return view('client.politique-de-cookies');
-//});
-    Route::get('/store', [ProductsController::class, 'index'])->name('client.products.index');
+        
     Route::get('/panier/add/{productId}', [ClientStoreController::class, 'addToCart'])->name('panier.add');
     Route::get('/panier', [ClientStoreController::class, 'index'])->name('panier.show');
     Route::delete('panier/remove/{productId}', [ClientStoreController::class, 'removeFromCart'])->name('panier.remove');
@@ -172,7 +161,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
             abort(403, 'Unauthorized');
         }
     });
-     Route::get('/home', [ClientController::class, 'clients'])->name('indexAdmin');
+     //Route::get('/home', [ClientController::class, 'clients'])->name('indexAdmin');
      Route::get('/admin/home', [ClientController::class, 'clients'])->name('indexAdmin');
      Route::get('/admin/messages',[MessagesController::class,'index'])->name('admin.messages.show');
      Route::get('/admin/clients/create', [ClientController::class, 'create']);
@@ -324,7 +313,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
     Route::post('/restaurant/produits', [ProduitsRestoController::class, 'store'])->name('restaurant.produits.store');
     Route::get('/restaurant/produits/{id}/edit', [ProduitsRestoController::class, 'edit'])->name('restaurant.produits.edit');
     Route::put('/restaurant/produits/{produit}', [ProduitsRestoController::class, 'update'])->name('restaurant.produits.update');
-
+    Route::post('/update-product-row-n',[ProduitsRestoController::class ,'updateProductRowN'])->name('restaurant.produits.update.row');
     Route::post('/status/update', [ProduitsRestoController::class, 'updatestatus'])->name('restaurant.produits.update-status');
  
     Route::delete('/restaurant/produits/{produit}', [ProduitsRestoController::class, 'destroy'])->name('restaurant.produits.destroy');
@@ -341,6 +330,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/famille-options/create', [FamilleOptionControllerResto::class, 'create'])->name('restaurant.famille-options.create');
      Route::post('/restaurant/famille-options', [FamilleOptionControllerResto::class, 'store'])->name('restaurant.famille-options.store');
      Route::get('/restaurant/famille-options/{id}/edit', [FamilleOptionControllerResto::class, 'edit'])->name('restaurant.famille-options.edit');
+     
      Route::delete('/restaurant/famille-options/{id}', [FamilleOptionControllerResto::class, 'destroy'])->name('restaurant.famille-options.destroy');
      Route::put('/restaurant/famille-options/{id}', [FamilleOptionControllerResto::class, 'update'])->name('restaurant.famille-options.update');
 
@@ -353,7 +343,10 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
     
      Route::get('/restaurant/options/remove/{option}', [OptionRestoController::class, 'remove'])->name('restaurant.options.remove');
      Route::get('restaurant/famille-options/{familleOption}', [FamilleOptionRestoController::class, 'getoptions'])->name('restaurant.famille-options.options');
+     Route::post('/status_option/update', [OptionRestoController::class, 'updatestatus'])->name('restaurant.options.update-status');
+     Route::post('/update-option-row-n', [OptionRestoController::class, 'updateOptionRowN'])->name('restaurant.options.update.row');
 
+     
      Route::get('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'index'])->name('restaurant.paiment.index');
      Route::get('/restaurant/paiment-methods/create', [PaimentRestaurantController::class, 'create'])->name('restaurant.paiment.create');
      Route::post('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'store'])->name('restaurant.paiment.store');
@@ -415,7 +408,7 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 //Route::get('/store', [ClientStoreController::class, 'store'])->name('store.index');
 //Route::get('/acceuil', [AcceuilController::class, 'index'])->name('acceuil.index');
 Route::get('/', function () {
-    $host = request()->getHost();
+    $host = request()->getHost() ;
     // Check if the host is 'localhost' or 'subdomain.localhost'
     
     if ($host === 'localhost') {
@@ -431,7 +424,7 @@ Route::get('/', function () {
     }
 })->name('foodexpress.index');
 
-Route::get('/home', function () {
+/*Route::get('/home', function () {
     if (auth()->check() && auth()->user()->is_admin == 1) {
             return redirect("http://" . env('mainhost') . "/admin/clients");
     } elseif (auth()->check() && auth()->user()->is_admin == 3) {
@@ -447,21 +440,12 @@ Route::get('/home', function () {
         return redirect("http://" . env('mainhost') . "/restaurant/home?1");
 
 
-      /*  if (auth()->check() && auth()->user()->is_admin == 0) {
-            $userId = auth()->user()->id;
-            $clientInfo = Client::where('user_id', $userId)->first();
-            $pathUrl = $clientInfo->url_platform.'/restaurant/home?res';
-            $subdomain = explode('.', $clientInfo->url_platform)[0];
-        
-            // If the subdomain is empty (for admin users), use "localhost"
-            $redirectSubdomain = empty($subdomain) ? 'localhost' : $subdomain;
-        
-            return redirect("http://$redirectSubdomain.localhost:8000/restaurant/home?1");*/
+     
    } else {
         session()->flush(); // Destroy the session
         abort(403, 'Unauthorized');
     }
-});
+});*/
 
 
    Route::get('/google',function(){

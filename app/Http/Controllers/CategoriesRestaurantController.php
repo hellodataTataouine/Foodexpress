@@ -69,6 +69,7 @@ class CategoriesRestaurantController extends Controller
     
     public function produitsCategorie(CategoriesRestaurant $category)
     {
+        $var=1;
         $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
@@ -80,8 +81,8 @@ class CategoriesRestaurantController extends Controller
 		$NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
             ->where('statut', 'Nouveau')
             ->count();
-        $products = ProduitsRestaurants::where('categorie_rest_id', $category->id)->where('restaurant_id', $restaurant->id)->paginate(10);
-        return view('restaurant.produits.index', compact('products', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
+        $products = ProduitsRestaurants::where('categorie_rest_id', $category->id)->where('restaurant_id', $restaurant->id)->get();
+        return view('restaurant.produits.index', compact('var','products', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
     }}
     public function create()
     {

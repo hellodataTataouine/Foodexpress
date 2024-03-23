@@ -18,7 +18,7 @@ class ProductsController  extends controller
 
     public function index($subdomain)
     {
-       // dd($subdomain);
+      //  dd($subdomain);
         $sub = $subdomain . '.' . env('mainhost');
       
         $client = Client::where('url_platform', $sub)->firstOrFail();

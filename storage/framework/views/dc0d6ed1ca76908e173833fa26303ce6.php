@@ -446,7 +446,7 @@ Feature Area
                 </div>
                 <div class="col-lg-4 order-lg-2">
                     <div class="why-thumb-4">
-                        <img src="images/img/desktopscreen_pda.png" alt="img">
+                        <img src="images/img/pda.png" alt="img">
                     </div>
                 </div>
             </div>
@@ -468,7 +468,9 @@ Download Area 1
                     <div class="img1">
                         <img src="images/img/reservation_1.png" alt="img">
                     </div>
-                    
+                    <div class="img2 jump" width="315px" height="350px">
+                        <img src="images/img/icon/cutlery-spoon.svg" alt="img">
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -514,7 +516,9 @@ Download Area 1
                     <div class="img1">
                         <img src="images/img/commande_1.png" alt="img">
                     </div>
-                    
+                    <div class="img2 jump" width="315px" height="350px">
+                        <img src="images/img/icon/cart-svg.svg" alt="img">
+                    </div>
                 </div>
             </div>
             <div class="col-lg-6">
@@ -784,7 +788,7 @@ Price Area
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Les clients peuvent choisir la durée de leur réservation  </li>
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Bloquer les tables pour qu’elles ne puissent pas être réservable en ligne </li>
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Ajouter des informations supplémentaires pour les invités dans le message</li>
-                                        
+                                        <li><i class="fas fa-circle-check" style="color:green"></i>Annulez à tout moment votre abonnement </li>
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Service saisie du données</li>
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Assistance 24/7</li>
                                         
@@ -822,7 +826,7 @@ Price Area
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Les clients peuvent choisir la durée de leur réservation  </li>
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Bloquer les tables pour qu’elles ne puissent pas être réservable en ligne </li>
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Ajouter des informations supplémentaires pour les invités dans le message</li>
-                                        
+                                        <li><i class="fas fa-circle-check" style="color:green"></i>Annulez à tout moment votre abonnement </li>
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Service saisie du données</li>
                                         <li class="unavailable"><i class="fas fa-circle-xmark" style="color:red"></i>Assistance 24/7</li>
                                         <!--<li><i class="fas fa-circle-check"></i>100+ integrations</li>-->
@@ -861,7 +865,7 @@ Price Area
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Les clients peuvent choisir la durée de leur réservation  </li>
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Bloquer les tables pour qu’elles ne puissent pas être réservable en ligne </li>
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Ajouter des informations supplémentaires pour les invités dans le message</li>
-                                        
+                                        <li><i class="fas fa-circle-check" style="color:green"></i>Annulez à tout moment votre abonnement </li>
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Service saisie du données</li>
                                         <li><i class="fas fa-circle-check" style="color:green"></i>Assistance 24/7</li>
                                     </ul>
@@ -1290,4 +1294,4 @@ Testimonial Area
 
 </body>
 
-</html><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/frontend/index.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\Users\HD\Workspace\archive03FExpress\resources\views/frontend/index.blade.php ENDPATH**/ ?>

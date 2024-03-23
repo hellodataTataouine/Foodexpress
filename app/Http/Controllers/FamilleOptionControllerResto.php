@@ -21,8 +21,8 @@ class FamilleOptionControllerResto extends Controller
             if ($user) {
             
             $restaurant = $user->restaurant;
-     
-            $familleOptions = FamilleOptionsRestaurant::where('restaurant_id', $restaurant->id)->paginate(10);
+                //paginate()10 replaced by get()
+            $familleOptions = FamilleOptionsRestaurant::where('restaurant_id', $restaurant->id)->get();
             return view('restaurant.famille-options.index', compact('familleOptions'));
       
         
@@ -44,8 +44,9 @@ class FamilleOptionControllerResto extends Controller
 
 
     public function getoptions(familleOptionsRestaurant $familleOption)
-    {
-        $options = OptionsRestaurant::where('famille_option_id_rest', $familleOption->id)->paginate(10);
+    { 
+        //paginate (10 ) replaced by get()
+         $options = OptionsRestaurant::where('famille_option_id_rest', $familleOption->id)->get();
         return view('restaurant.options.index', compact('options'));
     }
     /**
@@ -96,6 +97,8 @@ class FamilleOptionControllerResto extends Controller
      */
     public function edit(string $id)
     {
+        $options = OptionsRestaurant::where('famille_option_id_rest', $id)->get();
+        //dd($options);
         $familleOptionRestaurant = familleOptionsRestaurant::find($id);
         
         // Check if the famille option exists
@@ -104,7 +107,7 @@ class FamilleOptionControllerResto extends Controller
         }
         
         // Return the view for editing the famille option
-        return view('restaurant.famille-options.edit', compact('familleOptionRestaurant'));
+        return view('restaurant.famille-options.edit', compact('familleOptionRestaurant', 'options'));
     }
 
     /**

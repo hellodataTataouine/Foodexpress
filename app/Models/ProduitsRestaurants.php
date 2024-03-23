@@ -14,6 +14,7 @@ class ProduitsRestaurants extends Model
         'prix',
         'categorie_rest_id',
         'status',
+        'RowN',
         
     ];
 

@@ -1,16 +1,13 @@
+<?php $__env->startSection('title', 'Welcome'); ?>
 
-@extends('base')
-
-@section('title', 'Welcome')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-scroller">
         <!-- partial:partials/_sidebar.html -->
-        @include('restaurant.left-menu')
+        <?php echo $__env->make('restaurant.left-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_navbar.html -->
-            @include('restaurant.top-menu')
+            <?php echo $__env->make('restaurant.top-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -20,11 +17,12 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h2 class="text-center">Liste des Options</h2>
-                                    @if (session('success'))
+                                    <?php if(session('success')): ?>
                                         <div class="alert alert-success">
-                                            {{ session('success') }}
+                                            <?php echo e(session('success')); ?>
+
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="mb-3">
                                         <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Rechercher par nom.." title="Type in a name">
                                     </div>
@@ -41,31 +39,25 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($options as $option)
+                                                <?php $__currentLoopData = $options; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                     <tr>
                                                       
-                                                        <td>{{ $option->nom_option }}</td>
-                                                      @if($option->familleOption)  <td>{{ $option->familleOption->nom_famille_option }}</td>@else
-														<td></td>@endif
-                                                        <td>{{ $option->prix }}</td>
+                                                        <td><?php echo e($option->nom_option); ?></td>
+                                                        <td><?php echo e($option->familleOption->nom_famille_option); ?></td>
+                                                        <td><?php echo e($option->prix); ?></td>
 
                                                         <td> 
-															    <button type="button" class="select-btn btn {{ $option->status ? 'btn-success' : 'btn-danger' }}" 
-                data-option="{{ $option->id }}" 
-                data-selected="{{ $option->status ? 'Actif' : 'Non Actif' }}">
-            {{ $option->status ? 'Actif' : 'Non Actif' }}
-        </button>
-                                                            <a href="{{ route('restaurant.options.edit', $option->id) }}" class="btn btn-primary">Modifier</a>
+                                                            <a href="<?php echo e(route('restaurant.options.edit', $option->id)); ?>" class="btn btn-primary">Modifier</a>
                                                       
-                                                            <button type="button" class="btn btn-danger btn-sm" onclick="removeOption({{ $option->id }})">Supprimer</button>
+                                                            <button type="button" class="btn btn-danger btn-sm" onclick="removeOption(<?php echo e($option->id); ?>)">Supprimer</button>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                         <div class="pagination justify-content-between">
                                           <div class="text-end">
-                                            <a href="{{ route('restaurant.options.create') }}" class="btn btn-primary">Ajouter Option</a>
+                                            <a href="<?php echo e(route('restaurant.options.create')); ?>" class="btn btn-primary">Ajouter Option</a>
                                           </div>
                                           <div class="text-start">
                                           
@@ -78,7 +70,7 @@
                         </div>
                     </div>
                 </div>
-                @include('footer')
+                <?php echo $__env->make('footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
         </div>
     </div>
@@ -94,37 +86,7 @@
         </div>
     </div>
     <script>
-$(function () {
-        $('.select-btn').click(function () {
-            var button = $(this);
-            var status = button.data('Actif') === 'Actif' ? 0 : 1; // Toggle the status
 
-            var option_id = button.data('option');
-
-            $.ajax({
-                type: "POST",
-                dataType: "json",
-                url: '/status_option/update',
-                data: {
-                    '_token': '{{ csrf_token() }}',
-                    'status': status,
-                    'option_id': option_id
-                },
-                success: function (data) {
-                    if (status == 1) {
-                        button.removeClass('btn-danger').addClass('btn-success').text('Actif');
-                        button.data('Actif', 'Actif');
-                    } else {
-                        button.removeClass('btn-success').addClass('btn-danger').text('Non Actif');
-                        button.data('Actif', 'Non Actif');
-                    }
-                    console.log(data.success);
-                }
-            });
-        });
-    }); 
-	
-	
 function myFunction() {
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("myInput");
@@ -153,8 +115,10 @@ function myFunction() {
 }
 function removeOption(optionId) {
     if (confirm('Are you sure you want to remove this option?')) {
-        window.location.href = "{{ route('restaurant.options.remove', '') }}/" + optionId;
+        window.location.href = "<?php echo e(route('restaurant.options.remove', '')); ?>/" + optionId;
     }
 }
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/options/index.blade.php ENDPATH**/ ?>

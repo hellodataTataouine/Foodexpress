@@ -1,15 +1,13 @@
-@extends('base')
+<?php $__env->startSection('title', 'Welcome'); ?>
 
-@section('title', 'Welcome')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-scroller">
         <!-- partial:partials/_sidebar.html -->
-        @include('restaurant.left-menu')
+        <?php echo $__env->make('restaurant.left-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_navbar.html -->
-            @include('restaurant.top-menu')
+            <?php echo $__env->make('restaurant.top-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -18,36 +16,37 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h2 class="text-center">Modifier Famille Option</h2>
-                                    @if (session('success'))
+                                    <?php if(session('success')): ?>
                                         <div class="alert alert-success">
-                                            {{ session('success') }}
+                                            <?php echo e(session('success')); ?>
+
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
 
                                     <div class="table-responsive">
-                                        <form action="{{ route('restaurant.famille-options.update', $familleOptionRestaurant->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
+                                        <form action="<?php echo e(route('restaurant.famille-options.update', $familleOptionRestaurant->id)); ?>" method="POST">
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('PUT'); ?>
                 
                                             <div class="mb-3">
                                                 <label for="nom_famille_option" class="form-label">Nom</label>
-                                                <input type="text" class="form-control" id="nom_famille_option" name="nom_famille_option" value="{{ $familleOptionRestaurant->nom_famille_option }}" required>
+                                                <input type="text" class="form-control" id="nom_famille_option" name="nom_famille_option" value="<?php echo e($familleOptionRestaurant->nom_famille_option); ?>" required>
                                             </div>
                 
                                             <div class="mb-3">
                                                 <label for="type">Type</label>
                                                 <select name="type" id="type" class="form-control"  required >
-                                                    <option value="simple" {{ $familleOptionRestaurant->type == "simple" ? 'selected' : '' }}>Obligatoire</option>
-                                                    <option value="multiple" {{ $familleOptionRestaurant->type == "multiple" ? 'selected' : '' }}>Au choix</option>
-                                                    <option value="qte" {{ $familleOptionRestaurant->type == "qte" ? 'selected' : '' }}>Quantité</option>
+                                                    <option value="simple" <?php echo e($familleOptionRestaurant->type == "simple" ? 'selected' : ''); ?>>Obligatoire</option>
+                                                    <option value="multiple" <?php echo e($familleOptionRestaurant->type == "multiple" ? 'selected' : ''); ?>>Au choix</option>
+                                                    <option value="qte" <?php echo e($familleOptionRestaurant->type == "qte" ? 'selected' : ''); ?>>Quantité</option>
                                                 </select> </div>
-						@if($familleOptionRestaurant->type == "multiple")			
+						<?php if($familleOptionRestaurant->type == "multiple"): ?>			
                 <div class="form-group"  id="nbre_de_choix1">
 							 				 
         <label for="nbre_de_choix">Nombre de choix maximum possible</label>
-        <input type="number" name="nbre_de_choix" id="nbre_de_choix" class="form-control" value={{ $familleOptionRestaurant->nbre_choix }} >
+        <input type="number" name="nbre_de_choix" id="nbre_de_choix" class="form-control" value=<?php echo e($familleOptionRestaurant->nbre_choix); ?> >
    </div>
-				@endif				
+				<?php endif; ?>				
                 
           								
 											<div class="table-responsive">
@@ -63,32 +62,34 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($options->sortBy('RowN') as $option)
+                                                <?php $__currentLoopData = $options->sortBy('RowN'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $option): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                
-                                                <tr data-option-id="{{ $option->id }}">
+                                                <tr data-option-id="<?php echo e($option->id); ?>">
                                                     <td>
                                           <i class="fa-solid fa-arrow-up" onclick="moveRowUp(this)" data-disabled="true"></i>
-                                        {{$option->RowN}}
+                                        <?php echo e($option->RowN); ?>
+
                                           <i class="fa-solid fa-arrow-down" onclick="moveRowDown(this)" data-disabled="true"></i>
 											</td>	
                                                     <td>
                                                        
                                                        
 
-                                                       {{ $option->nom_option }} <br>
+                                                       <?php echo e($option->nom_option); ?> <br>
                                                     
                                                        
                                                     </td>
 													 <td> 
-        <button type="button" class="select-btn btn {{ $option->status ? 'btn-success' : 'btn-danger' }}" 
-                data-option="{{ $option->id }}" 
-                data-selected="{{ $option->status ? 'Actif' : 'Non Actif' }}">
-            {{ $option->status ? 'Actif' : 'Non Actif' }}
+        <button type="button" class="select-btn btn <?php echo e($option->status ? 'btn-success' : 'btn-danger'); ?>" 
+                data-option="<?php echo e($option->id); ?>" 
+                data-selected="<?php echo e($option->status ? 'Actif' : 'Non Actif'); ?>">
+            <?php echo e($option->status ? 'Actif' : 'Non Actif'); ?>
+
         </button>
    
     </td>   
                                                 </tr>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -96,7 +97,7 @@
 
                                             <div class="text-center">
                                                 <button type="submit" class="btn btn-primary">Mettre à jour</button>
-                                                <a href="{{ route('restaurant.famille-options.index') }}" class="btn btn-secondary">Annuler</a>
+                                                <a href="<?php echo e(route('restaurant.famille-options.index')); ?>" class="btn btn-secondary">Annuler</a>
                                             </div>
                                         </form>
                                     </div>
@@ -105,12 +106,12 @@
                         </div>
                     </div>
                 </div>
-                @include('footer')
+                <?php echo $__env->make('footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
@@ -127,7 +128,7 @@
                 dataType: "json",
                 url: '/status_option/update',
                 data: {
-                    '_token': '{{ csrf_token() }}',
+                    '_token': '<?php echo e(csrf_token()); ?>',
                     'status': status,
                     'option_id': option_id
                 },
@@ -192,7 +193,7 @@ function updateCategoryRowN(optionId, rowN) {
     $.ajax({
         url: '/update-option-row-n',
         method: 'POST',
-        data: { optionId: optionId, rowN: rowN,  _token: "{{ csrf_token() }}", },
+        data: { optionId: optionId, rowN: rowN,  _token: "<?php echo e(csrf_token()); ?>", },
         success: function(data) {
             if (data.success) {
               
@@ -234,3 +235,5 @@ function updateCategoryRowN(optionId, rowN) {
 
     
 </script>
+
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/famille-options/edit.blade.php ENDPATH**/ ?>

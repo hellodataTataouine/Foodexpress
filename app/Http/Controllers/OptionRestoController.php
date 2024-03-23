@@ -134,6 +134,36 @@ class OptionRestoController extends Controller
        // return redirect()->back()->with('success', 'Option modifiée avec succès!');
     }
     
+    public function updateOptionRowN(Request $request) {
+        $optionId = $request->input('optionId');
+        $rowN = $request->input('rowN');
+    
+        // Find the category
+        $option = OptionsRestaurant::find($optionId);
+    
+        if (!$option) {
+            return response()->json(['success' => false, 'message' => 'option not found']);
+        }
+    
+        // Update the RowN property and save
+        $option->RowN = $rowN;
+        $option->save();
+    
+        return response()->json(['success' => true, 'message' => 'RowN updated']);
+    }
 
+    public function updatestatus(Request $request)
+    {
+        $option_id = $request->input('option_id');
+        $status = $request->input('status');
+
+        // Assuming you have a 'products' table with a 'status' column, you can update the status like this:
+        $option = OptionsRestaurant::findOrFail($option_id);
+        $option->status = $status;
+        $option->save();
+
+        // You can return a response to indicate the update was successful if needed.
+        return response()->json(['success' => true]);
+    }
 
 }

@@ -1,8 +1,6 @@
-@extends('base')
+<?php $__env->startSection('title', 'Welcome'); ?>
 
-@section('title', 'Welcome')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <head>
 <meta charset="utf-8">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" ></script> 
@@ -14,25 +12,26 @@
 </head>
     <div class="container-scroller">
         <!-- partial:partials/_sidebar.html -->
-        @include('restaurant.left-menu')
+        <?php echo $__env->make('restaurant.left-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_navbar.html -->
-            @include('restaurant.top-menu')
+            <?php echo $__env->make('restaurant.top-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
                     <div class="row">
                         <div class="col-12 grid-margin">
                             <div class="card">
-                              @include('restaurant.stat')
+                              <?php echo $__env->make('restaurant.stat', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                       <div class="card-body">
                                     <h2 class="text-center">Produits</h4>
-                                    @if (session('success'))
+                                    <?php if(session('success')): ?>
                                         <div class="alert alert-success">
-                                            {{ session('success') }}
+                                            <?php echo e(session('success')); ?>
+
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
                                     <div class="mb-3">
                                         <input type="text"  class="form-control"  id="myInput" onkeyup="myFunction()" placeholder="Rechercher par noms.." title="Type in a name">
                                     </div>
@@ -41,9 +40,9 @@
                                         <table class="table" id="myTable" style="width: 100%">
                                             <thead>
                                                 <tr>
-                                                    @if ($var==1)
+                                                    <?php if($var==1): ?>
                                                     <th>Order</th>
-                                                    @endif
+                                                    <?php endif; ?>
                                                     
                                                     <th>Image</th>
                                                     <th>Nom</th>
@@ -56,38 +55,39 @@
                                             </thead>
                                             <tbody>
                                                 
-                                                @foreach($products->sortby('RowN') as $produit)
+                                                <?php $__currentLoopData = $products->sortby('RowN'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $produit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                 
-                                                    <tr data-category-id="{{ $produit->id }}">
-                                                        @if ($var==1)
+                                                    <tr data-category-id="<?php echo e($produit->id); ?>">
+                                                        <?php if($var==1): ?>
                                                         <td>
                                                             <i class="fa-solid fa-arrow-up" onclick="moveRowUp(this)" data-disabled="true"></i>
-                                                            {{ $produit->RowN }} 
+                                                            <?php echo e($produit->RowN); ?> 
                                                             <i class="fa-solid fa-arrow-down" onclick="moveRowDown(this)" data-disabled="true"></i>
                                                         </td>	
-                                                        @endif
+                                                        <?php endif; ?>
                                                         
                                                           
                                                         <td>
                                                        
-                                                            <a href="{{ asset($produit->url_image) }}"
+                                                            <a href="<?php echo e(asset($produit->url_image)); ?>"
                                                                 data-toggle="modal" data-target="#imageModal">
-                                                                <img src="{{ asset($produit->url_image) }}"
+                                                                <img src="<?php echo e(asset($produit->url_image)); ?>"
                                                                     alt="Product Image" class="zoomable-image">
                                                             </a>
                                                         </td>
-                                                        <td>{{ $produit->nom_produit }}</td>
-                                                        <td>{{ $produit->description }}</td>
-                                                        <td>{{ $produit->prix }}</td>
-                                                        <td>{{ $produit->categories->name }}</td>
+                                                        <td><?php echo e($produit->nom_produit); ?></td>
+                                                        <td><?php echo e($produit->description); ?></td>
+                                                        <td><?php echo e($produit->prix); ?></td>
+                                                        <td><?php echo e($produit->categories->name); ?></td>
 
                                                        
                                                        
                                                         <td> 
-        <button class="select-btn btn {{ $produit->status ? 'btn-success' : 'btn-danger' }}" 
-                data-product="{{ $produit->id }}" 
-                data-selected="{{ $produit->status ? 'Actif' : 'Non Actif' }}">
-            {{ $produit->status ? 'Actif' : 'Non Actif' }}
+        <button class="select-btn btn <?php echo e($produit->status ? 'btn-success' : 'btn-danger'); ?>" 
+                data-product="<?php echo e($produit->id); ?>" 
+                data-selected="<?php echo e($produit->status ? 'Actif' : 'Non Actif'); ?>">
+            <?php echo e($produit->status ? 'Actif' : 'Non Actif'); ?>
+
         </button>
    
     </td>
@@ -95,25 +95,25 @@
                                                             
                                                       
                                                             <td style="display: flex;">
-                                                            <a href="{{ route('restaurant.produits.edit', $produit->id) }}"
+                                                            <a href="<?php echo e(route('restaurant.produits.edit', $produit->id)); ?>"
                                                                  class="btn btn-primary">Modifier</a>
                                                             <form
-                                                                action="{{ route('restaurant.produits.destroy', $produit->id) }}"
+                                                                action="<?php echo e(route('restaurant.produits.destroy', $produit->id)); ?>"
                                                                 method="POST" style="margin-left:15px;">
-                                                                @csrf
-                                                                @method('DELETE')
+                                                                <?php echo csrf_field(); ?>
+                                                                <?php echo method_field('DELETE'); ?>
                                                                 <button type="submit"
                                                                     class="btn btn-danger col">Supprimer</button>
                                                             </form>
                                                         </td>
                                                     </tr>
-                                                @endforeach
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 <tr><td colspan="8"></td></tr>
                                             </tbody>
                                         </table>
                                         <div class="pagination justify-content-between">
                                           <div class="text-end">
-                                           <a href="{{ route('restaurant.produits.create') }}" class="btn btn-primary">Créer un produit</a>
+                                           <a href="<?php echo e(route('restaurant.produits.create')); ?>" class="btn btn-primary">Créer un produit</a>
                                           </div>
                                          
                                         </div>
@@ -123,7 +123,7 @@
                         </div>
                     </div>
                 </div>
-                @include('footer')
+                <?php echo $__env->make('footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
         </div>
     </div>
@@ -218,7 +218,7 @@ function updateProductRowN(productId, rowN) {
     $.ajax({
         url: '/update-product-row-n',
         method: 'POST',
-        data: { productId: productId, rowN: rowN,  _token: "{{ csrf_token() }}", },
+        data: { productId: productId, rowN: rowN,  _token: "<?php echo e(csrf_token()); ?>", },
         success: function(data) {
             if (data.success) {
               
@@ -286,7 +286,7 @@ function myFunction() {
                 dataType: "json",
                 url: '/status/update',
                 data: {
-                    '_token': '{{ csrf_token() }}',
+                    '_token': '<?php echo e(csrf_token()); ?>',
                     'status': status,
                     'product_id': produit_id
                 },
@@ -304,4 +304,6 @@ function myFunction() {
         });
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/produits/index.blade.php ENDPATH**/ ?>
