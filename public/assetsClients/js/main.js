@@ -378,9 +378,13 @@
   -------------------------------------------------------------------------------*/
   $(".menu-category-slider").slick({
     slidesToShow: 8,
-    slidesToScroll: 3,
-    arrows: false,
+    slidesToScroll: 1,
+    arrows: true,
     dots: false,
+    navigation: {
+      nextEl: '.swiper-button-prev',
+      prevEl: '.swiper-button-next',
+    },
     responsive: [
       {
         breakpoint: 1200,
@@ -406,6 +410,7 @@
           slidesToShow: 2,
         }
       },
+      
     ]
   });
 

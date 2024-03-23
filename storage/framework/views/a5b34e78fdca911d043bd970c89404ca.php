@@ -159,9 +159,13 @@
   </div> -->
 
 <!-- Menu Categories Start -->
+
 <div class="ct-menu-categories menu-filter">
+  
     <div class="container">
+      
       <div class="menu-category-slider">
+        
         <a href="#" data-filter="*" class="ct-menu-category-item ">
           <div class="menu-category-thumb">
             <img src="<?php echo e($client->Category_photo); ?>" alt="category" >
@@ -185,11 +189,19 @@
           </div>
         </a>
         <?php endif; ?>
-<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-       
+    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    
       </div>
-    </div>
+        <div class="swiper-button-next start">
+        </div>
+        <div class="swiper-button-prev end">
+        </div>
+        
+      
+    
   </div>
+  
+</div>
   <!-- Menu Categories End -->
  <!-- Menu Wrapper Start -->
  <div class="section section-padding">
@@ -261,7 +273,47 @@
 
 
 </script>
+<script>
+// const slides = document.querySelectorAll(".menu-category-thumb");
+// let currentSlide = 0;
 
+// function showSlide(index) {
+//   slides.forEach((slide, i) => {
+//     if (i === index) {
+//       slide.style.opacity = 100;
+//     } else {
+//       slide.style.opacity = 100;
+//     }
+//   });
+// }
+
+// function nextSlide() {
+//   currentSlide = (currentSlide + 1) % slides.length;
+//   showSlide(currentSlide);
+// }
+
+// function prevSlide() {
+//   currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+//   showSlide(currentSlide);
+// }
+
+// // showSlide(currentSlide);
+// var swiper = new Swiper('.menu-category-slider', {
+//       slidesPerView: 3,
+//       slidesPerGroup: 3,
+//       spaceBetween: 20,
+//       navigation: {
+//         nextEl: '.swiper-button-prev',
+//         prevEl: '.swiper-button-next',
+//       },
+//       breakpoints: {
+//         960: {
+//           slidesPerView: 5,
+//         }
+//       }
+//     });
+
+</script>
   <script>
 	  var selectedOptionsproduits = [];
 	   var selectedOptions = {};
