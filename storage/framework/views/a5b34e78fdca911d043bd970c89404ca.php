@@ -509,7 +509,7 @@ subtractButton.on('click', function() {
 $('.modal-body .order-item.btn-custom.btn-sm.shadow-none.customizeBtn').remove();
 		
 
-var addToCartBtn = $('<button type="submit"  class="order-item btn-custom btn-sm shadow-none customizeBtn" data-product-id="' + productId + '" data-product-name="' + response.product.nom_produit + '" data-product-image="' + response.product.url_image + '" data-product-price="' + response.product.prix + '">Ajouter au Parier <i class="fas fa-shopping-cart"></i></button>');
+var addToCartBtn = $('<button type="submit"  class="order-item btn-custom btn-sm shadow-none customizeBtn" data-product-id="' + productId + '" data-product-name="' + response.product.nom_produit + '" data-product-image="' + response.product.url_image + '" data-product-price="' + response.product.prix + '">Ajouter au Panier <i class="fas fa-shopping-cart"></i></button>');
 addToCartBtn.appendTo('.modal-body');
 			  // Create the "Cancel" button
 			  $('.modal-body .btn.btn-sm.shadow-none.cancelButton').remove();
@@ -965,7 +965,7 @@ subtractButton.on('click', function() {
 $('.modal-body .order-item.btn-custom.btn-sm.shadow-none.customizeBtn').remove();
 		
 if (productIdAdd !== undefined) {
-var addToCartBtn = $('<button type="submit"  class="order-item btn-custom btn-sm shadow-none customizeBtn" data-product-id="' + productId + '" data-product-name="' + response.product.nom_produit + '" data-product-image="' + response.product.url_image + '" data-product-price="' + response.product.prix + '">Ajouter au Parier <i class="fas fa-shopping-cart"></i></button>');
+var addToCartBtn = $('<button type="submit"  class="order-item btn-custom btn-sm shadow-none customizeBtn" data-product-id="' + productId + '" data-product-name="' + response.product.nom_produit + '" data-product-image="' + response.product.url_image + '" data-product-price="' + response.product.prix + '">Ajouter au Panier <i class="fas fa-shopping-cart"></i></button>');
 }else {
 
 var addToCartBtn = $('<button type="submit"  class="order-item btn-custom btn-sm shadow-none customizeBtn" data-product-id-edit="' + productId + '" data-product-name="' + response.product.nom_produit + '" data-product-image="' + response.product.url_image + '" data-product-item="' + productitem + '" data-product-price="' + response.product.prix + '">Mettre à jour <i class="fas fa-shopping-cart"></i></button>');

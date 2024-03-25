@@ -249,7 +249,7 @@ function validateForm() {
               
                 <div class="row">
                  <!-- Buyer Info -->
-            <h4>Entrer vos détailles</h4>
+            <h4>Entrer vos détailes</h4>
               
             <div class="col-xl-7">
             <form id="checkoutForm"  method="POST" action="{{ route('client.checkout1.store', ['subdomain' => $subdomain ]) }}"  class="check-validation">

@@ -465,8 +465,8 @@ Download Area 1
         <div class="row gy-40 align-items-center flex-row-reverse">
             <div class="col-lg-6 text-lg-end">
                 <div class="img-box11">
-                    <div class="img1">
-                        <img src="images/img/reservation_1.png" alt="img">
+                    <div class="img1 jump">
+                        <img src="images/img/reservation_2.png" alt="img">
                     </div>
                     {{-- <div class="img2 jump" width="315px" height="350px">
                         <img src="images/img/icon/cutlery-spoon.svg" alt="img">
@@ -513,8 +513,8 @@ Download Area 1
         <div class="row gy-40 align-items-center">
             <div class="col-lg-6">
                 <div class="img-box12">
-                    <div class="img1">
-                        <img src="images/img/commande_1.png" alt="img">
+                    <div class="img1 jump">
+                        <img src="images/img/commande_2.png" alt="img">
                     </div>
                     {{-- <div class="img2 jump" width="315px" height="350px">
                         <img src="images/img/icon/cart-svg.svg" alt="img">

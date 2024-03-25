@@ -1,9 +1,9 @@
-@include('client.layouts.top_menu_client')
+<?php echo $__env->make('client.layouts.top_menu_client', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- Cart Sidebar Start -->
-  @include('client.layouts.cart_client')
+  <?php echo $__env->make('client.layouts.cart_client', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- Cart Sidebar End -->
 
-  @include('client.layouts.header_menu')
+  <?php echo $__env->make('client.layouts.header_menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
   <!-- Header End -->
 <style>
 .fa-google {
@@ -19,7 +19,7 @@
   <div class="section">
 
     <div class="imgs-wrapper">
-     <!-- <img src="{{ asset('assetsClients/img/veg/11.png') }}" alt="veg" class="d-none d-lg-block"> -->
+     <!-- <img src="<?php echo e(asset('assetsClients/img/veg/11.png')); ?>" alt="veg" class="d-none d-lg-block"> -->
     </div>
 
     <div class="container">
@@ -33,20 +33,20 @@
           </div>
         </div>
         <div class="auth-form">
-          @if ($errors->any())
+          <?php if($errors->any()): ?>
           <div class="alert alert-danger">
               <ul>
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
+                  <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                      <li><?php echo e($error); ?></li>
+                  <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </ul>
           </div>
-      @endif
+      <?php endif; ?>
           <h2>Se connecter</h2>
  
         
-          <form method="post" action="{{ route('client.login.submit', ['subdomain' => $subdomain]) }}">
-            @csrf
+          <form method="post" action="<?php echo e(route('client.login.submit', ['subdomain' => $subdomain])); ?>">
+            <?php echo csrf_field(); ?>
             <div class="form-group">
               <input type="text" class="form-control form-control-light" placeholder="email"  id="email" name="email">
             </div>
@@ -59,7 +59,7 @@
 			  
 			  
 			  <div class="form-group">
-                  <a href="{{ route('register.google', ['subdomain' => $subdomain]) }}" class="btn  btn-social">
+                  <a href="<?php echo e(route('register.google', ['subdomain' => $subdomain])); ?>" class="btn  btn-social">
             <i class="fab fa-google  fa-2x"></i> Se connecter avec Google
         </a>
     
@@ -69,7 +69,7 @@
 			  
              
 
-            <p>Vous n'avez pas déjà un compte ? <a href="{{ url('client/register') }}">Créez-en un</a> </p>
+            <p>Vous n'avez pas déjà un compte?? <a href="<?php echo e(url('client/register')); ?>">Créez-en un</a> </p>
 
           </form>
         </div>
@@ -78,4 +78,4 @@
     </div>
   </div>
   <!-- Login Form End -->
-@include('client.layouts.footer_client')
+<?php echo $__env->make('client.layouts.footer_client', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/client/login.blade.php ENDPATH**/ ?>
