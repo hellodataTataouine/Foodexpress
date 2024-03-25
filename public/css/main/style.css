@@ -21653,4 +21653,10 @@ span.select2-selection.select2-selection--single:focus {
   }
 }
 
+.slick-prev:before {
+  content: '←';
+  font-size: 30px;
+  font-style: oblique;
+}
+
 /*# sourceMappingURL=style.css.map */

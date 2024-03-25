@@ -62,7 +62,7 @@
                                                         @if ($var==1)
                                                         <td>
                                                             <i class="fa-solid fa-arrow-up" onclick="moveRowUp(this)" data-disabled="true"></i>
-                                                            {{ $produit->RowN }} 
+                                                            {{-- {{ $produit->RowN }}  --}}
                                                             <i class="fa-solid fa-arrow-down" onclick="moveRowDown(this)" data-disabled="true"></i>
                                                         </td>	
                                                         @endif

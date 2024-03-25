@@ -39,7 +39,7 @@ class ProductsController  extends controller
             Paginator::defaultView('client.layouts.custom-paginator');
     
         // Retrieve the products from the produits table with matching IDs
-        $products = ProduitsRestaurants::whereIn('categorie_rest_id', $categoryIds)->where('status', 1)->where('restaurant_id', $client->id)->get();
+        $products = ProduitsRestaurants::whereIn('categorie_rest_id', $categoryIds)->where('status', 1)->where('restaurant_id', $client->id)->orderBy('RowN')->get();
      
     // Pagination
     $currentPage = LengthAwarePaginator::resolveCurrentPage();

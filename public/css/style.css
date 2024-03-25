@@ -21132,4 +21132,11 @@ div.tagsinput {
   -webkit-flex-grow: 1;
   flex-grow: 1; }
 
+
+.slick-prev:before {
+  content: '←';
+  font-size: 30px;
+  font-style: oblique;
+}
+
 /*# sourceMappingURL=maps/style.css.map */

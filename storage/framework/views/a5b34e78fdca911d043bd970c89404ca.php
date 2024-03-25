@@ -44,6 +44,19 @@
 	  .product-thumb img.customizeBtn {
     cursor: pointer;
 }
+.slick-prev:before {
+  content: url('assetsClients/img/arrow-back.svg');
+  /* font-size: 30px;
+  font-style: oblique; */
+}
+.slick-next:before {
+  content: url('assetsClients/img/arrow-next.svg');
+  /* background: url('assetsClients/img/arrow-next.svg') 0
+    0 / 100% no-repeat;; */
+  /*background: */
+  /* font-size: 30px;
+  font-style: oblique; */
+}
 	  
       </style>
   <!-- Banner End -->
