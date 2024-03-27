@@ -290,7 +290,6 @@ if($Reservation->statut == "confirmé"){
 Mail::send('orderEmail_update_statusReservation', $data, function ($message) use ($subject, $data, $user) {
     $message->subject($subject)
         ->to($data['clientEmail']);
-    $message->from($user->email);
 });
 		
 }	}
