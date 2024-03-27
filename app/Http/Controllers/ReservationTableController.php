@@ -287,9 +287,10 @@ class ReservationTableController extends Controller
 // Store the email in the session
 if($Reservation->statut == "confirmé"){
 // Send the email using the Blade view
-Mail::send('orderEmail_update_statusReservation', $data, function ($message) use ($subject, $data) {
+Mail::send('orderEmail_update_statusReservation', $data, function ($message) use ($subject, $data, $user) {
     $message->subject($subject)
         ->to($data['clientEmail']);
+    $message->from($user->email);
 });
 		
 }	}
