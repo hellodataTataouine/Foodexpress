@@ -123,6 +123,6 @@
 
     <h2>Nous sommes impatients de vous servir à nouveau.</h2>
 
-    <p style="font-size: 16px;">Cordialement,<br>L'équipe de Salade &amp; Cie.</p>
+    <p style="font-size: 16px;">Cordialement</p>
 </body>
 </html>

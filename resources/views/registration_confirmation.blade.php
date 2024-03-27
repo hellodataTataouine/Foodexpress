@@ -48,7 +48,7 @@
     <p>Vous pouvez maintenant profiter de nos services en ligne. Nous sommes impatients de vous servir à nouveau.</p>
 
     <footer>
-        <p>Cordialement,<br>L'équipe de Salade &amp; Cie.</p>
+        <p>Cordialement</p>
     </footer>
 </body>
 </html>

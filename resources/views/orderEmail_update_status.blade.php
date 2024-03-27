@@ -59,7 +59,7 @@
         <!-- Ajoutez plus de détails de commande au besoin -->
         <p style="font-size: 18px;">Prix Total : <strong>{{ $totalPrice }} €</strong></p>
         <p style="font-size: 18px;">Merci d'avoir choisi notre service !</p>
-        <p style="font-size: 18px;">Cordialement,<br>ne-pas-repondre</p>
+        <p style="font-size: 18px;">Cordialement
       </body>
 
 	
