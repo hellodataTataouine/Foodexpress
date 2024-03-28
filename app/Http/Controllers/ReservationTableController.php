@@ -274,7 +274,7 @@ class ReservationTableController extends Controller
 	'clientAdresse' => "",
     'reservationId' => $Reservation->id,
     'currentDateTime' => now()->format('d/m/Y H:i'),
-   
+    'nbpersonne'=> $Reservation->nbre_personnes,
    
     'clientEmail' => $Reservation->ClientEmail,
      
