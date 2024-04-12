@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('title', 'Welcome')
+@section('title', 'Réservation')
 
 @section('content')
     <div class="container-scroller">

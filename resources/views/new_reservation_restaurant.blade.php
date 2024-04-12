@@ -60,6 +60,7 @@
             <li>ID de la réservation : {{ $reservationId }}</li>
 			 <li>Date de réservation : {{ $dateReservation }}</li>
 			 <li>heures de la réservation : Entre {{ $heure_debut }} et {{heure_fin}}</li>
+             <li>Nombre de personnes : {{$nbpersonne}}</li>
             <li>Nom du client : {{ $clientFirstName }} {{ $clientLastName }}</li>
             <li>Email du client : {{ $clientEmail }}</li>
             <li>Téléphone du client : {{ $clientNum1 }}</li>

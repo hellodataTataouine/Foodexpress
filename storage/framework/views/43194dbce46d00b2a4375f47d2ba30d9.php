@@ -241,7 +241,6 @@
           newStatus: newStatus,
           // Include any other data you need to send to the server
         },
-      
         success: function (response) {
           // Handle success, you can update the UI or show a success message here
           console.log('Statut modifié avec succès', response);

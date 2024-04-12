@@ -13,6 +13,7 @@ class ClientPostalCode extends Model
     protected $fillable = [
         'client_id',
         'postal_code',
+        'min_cmd',
     ];
 
     public function client()

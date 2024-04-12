@@ -60,8 +60,8 @@
       <li class="nav-item nav-category">
         <span class="nav-link">Navigation</span>
       </li>
-      <li class="nav-item menu-items">
-        <a class="nav-link" href="{{ url('admin/') }}">
+      <li class="fnav-item menu-items">
+        <a class="nav-link" hre="{{ url('admin/') }}">
           <span class="menu-icon">
             <i class="mdi mdi-speedometer"></i>
           </span>
@@ -215,6 +215,31 @@
           <li class="nav-item"> <a class="nav-link" href="{{ route('restaurant.livraison.create') }}">Ajouter Méthode Livraison</a></li>
           </ul>
         </div>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link"  href="{{ route ('restaurant.metadata.create')}}">
+        <span class="menu-icon">
+          <i class="mdi mdi-xml"></i>
+        </span>
+        <span class="menu-title">META-DATA</span>
+        
+      </a>
+    </li>
+    <li class="nav-item menu-items">
+      <a class="nav-link"  data-toggle="collapse" href="#zoneserv" aria-expanded="false" aria-controls="zoneserv">
+        <span class="menu-icon">
+          <i class="mdi mdi-map-marker"></i>
+        </span>
+        <span class="menu-title">Zone de service</span>
+        <i class="menu-arrow"></i>
+      </a>
+      <div class="collapse" id="zoneserv">
+        <ul class="nav flex-column sub-menu">
+          <li class="nav-item"> <a class="nav-link" href="{{ route ('restaurant.servicezone.index')}}">Liste Zones de service</a></li>
+          <li class="nav-item"> <a class="nav-link" href="{{ route ('restaurant.servicezone.create')}}">Ajouter une Zone de service</a></li>
+
+        </ul>
+      </div>
     </li>
       <li class="nav-item menu-items">
         <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">

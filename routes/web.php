@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\FrontendController;
 use App\Http\Controllers\MessagesController;
+use App\Http\Controllers\MetaDataController;
+use App\Http\Controllers\ServiceZoneController;
 use Illuminate\Support\Facades\Route;
 use App\Models\Client;
 use App\Http\Controllers\Auth\LoginController;
@@ -364,7 +366,12 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/livraisonmethods/{id}/edit', [LivraisonRestaurantController::class, 'edit'])->name('restaurant.livraison.edit');
      Route::put('/restaurant/livraisonmethods/{id}', [LivraisonRestaurantController::class, 'update'])->name('restaurant.livraison.update');
      Route::delete('/restaurant/livraisonmethods/{LivraisonMethod}', [LivraisonRestaurantController::class, 'destroy'])->name('restaurant.livraison.destroy');
-    
+     Route::get('/restaurant/metadata/create', [MetaDataController::class, 'create'])->name('restaurant.metadata.create');
+     Route::get('/restaurant/servicezone/', [PostalCodeController::class, 'index'])->name('restaurant.servicezone.index');
+     Route::get('/restaurant/servicezone/create', [PostalCodeController::class, 'create'])->name('restaurant.servicezone.create');
+     Route::get('/restaurant/servicezone/{id}/edit', [PostalCodeController::class, 'edit'])->name('restaurant.servicezone.edit');
+     Route::put('/restaurant/servicezone/{id}', [PostalCodeController::class, 'update'])->name('restaurant.servicezone.update');
+     Route::delete('/restaurant/servicezone/destroy', [PostalCodeController::class, 'destroy'])->name('restaurant.servicezone.destroy');
      Route::get('/restaurant/tables', [TablesController::class, 'index'])->name('restaurant.tables.index');
      Route::get('/restaurant/tables/create', [TablesController::class, 'create'])->name('restaurant.tables.create');
      Route::post('/restaurant/tables', [TablesController::class, 'store'])->name('restaurant.tables.store');
@@ -387,6 +394,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::put('/restaurant/restaurant', [RestaurantProfileController::class, 'update'])->name('restaurant.restaurant.update');
     Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'editprofile'])->name('restaurant.profile.edit');
      Route::put('/restaurant/profile', [RestaurantProfileController::class, 'updateprofile'])->name('restaurant.profile.update');
+    
     
      
      Auth::routes();
