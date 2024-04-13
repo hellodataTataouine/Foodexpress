@@ -217,11 +217,11 @@
         </div>
     </li>
     <li class="nav-item menu-items">
-      <a class="nav-link"  href="<?php echo e(route ('restaurant.metadata.create')); ?>">
+      <a class="nav-link"  href="<?php echo e(route ('restaurant.seo.index')); ?>">
         <span class="menu-icon">
           <i class="mdi mdi-xml"></i>
         </span>
-        <span class="menu-title">META-DATA</span>
+        <span class="menu-title">SEO</span>
         
       </a>
     </li>
