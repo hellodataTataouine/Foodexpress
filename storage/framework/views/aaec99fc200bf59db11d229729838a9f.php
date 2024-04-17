@@ -1,16 +1,16 @@
-@extends('base')
 
-@section('title', 'Zone de service|Crée')
 
-@section('content')
+<?php $__env->startSection('title', 'Zone de service|Crée'); ?>
+
+<?php $__env->startSection('content'); ?>
 
 <div class="container-scroller">
     <!-- partial:partials/_sidebar.html -->
-    @include('restaurant.left-menu')
+    <?php echo $__env->make('restaurant.left-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
     <!-- partial -->
     <div class="container-fluid page-body-wrapper">
       <!-- partial:partials/_navbar.html -->
-    @include('restaurant.top-menu')
+    <?php echo $__env->make('restaurant.top-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">
@@ -20,14 +20,15 @@
                 <div class="card">
                   <div class="card-body">
                     <h4 class="card-title" style="color: black;">Zones de service</h4>
-                      @if (session('success'))
+                      <?php if(session('success')): ?>
                           <div class="alert alert-success">
-                              {{ session('success') }}
+                              <?php echo e(session('success')); ?>
+
                           </div>
-                      @endif
+                      <?php endif; ?>
                     <div class="table-responsive">
-                   <form method="POST" action="{{ route('restaurant.servicezone.store')}}">
-                          @csrf
+                   <form method="POST" action="<?php echo e(route('restaurant.servicezone.store')); ?>">
+                          <?php echo csrf_field(); ?>
               
                          
                         <div class="mb-3">
@@ -46,9 +47,10 @@
               </div>
             </div>
         </div>
-        @include('footer')
+        <?php echo $__env->make('footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
       </div>
         </div>
      </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/servicezone/create.blade.php ENDPATH**/ ?>

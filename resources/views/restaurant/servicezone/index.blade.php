@@ -1,6 +1,6 @@
 @extends('base')
 
-@section('title', 'Welcome')
+@section('title', 'Zone de service')
 
 @section('content')
     <div class="container-scroller">
@@ -42,7 +42,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($codepostals as $cp)
+                                @foreach ($servicezone as $cp)
                                     <tr>
                                    
                                       
@@ -53,9 +53,9 @@
                                         <td style="display: flex; justify-content: space-between;">
                                          
                                           
-                                            <a href="{{ route('restaurant.servicezone.edit', $cp) }}" class="btn btn-warning btn-sm col-s">Modifier</a>
+                                            <a href="{{ route('restaurant.servicezone.edit', $cp->id) }}" class="btn btn-warning btn-sm col-s">Modifier</a>
 											
-                                            <form action="{{ route('restaurant.servicezone.destroy', $cp) }}" method="POST">
+                                            <form action="{{ route('restaurant.servicezone.destroy', $cp->id) }}" method="POST">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Voulez-vous vraiment supprimer cette zone de service?')">Supprimer</button>

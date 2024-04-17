@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Seo;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Client;
@@ -124,9 +125,13 @@ class ClientController extends BaseController
     'password' => Hash::make($request->password),
     'restaurant_id' => $client->id,
 ]);
+//create seo config row
+$seo = new Seo();
+$seo->client_id = $client->id;
+$seo->save();
 
 
-    // Assign the user to the client
+    // Assign the user lto the cient
     $client->user_id = $user->id;
     $client->save();
 

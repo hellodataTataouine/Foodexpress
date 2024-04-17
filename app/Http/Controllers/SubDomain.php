@@ -35,7 +35,7 @@ class SubDomain extends Controller
     }
     public function restaurantIndex()
     {
-  // Get the ID of the logged-in user
+  // Get the oID of the lgged-in user
       
         $userId = Auth::id();
         $user = User::find($userId);

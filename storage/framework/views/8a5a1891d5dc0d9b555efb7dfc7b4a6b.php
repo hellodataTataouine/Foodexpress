@@ -1,6 +1,6 @@
 
 
-<?php $__env->startSection('title', 'Welcome'); ?>
+<?php $__env->startSection('title', 'Zone de service'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="container-scroller">
@@ -41,7 +41,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php $__currentLoopData = $codepostals; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <?php $__currentLoopData = $servicezone; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $cp): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                    
                                       
@@ -52,9 +52,9 @@
                                         <td style="display: flex; justify-content: space-between;">
                                          
                                           
-                                            <a href="<?php echo e(route('restaurant.servicezone.edit', $cp)); ?>" class="btn btn-warning btn-sm col-s">Modifier</a>
+                                            <a href="<?php echo e(route('restaurant.servicezone.edit', $cp->id)); ?>" class="btn btn-warning btn-sm col-s">Modifier</a>
 											
-                                            <form action="<?php echo e(route('restaurant.servicezone.destroy', $cp)); ?>" method="POST">
+                                            <form action="<?php echo e(route('restaurant.servicezone.destroy', $cp->id)); ?>" method="POST">
                                                 <?php echo csrf_field(); ?>
                                                 <?php echo method_field('DELETE'); ?>
                                                 <button type="submit" class="btn btn-danger btn-sm col-s" onclick="return confirm('Voulez-vous vraiment supprimer cette zone de service?')">Supprimer</button>

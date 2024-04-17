@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('seos', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id');
-            $table->string('title');
-            $table->tinyText('description');
-            $table->text('keywords');
-            $table->string('robots',3);
-            $table->string('follow_links',3);
-            $table->string('content_type',35);
-            $table->string('language',20);
-            $table->string('image')->default(null);
+            $table->string('title')->nullable();
+            $table->tinyText('description')->nullable();
+            $table->text('keywords')->nullable();
+            $table->string('robots',3)->nullable();
+            $table->string('follow_links',3)->nullable();
+            $table->string('content_type',35)->nullable();
+            $table->string('language',20)->nullable();
+            $table->string('image')->nullable();
             $table->timestamps();
         });
     }

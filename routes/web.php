@@ -374,9 +374,10 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
 
      Route::get('/restaurant/servicezone/', [PostalCodeController::class, 'index'])->name('restaurant.servicezone.index');
      Route::get('/restaurant/servicezone/create', [PostalCodeController::class, 'create'])->name('restaurant.servicezone.create');
+     Route::post('/restaurant/servicezone/' , [PostalCodeController::class , 'store'])->name('restaurant.servicezone.store');
      Route::get('/restaurant/servicezone/{id}/edit', [PostalCodeController::class, 'edit'])->name('restaurant.servicezone.edit');
      Route::put('/restaurant/servicezone/{id}', [PostalCodeController::class, 'update'])->name('restaurant.servicezone.update');
-     Route::delete('/restaurant/servicezone/destroy', [PostalCodeController::class, 'destroy'])->name('restaurant.servicezone.destroy');
+     Route::delete('/restaurant/servicezone/destroy/{id}', [PostalCodeController::class, 'destroy'])->name('restaurant.servicezone.destroy');
      
      Route::get('/restaurant/tables', [TablesController::class, 'index'])->name('restaurant.tables.index');
      Route::get('/restaurant/tables/create', [TablesController::class, 'create'])->name('restaurant.tables.create');
@@ -384,7 +385,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/tables/{id}/edit', [TablesController::class, 'edit'])->name('restaurant.tables.edit');
      Route::put('/restaurant/tables/{id}', [TablesController::class, 'update'])->name('restaurant.tables.update');
      Route::delete('/restaurant/tables/{id}', [TablesController::class, 'destroy'])->name('restaurant.tables.destroy');
-
+    
 
      Route::get('/restaurant/resevation', [ReservationTableController::class, 'index'])->name('restaurant.resevation.index');
      Route::get('/restaurant/resevation/create', [ReservationTableController::class, 'create'])->name('restaurant.resevation.create');

@@ -50,8 +50,8 @@ class PostalCodeController extends Controller
         
         
         
-        $codepostals = ClientPostalCode::where('client_id', $restaurant->id)->get();
-        return view('restaurant.servicezone.index', compact('codepostals'));
+        $servicezone = ClientPostalCode::where('client_id', $restaurant->id)->get();
+        return view('restaurant.servicezone.index', compact('servicezone'));
 
     }
 
@@ -70,6 +70,21 @@ class PostalCodeController extends Controller
     public function store(Request $request)
     {
         //
+        $userId = Auth::id();
+        $user = User::find($userId);
+        $servicezone = new ClientPostalCode;
+        // $request->validate([
+        //     'postal_code'=> 'required|numeric',
+        //     'min_cmd'=>'required|regex:/^[0-9]+(\.[0-9]{1,2})?$/',
+        // ]);
+        if ($user) {
+            $restaurant = $user->restaurant;
+            $servicezone->client_id = $restaurant->id;
+            $servicezone->postal_code = $request->input('postal_code');
+            $servicezone->min_cmd = $request->input ('mincmd');
+            $servicezone->save();
+        }
+        return redirect()->route('restaurant.servicezone.index')->with('success', ' Zone de service creé avec succès');
     }
 
     /**
@@ -96,8 +111,13 @@ class PostalCodeController extends Controller
     public function update(Request $request, $id)
     {
         //
+        
         $userId = Auth::id();
         $user = User::find($userId);
+        // $request->validate([
+        //     'postal_code'=> 'required|numeric',
+        //     'min_cmd'=>'required|regex:/^[0-9]+(\.[0-9]{1,2})?$/',
+        // ]);
         if ($user) {
             $restaurant = $user->restaurant;
             $postalcode = ClientPostalCode::findOrFail($id);
@@ -105,18 +125,20 @@ class PostalCodeController extends Controller
             $postalcode->postal_code = $request->input('postal_code');
             $postalcode->min_cmd = $request->input('mincmd');
             $postalcode->save();
-            return redirect()->route('restaurant.servicezone.index')->with('success', ' Zone de service Modifiée Avec succès');
+            
         }
+        return redirect()->route('restaurant.servicezone.index')->with('success', ' Zone de service Modifiée Avec succès');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(ClientPostalCode $pc)
+    public function destroy($id)
     {
         //
-        $pc->delete();
-        return redirect()->route('restaurant.servicezone.index')->with('danger', ' Méthode de Livraison supprimée Avec succès');
+        $servicezone = ClientPostalCode::findOrFail($id);
+        $servicezone->delete();
+        return redirect()->route('restaurant.servicezone.index')->with('danger', ' Zone de service supprimée Avec succès');
     }
     
 }
