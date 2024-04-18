@@ -49,22 +49,22 @@
                          
                           <div class="mb-3">
                             <label for="title" class="form-label">Titre du site</label>
-                            <input type="text" class="form-control" id="title" maxlength="70" placeholder="Le titre doit contenir moins de 70 caractères" value="<?php echo e($metadata->title); ?>" required>
+                            <input type="text" class="form-control" name="title" id="title" maxlength="70" placeholder="Le titre doit contenir moins de 70 caractères" value="<?php echo e($metadata->title); ?>" required>
                         </div>
                         <div class="flex-container">
                           <div class="mb-3" style="width: 50%; margin-right: 5px;">
                             <label for="description" class="form-label">Description</label>
-                            <textarea class="form-control" id="description" rows="3" maxlength="150" placeholder="La description doit contenir moins de 150 caractères"  required ><?php echo e($metadata->description); ?></textarea>
+                            <textarea class="form-control" id="description" name="description" rows="3" maxlength="150" placeholder="La description doit contenir moins de 150 caractères"  required ><?php echo e($metadata->description); ?></textarea>
                         </div>
                         <div class="mb-3" style="width: 50%; margin-left: 5px;">
                             <label for="keywords" class="form-label">Mots-clés du site (séparés par des virgules)</label>
-                            <textarea class="form-control" id="keywords" rows="3" placeholder="mot-clé 1 , mot-clé 2 , mot-clé 3 ..." required><?php echo e($metadata->keywords); ?></textarea>
+                            <textarea class="form-control" id="keywords" name="keywords" rows="3" placeholder="mot-clé 1 , mot-clé 2 , mot-clé 3 ..." required><?php echo e($metadata->keywords); ?></textarea>
                         </div>
                         </div>
                         <div class="flex-container">
                           <div class="mb-3" style="width: 50%; margin-right: 5px;">
                             <label for="robots" class="form-label">Autoriser les robots à indexer votre site Web ?</label>
-                            <select class="form-control" id="robots">
+                            <select class="form-control" id="robots" name="robots">
                                 <?php if($metadata->robots =="index"): ?>
                                     <option selected value="index">Yes</option>
                                     <option value="noindex">No</option>
@@ -77,7 +77,7 @@
                           </div>
                           <div class="mb-3" style="width: 50%; margin-left: 5px;">
                             <label for="followlinks" class="form-label">Autoriser les robots à suivre tous les liens ?</label>
-                            <select class="form-control" id="followlinks">
+                            <select class="form-control" id="followlinks" name="follow_links">
                                 <?php if($metadata->follow_links=="follow"): ?>
                                     <option value="follow" selected>Yes</option>
                                     <option value="nofollow">No</option>
