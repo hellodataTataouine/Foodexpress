@@ -107,15 +107,15 @@ class SeoController extends Controller
         
         $userId = Auth::id();
         $user = User::find($userId);
-        $request->validate([
-            'title'=> 'required',
-            'description'=> 'required',
-            'keywords'=>'required',
-            'robots' => 'required',
-            'follow_links'=> 'required',
-            'content_type'=> 'required',
-            'language' => 'required',
-        ]);
+        // $request->validate([
+        //     'title'=> 'required',
+        //     'description'=> 'required',
+        //     'keywords'=>'required',
+        //     'robots' => 'required',
+        //     'follow_links'=> 'required',
+        //     'content_type'=> 'required',
+        //     'language' => 'required',
+        // ]);
         if ($user) {
             $restaurant = $user->restaurant;
             $metadata = Seo::findOrFail($id);
