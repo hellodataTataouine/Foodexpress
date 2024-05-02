@@ -1,7 +1,7 @@
 
 
 
-<?php $__env->startSection('title', 'Welcome'); ?>
+<?php $__env->startSection('title', 'Zone de service |Modifier'); ?>
 
 <?php $__env->startSection('content'); ?>
     <div class="container-scroller">
@@ -19,7 +19,7 @@
                 <div class="col-12 grid-margin">
                   <div class="card">
                     <div class="card-body">
-                      <h4 class="card-title" style="color: black;">Edit Zone de service</h4>
+                      <h4 class="card-title" style="color: black;">Modifier Zone de service</h4>
                       <?php if(session('success')): ?>
                           <div class="alert alert-success">
                               <?php echo e(session('success')); ?>

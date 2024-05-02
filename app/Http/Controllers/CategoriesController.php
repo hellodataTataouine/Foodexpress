@@ -16,7 +16,7 @@ class CategoriesController extends Controller
 {
     public function index()
     {
-        $categories = Categories::paginate(10);
+        $categories = Categories::all();
         $products = produits::all();
     
        
