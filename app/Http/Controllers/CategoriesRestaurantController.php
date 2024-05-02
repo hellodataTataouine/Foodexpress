@@ -86,7 +86,7 @@ class CategoriesRestaurantController extends Controller
     }}
     public function create()
     {
-        $categories =Categories::paginate(10);
+        $categories =Categories::all();
             return view('restaurant.categories.create', compact('categories'));
     }
 
