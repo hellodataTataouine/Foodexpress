@@ -65,7 +65,7 @@
                             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary mb-3">Ajouter Categorie</a>
                           </div>
                           <div class="text-start">
-                            {{ $categories->links('vendor.pagination.bootstrap-5') }}
+                            {{-- {{ $categories->links('vendor.pagination.bootstrap-5') }} --}}
                           </div>
                         </div>
                       </div>

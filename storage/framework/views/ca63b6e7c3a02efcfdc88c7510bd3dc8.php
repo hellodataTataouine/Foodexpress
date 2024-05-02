@@ -1,15 +1,13 @@
-@extends('base')
+<?php $__env->startSection('title', 'Welcome'); ?>
 
-@section('title', 'Welcome')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-scroller">
         <!-- partial:partials/_sidebar.html -->
-        @include('restaurant.left-menu')
+        <?php echo $__env->make('restaurant.left-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_navbar.html -->
-            @include('restaurant.top-menu')
+            <?php echo $__env->make('restaurant.top-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -18,16 +16,18 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h2 class="text-center">Ajouter Categorie</h2>
-                                    @if (session('success'))
+                                    <?php if(session('success')): ?>
                                         <div class="alert alert-success">
-                                            {{ session('success') }}
+                                            <?php echo e(session('success')); ?>
+
                                         </div>
-                                    @endif
-                                    @if (session('error'))
+                                    <?php endif; ?>
+                                    <?php if(session('error')): ?>
     <div class="alert alert-danger">
-        {{ session('error') }}
+        <?php echo e(session('error')); ?>
+
     </div>
-@endif
+<?php endif; ?>
 
                                     <div class="mb-3">
                                         <input type="text" class="form-control" id="myInput" onkeyup="myFunction()"
@@ -44,20 +44,20 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            @foreach ($categories as $category)
-                                                <tr data-category-id="{{ $category->id }}">
+                                            <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                <tr data-category-id="<?php echo e($category->id); ?>">
                                                  
                                                     <td class="category-name"
-                                                        value="{{ $category->name }}">{{ $category->name }}</td>
-                                                    <td>{{ $category->date_creation }}</td>
+                                                        value="<?php echo e($category->name); ?>"><?php echo e($category->name); ?></td>
+                                                    <td><?php echo e($category->date_creation); ?></td>
                                                     <td style="display: flex; justify-content: space-between;">
                                                         <button type="button" class="btn btn-success btn-sm"
-                                                                onclick="openModal({{ $category->id }}, '{{ $category->name }}')">
+                                                                onclick="openModal(<?php echo e($category->id); ?>, '<?php echo e($category->name); ?>')">
                                                             Ajouter Cette Categorie
                                                         </button>
                                                     </td>
                                                 </tr>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             <tr>
                                                 <td colspan="4"></td>
                                             </tr>
@@ -72,7 +72,7 @@
                                                     </div>
 
                                            <!-- <div class="text-end">
-                                                <a href="{{ route('restaurant.categories.create') }}"
+                                                <a href="<?php echo e(route('restaurant.categories.create')); ?>"
                                                    class="btn btn-primary mb-3">Ajouter une categorie spécifique</a>
                                             </div>-->
                                             <div class="text-start">
@@ -85,7 +85,7 @@
                         </div>
                     </div>
                 </div>
-                @include('footer')
+                <?php echo $__env->make('footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@
                     <h5 class="modal-title" id="categoryModalLabel">Ajouter une categorie spécifique</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="{{ route('restaurant.categories.specifique.create') }}" method="POST" enctype="multipart/form-data" id="addProduitForm">
+                <form action="<?php echo e(route('restaurant.categories.specifique.create')); ?>" method="POST" enctype="multipart/form-data" id="addProduitForm">
                 <div class="modal-body">
                     <!-- Input field for "nom de categorie" -->
                     <div class="form-group">
@@ -139,11 +139,12 @@
                                                                
 												 <small class="text-muted">Taille maximale du fichier : 2 Mo, Dimensions minimales : 200x200 pixels</small>
                                             </div>
-						  @if ($errors->has('image'))
+						  <?php if($errors->has('image')): ?>
     <div class="alert alert-danger">
-        {{ $errors->first('image') }}
+        <?php echo e($errors->first('image')); ?>
+
     </div>
-@endif
+<?php endif; ?>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
@@ -206,7 +207,7 @@
             $('#categoryName').val(categoryName);
 
             $.ajax({
-                url: "{{ route('fetch.products') }}",
+                url: "<?php echo e(route('fetch.products')); ?>",
                 type: "GET",
                 data: {categoryId: categoryId},
                 success: function (response) {
@@ -250,19 +251,19 @@
             }).get();
 
             var formData = {
-                _token: "{{ csrf_token() }}",
+                _token: "<?php echo e(csrf_token()); ?>",
                 categoryId: categoryId,
                 categoryName: categoryName,
                 products: checkedProducts
             };
 
             $.ajax({
-                url: "{{ route('restaurant.categories.store') }}",
+                url: "<?php echo e(route('restaurant.categories.store')); ?>",
                 type: "POST",
                 data: formData,
                 success: function (response) {
                     console.log(response);
-                    window.location.href = "{{ route('restaurant.categories.index') }}";
+                    window.location.href = "<?php echo e(route('restaurant.categories.index')); ?>";
                 },
                 error: function () {
                     alert(' This category already exists in your categories list.');
@@ -306,12 +307,12 @@
     imageData.append('categoryName', categoryName);
     imageData.append('image', imageInput);
     $.ajax({
-        url: '{{ route('restaurant.categories.specifique.create') }}',
+        url: '<?php echo e(route('restaurant.categories.specifique.create')); ?>',
         method: 'POST',
       
         data: imageData,
                 headers: {
-                    'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    'X-CSRF-TOKEN': "<?php echo e(csrf_token()); ?>"
                 },
         contentType: false,
         processData: false,
@@ -321,10 +322,10 @@
             //var categoryModal = new bootstrap.Modal(document.getElementById("specifiquecategoryModal"));
            // categoryModal.hide();
 		 $('#specifiquecategoryModal').modal('hide');
-		// window.location.href = '{{ route('restaurant.categories.index') }}';
+		// window.location.href = '<?php echo e(route('restaurant.categories.index')); ?>';
 		  var successMessage = 'catégorie ajoutée avec succès!';
         var encodedMessage = encodeURIComponent(successMessage);
-        var redirectUrl = '{{ route('restaurant.categories.index') }}?success=' + encodedMessage;
+        var redirectUrl = '<?php echo e(route('restaurant.categories.index')); ?>?success=' + encodedMessage;
 		  window.location.href = redirectUrl;
        
         },
@@ -369,4 +370,6 @@
         };
     }
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/categories/create.blade.php ENDPATH**/ ?>
