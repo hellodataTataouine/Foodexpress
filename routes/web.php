@@ -277,7 +277,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
      Auth::routes();
     
 });
-Route::group(['middleware' => 'check.subdomain'], function () {
 
 
     Route::get('/restaurant', [App\Http\Controllers\SubDomain::class, 'restaurantIndex']);
@@ -406,7 +405,6 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      
      Auth::routes();
     
-});
 
  
 /*Route::get('/client/login', [ClientLoginController::class, 'showLoginForm'])->name('client.login');

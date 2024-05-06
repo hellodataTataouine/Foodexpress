@@ -217,7 +217,12 @@
                         productCheckboxes += '<div class="form-check">';
                         productCheckboxes += '<input class="form-check-input" type="checkbox" name="products[]" value="' + product.id + '" ' + checked + '>';
                         productCheckboxes += '<input type="text" class="form-control" name="nom_produit[]" value="' + product.nom_produit + '" placeholder="nom produit">';
-                        productCheckboxes += '<input type="text" class="form-control" name="descriptions[]" value="' + product.description + '" placeholder="Description">';
+                        if (product.description ==null){
+                            productCheckboxes += '<input type="text" class="form-control" name="descriptions[]" value="" placeholder="Description">';
+                        }else{
+                            productCheckboxes += '<input type="text" class="form-control" name="descriptions[]" value="' + product.description + '" placeholder="Description">';
+                        }
+                        
                         productCheckboxes += '<input type="text" class="form-control" name="id_produit[]" value="' + product.id + '"  style="display:none;" >';
                         productCheckboxes += '<input type="text" class="form-control" name="image_urls[]" value="' + product.url_image + '" style="display:none;" >';
                         productCheckboxes += '<input type="text" class="form-control" name="prices[]" value="' + product.prix + '" placeholder="Price">';

@@ -40,14 +40,18 @@ class SubDomain extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
+        if ( Auth::user()->is_admin == 0){
+            $restaurant = $user->restaurant;
+            $clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
+            $produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
+            $commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
+            $NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
+                ->where('statut', 'Nouveau')
+                ->count();
+        }else{
+            return redirect('/admin');
+        }
         
-        $restaurant = $user->restaurant;
-		$clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
-		$produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
-		$commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
-		$NouveauCommandeCount = Command::where('restaurant_id', $restaurant->id)
-            ->where('statut', 'Nouveau')
-            ->count();
 
 
        

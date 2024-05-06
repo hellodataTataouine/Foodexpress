@@ -35,7 +35,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="description">Description:</label>
-                                                <input type="text" name="description" value="{{ $produit->description }}"  class="form-control">
+                                                <input type="text" name="description" value="{{ $produit->description === null ?? '' }}"  class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <img id="produitImage" src="{{ asset($produit->url_image) }}" alt="Produit Image" style="width:700px;height:400px;">
