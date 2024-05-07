@@ -1,15 +1,13 @@
-@extends('base')
+<?php $__env->startSection('title', 'Welcome'); ?>
 
-@section('title', 'Welcome')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
     <div class="container-scroller">
         <!-- partial:partials/_sidebar.html -->
-        @include('restaurant.left-menu')
+        <?php echo $__env->make('restaurant.left-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
             <!-- partial:partials/_navbar.html -->
-            @include('restaurant.top-menu')
+            <?php echo $__env->make('restaurant.top-menu', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             <!-- partial -->
             <div class="main-panel">
                 <div class="content-wrapper">
@@ -18,27 +16,28 @@
                             <div class="card">
                                 <div class="card-body">
                                     <h2 class="text-center">Modifier Produit</h2>
-                                    @if (session('success'))
+                                    <?php if(session('success')): ?>
                                         <div class="alert alert-success">
-                                            {{ session('success') }}
+                                            <?php echo e(session('success')); ?>
+
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
 
                                     <div class="table-responsive">
-                                        <form method="POST" action="{{ route('restaurant.produits.update', $produit->id) }}" enctype="multipart/form-data">
+                                        <form method="POST" action="<?php echo e(route('restaurant.produits.update', $produit->id)); ?>" enctype="multipart/form-data">
                                            
-                                        @csrf
-                                            @method('PUT')
+                                        <?php echo csrf_field(); ?>
+                                            <?php echo method_field('PUT'); ?>
                                             <div class="form-group">
                                                 <label for="nom_produit">Nom Produit:</label>
-                                                <input type="text" name="nom_produit" value="{{ $produit->nom_produit }}" required class="form-control">
+                                                <input type="text" name="nom_produit" value="<?php echo e($produit->nom_produit); ?>" required class="form-control">
                                             </div>
                                             <div class="form-group">
                                                 <label for="description">Description:</label>
-                                                <input type="text" name="description" value="{{ $produit->description }}"  class="form-control">
+                                                <input type="text" name="description" value="<?php echo e($produit->description); ?>"  class="form-control">
                                             </div>
                                             <div class="form-group">
-                                                <img id="produitImage" src="{{ asset($produit->url_image) }}" alt="Produit Image" style="width:700px;height:400px;">
+                                                <img id="produitImage" src="<?php echo e(asset($produit->url_image)); ?>" alt="Produit Image" style="width:700px;height:400px;">
                                             </div>
                                             <div class="form-group">
                                                 <label for="image">Image:</label>
@@ -46,27 +45,28 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="prix">Prix:</label>
-                                                <input type="text" name="prix" value="{{ $produit->prix }}" class="form-control"                                                 required pattern="^\d+(\.\d{1,2})?$" 			
+                                                <input type="text" name="prix" value="<?php echo e($produit->prix); ?>" class="form-control"                                                 required pattern="^\d+(\.\d{1,2})?$" 			
 									           title="Veuillez entrer un nombre valide avec jusqu'à deux décimales (par exemple, 9,90)">
                                             </div>
                                             <div class="form-group">
                                                 <label for="categorie_id">Categorie:</label>
                                                 <select name="categorie_id" required class="form-control">
-                                                    @foreach($categories as $category)
-                                                        <option value="{{ $category->id }}"  {{ $produit->categorie_rest_id == $category->id ? 'selected' : '' }}>
-                                                            {{ $category->name }}
+                                                    <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($category->id); ?>"  <?php echo e($produit->categorie_rest_id == $category->id ? 'selected' : ''); ?>>
+                                                            <?php echo e($category->name); ?>
+
                                                         </option>
-                                                    @endforeach
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                 </select>
                                             </div>
                                             <div class="form-group">
     <label for="famille_options"> Familles d'Options correspondants:</label>
-    @foreach ($familleOptions as $familleOption)
+    <?php $__currentLoopData = $familleOptions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $familleOption): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
             <div class="form-check">
-                <input type="checkbox" name="famille_options[]" class="form-check-input" value="{{ $familleOption->id }}" id="famille_option_{{ $familleOption->id }}" {{ in_array($familleOption->id, $produit->familleOptions->pluck('id')->toArray()) ? 'checked' : '' }} onchange="updateChildTable()">
-                <label class="form-check-label" for="famille_option_{{ $familleOption->id }}">{{ $familleOption->nom_famille_option }}</label>
+                <input type="checkbox" name="famille_options[]" class="form-check-input" value="<?php echo e($familleOption->id); ?>" id="famille_option_<?php echo e($familleOption->id); ?>" <?php echo e(in_array($familleOption->id, $produit->familleOptions->pluck('id')->toArray()) ? 'checked' : ''); ?> onchange="updateChildTable()">
+                <label class="form-check-label" for="famille_option_<?php echo e($familleOption->id); ?>"><?php echo e($familleOption->nom_famille_option); ?></label>
             </div>
-        @endforeach
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 </div>
 											<div class="table-responsive">
                                    <h6 class="mb-4">Trie de familles d'options</h6> 
@@ -81,21 +81,22 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                @foreach ($currentOptions->sortBy('RowN') as $childProduct)
+                                                <?php $__currentLoopData = $currentOptions->sortBy('RowN'); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $childProduct): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                                
-                                                <tr id="childProductRow_{{ $childProduct->id_familleoptions_rest  }}">
+                                                <tr id="childProductRow_<?php echo e($childProduct->id_familleoptions_rest); ?>">
                                                     <td>
-                                                        <button class="btn btn-link btn-sm" onclick="moveRow('{{ $childProduct->id_familleoptions_rest  }}', 'up')">&#9650;</button>
-                                                        {{ $temporaryOrder[$childProduct->id_familleoptions_rest ] }}
-                                                        <button class="btn btn-link btn-sm" onclick="moveRow('{{ $childProduct->id_familleoptions_rest  }}', 'down')">&#9660;</button>
+                                                        <button class="btn btn-link btn-sm" onclick="moveRow('<?php echo e($childProduct->id_familleoptions_rest); ?>', 'up')">&#9650;</button>
+                                                        <?php echo e($temporaryOrder[$childProduct->id_familleoptions_rest ]); ?>
+
+                                                        <button class="btn btn-link btn-sm" onclick="moveRow('<?php echo e($childProduct->id_familleoptions_rest); ?>', 'down')">&#9660;</button>
                                                     </td>
                                                     <td>
-                                                        {{-- Check if the product exists before accessing its properties --}}
-                                                        @php  
+                                                        
+                                                        <?php  
                                                             $childproduct = App\Models\familleOptionsRestaurant::find($childProduct->id_familleoptions_rest ); 
-                                                        @endphp
+                                                        ?>
 
-                                                        {{ optional($childproduct)->nom_famille_option }} <br>
+                                                        <?php echo e(optional($childproduct)->nom_famille_option); ?> <br>
                                                     
                                                        
                                                     </td>
@@ -107,7 +108,7 @@
                                                     
 
                                                 </tr>
-                                            @endforeach
+                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </tbody>
                                         </table>
                                     </div>
@@ -116,8 +117,8 @@
                                             <div class="form-group">
                                                 <label for="status">Status</label>
                                                 <select name="status" id="status" class="form-control">
-                                                    <option value="0" {{ $produit->status == 0 ? 'selected' : '' }}>Inactive</option>
-                                                    <option value="1" {{ $produit->status == 1 ? 'selected' : '' }}>Active</option>
+                                                    <option value="0" <?php echo e($produit->status == 0 ? 'selected' : ''); ?>>Inactive</option>
+                                                    <option value="1" <?php echo e($produit->status == 1 ? 'selected' : ''); ?>>Active</option>
                                                 </select>
                                             </div>
                                             <div class="form-group">
@@ -130,7 +131,7 @@
                         </div>
                     </div>
                 </div>
-                @include('footer')
+                <?php echo $__env->make('footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
         </div>
     </div>
@@ -158,10 +159,10 @@
 
     // Fetch and append options based on selected famille options
     $.ajax({
-      url: "{{ route('restaurant.getOptionsByFamilleOptions') }}",
+      url: "<?php echo e(route('restaurant.getOptionsByFamilleOptions')); ?>",
       method: 'POST',
       data: {
-        _token: "{{ csrf_token() }}",
+        _token: "<?php echo e(csrf_token()); ?>",
         familleOptions: familleOptions
       },
       success: function (response) {
@@ -275,4 +276,6 @@ console.log('selectedOptions', selectedOptions);
 
 
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('base', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/produits/edit.blade.php ENDPATH**/ ?>
