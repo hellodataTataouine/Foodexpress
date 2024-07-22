@@ -1,0 +1,105 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\SubscribedUser;
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\Visit;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+
+class VisitsController extends Controller{
+    public function index()
+    {
+        $userId = Auth::id();
+        $user = User::find($userId);
+        if ($user) {
+
+        $restaurant = $user->restaurant;
+
+        $today = Carbon::today();
+
+        // Total visits today grouped by country
+        $totalTodayVisits = DB::table('visits')
+            ->select('country', DB::raw('count(*) as total'))
+            ->where('restaurant_id',$restaurant->id)
+            ->whereDate('created_at', $today)
+            ->groupBy('country')
+            ->get();
+
+        $startOfWeek = Carbon::now()->startOfWeek();
+
+        // Total visits this week grouped by country
+        $totalWeekVisits = DB::table('visits')
+            ->select('country', DB::raw('count(*) as total'))
+            ->where('restaurant_id',$restaurant->id)
+            ->where('created_at', '>=', $startOfWeek)
+            ->groupBy('country')
+            ->get();
+
+        $startOfYear = Carbon::now()->startOfYear();
+
+        // Total visits this year grouped by country
+        $totalYearVisits = DB::table('visits')
+            ->select('country', DB::raw('count(*) as total'))
+            ->where('restaurant_id',$restaurant->id)
+            ->where('created_at', '>=', $startOfYear)
+            ->groupBy('country')
+            ->get();
+
+        // Load country names and flags
+        $countries = [];
+        $countryJson = File::get(storage_path('app/countries.json'));
+
+        $countryData = json_decode($countryJson, true);
+
+        foreach ($totalTodayVisits as $visit) {
+            $countryCode = strtoupper($visit->country);
+            $flagPath = storage_path("app/flags/{$countryCode}.png");
+            //dd($flagPath);
+            // if (file_exists($flagPath) && isset($countryData[$countryCode])) {
+            if (isset($countryData[$countryCode])) {
+                $countries[$visit->country]['name'] = $countryData[$countryCode];
+                $countryCode = strtolower($countryCode);
+                $countries[$visit->country]['flag'] = asset("storage/app/flags/{$countryCode}.png");
+                $countries[$visit->country]['today'] = $visit->total;
+
+            }
+        }
+
+        foreach ($totalWeekVisits as $visit) {
+            $countryCode = strtoupper($visit->country);
+            if (isset($countries[$visit->country])) {
+                $countries[$visit->country]['week'] = $visit->total;
+            }
+        }
+
+        foreach ($totalYearVisits as $visit) {
+            $countryCode = strtoupper($visit->country);
+            if (isset($countries[$visit->country])) {
+                $countries[$visit->country]['year'] = $visit->total;
+            }
+        }
+    }
+        // dd($countries);
+        return view('admin.visits.index', [
+            'countries' => $countries,
+        ]);
+    }
+    // public function store($nbRows,$page,$country){
+    //     for ($i=0;$i<$nbRows;$i++){
+    //         Visit::create([
+    //             "route_name"=>$page,
+    //             "country"=>$country,
+    //         ]);
+    //     }
+
+    // }
+}
+

@@ -18,7 +18,7 @@ use App\Http\Controllers\ProduitsRestoController;
 use App\Http\Controllers\HoraireController;
 
 use App\Http\Middleware\AdminMiddleware;
-use App\Http\Controllers\AcceuilController;
+use App\Http\Controllers\VisitsController;
 use App\Http\Controllers\ClientLoginController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\FamilleOptionController;
@@ -40,11 +40,11 @@ use App\Http\Controllers\ImeiController;
 
 use App\Http\Controllers\ClientRestaurantController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ReservationTableController;   
+use App\Http\Controllers\ReservationTableController;
 use App\Http\Controllers\TablesController;
 use App\Http\Controllers\RestaurantProfileController;
 use App\Http\Controllers\ContactController;
-use Laravel\Socialite\Facades\Socialite; 
+use Laravel\Socialite\Facades\Socialite;
 
 use App\Http\Controllers\CookiePolicyController;
 use App\Http\Controllers\MentionsLegalesController;
@@ -74,7 +74,7 @@ Route::domain('{subdomain}.localhost')->group(function () {
 Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('contact.submit');
 	Route::get('/politique-de-cookies',[CookiePolicyController::class, 'show'])->name('cookie.policy');
 		Route::get('/mentions-legales',[MentionsLegalesController::class, 'show'])->name('mentions.legales');
-        
+
     Route::get('/panier/add/{productId}', [ClientStoreController::class, 'addToCart'])->name('panier.add');
     Route::get('/panier', [ClientStoreController::class, 'index'])->name('panier.show');
     Route::delete('panier/remove/{productId}', [ClientStoreController::class, 'removeFromCart'])->name('panier.remove');
@@ -84,7 +84,7 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
     })->name('panier.confirmation');
     Route::get('/commandes', [CommandController::class, 'commandes'])->name('client.commandes');
 
-  	
+
    // Route::put('/cancel-commande/{id}', [CommandController::class, 'cancelCommande'])->name('client.commande.cancel');
    Route::put('/cancel-commande/{id}', [CommandController::class, 'cancelCommande'])
    ->name('client.commande.cancel');
@@ -96,9 +96,9 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
     Route::post('/cart/remove', [CommandController::class, 'removeCartItem'])->name('remove.CartItem');
 
     Route::get('/cart-items', [CommandController::class, 'getCartItems'])->name('cart.items');
-    
+
     Route::post('/update-quantity', [CommandController::class, 'updateQuantity'])->name('update.quantity');
-    
+
    // Route::post('/remove-from-cart', [CartController::class, 'removeFromCart'])->name('cart.remove');
     Route::get('/fetch-cart', [CommandController::class, 'fetchCart'])->name('cart.fetch');
    // Route::get('/fetch-cart', [CartController::class, 'fetchCart'])->name('cart.fetch');
@@ -122,7 +122,7 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
 	   Route::get('/client/login', [ClientLoginController::class, 'showLoginForm'])->name('client.login');
     Route::post('/client/login', [ClientLoginController::class, 'login'])->name('client.login.submit');
     Route::post('logout', [ClientLoginController::class, 'logout'])->name('client.logout');
-    
+
     Route::get('/client/register', [RegistrationController::class, 'showRegistrationForm'])->name('register');
     Route::post('/client/register', [RegistrationController::class, 'register'])->name('register.submit');
    // Route::get('/profile/edit', 'ProfileController@edit')->name('profile.edit');
@@ -130,7 +130,7 @@ Route::post('/contact', [ContactController::class, 'submitContactForm'])->name('
    Route::get('/reservationtables', [ReservationTableController::class, 'indexClient'])->name('index');
     Route::post('/reservationtables', [ReservationTableController::class, 'storeClient'])->name('reservation.client.store');
     Route::get('/restaurant/reservation/fetchTables', [ReservationTableController::class, 'Availabletables'])->name('reservation.client.fetch');
- 
+
 
    // Route::get('/edit-profile', [RegistrationController::class, 'editProfile'])->name('editProfile');
 // Route::put('/update-profile', [RegistrationController::class, 'updateProfile'])->name('updateProfile');
@@ -234,8 +234,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
      Route::get('/admin/paiment-methods', [PaimentMethodController::class, 'index'])->name('admin.paiment.index');
      Route::get('/admin/paiment-methods/create', [PaimentMethodController::class, 'create'])->name('admin.paiment.create');
      Route::get('/admin/paiment-methods/createresto/{paimentMethod_id}', [PaimentMethodController::class, 'createresto'])->name('admin.paiment.createresto');
-    
-  
+
+
      Route::get('/admin/paiment-methods/{id}/edit', [PaimentMethodController::class, 'edit'])->name('admin.paiment.edit');
      Route::put('/admin/paiment-methods/{id}', [PaimentMethodController::class, 'update'])->name('admin.paiment.update');
      Route::delete('/admin/paiment-methods/{id}', [PaimentMethodController::class, 'destroy'])->name('admin.paiment.destroy');
@@ -244,7 +244,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
      Route::get('/admin/paiment-restaurants/create', [PaimentRestaurantController::class, 'create'])->name('admin.restaurant.paiment.create');
      Route::post('/admin/paiment-restaurants', [PaimentRestaurantController::class, 'store'])->name('admin.restaurant.paiment.store');
      Route::get('/admin/paiment-restaurants/{id}/edit', [PaimentRestaurantController::class, 'edit'])->name('admin.restaurant.paiment.edit');
-    
+
      Route::delete('/admin/paiment-restaurants/{id}', [PaimentRestaurantController::class, 'destroy'])->name('admin.restaurant.paiment.destroy');
 
      Route::get('/admin/livraisonmethods', [LivraisonMethodController::class, 'index'])->name('admin.livraison.index');
@@ -262,7 +262,7 @@ Route::middleware(['auth', 'admin'])->group(function () {
      Route::get('/admin/Imei/{id}/edit', [ImeiController::class, 'edit'])->name('admin.imei.edit');
      Route::put('/admin/Imei/{id}', [ImeiController::class, 'update'])->name('admin.imei.update');
      Route::delete('/admin/Imei/{id}', [ImeiController::class, 'destroy'])->name('admin.imei.destroy');
-     
+
      Route::get('/livraisonrestaurants', [LivraisonRestaurantController::class, 'index'])->name('admin.restaurant.livraison.index');
      Route::get('/livraisonrestaurants/create', [LivraisonRestaurantController::class, 'create'])->name('admin.restaurant.livraison.create');
      Route::post('/livraisonrestaurants', [LivraisonRestaurantController::class, 'store'])->name('admin.restaurant.livraison.store');
@@ -273,16 +273,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
      Route::get('/parametres/changementMdp', [SubDomain::class, 'showChangePasswordFormAdmin'])->name('admin.parametres.change-password');
      Route::post('/parametres/changementMdp', [SubDomain::class, 'changePasswordAdmin'])->name('admin.parametres.change-password.update');
-     
+
      Auth::routes();
-    
+
 });
 
 
     Route::get('/restaurant', [App\Http\Controllers\SubDomain::class, 'restaurantIndex']);
     Route::get('/home', [App\Http\Controllers\SubDomain::class, 'restaurantIndex'])->name('indexrestaurant');
     Route::get('/restaurant/home', [App\Http\Controllers\SubDomain::class, 'restaurantIndex'])->name('indexrestaurant');
-   
+
     Route::get('/clients', [ClientRestaurantController::class, 'index'])->name('restaurant.clients.index');
 Route::get('/clients/create', [ClientRestaurantController::class, 'create'])->name('restaurant.clients.create');
 Route::post('/clients', [ClientRestaurantController::class, 'store'])->name('clients.store');
@@ -292,7 +292,7 @@ Route::put('/clients/{client}', [ClientRestaurantController::class, 'update'])->
 Route::delete('/clients/{client}', [ClientRestaurantController::class, 'destroy'])->name('clients.destroy');
 Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'updateStatus'])->name('update.status');
  Route::delete('/restaurant/commandes/{id}', [App\Http\Controllers\SubDomain::class, 'destroy'])->name('restaurant.commandes.destroy');
-   
+
 
      Route::match(['get', 'post'], '/restaurant/login', [LoginController::class, 'login'])->name('restaurant.login');
 
@@ -317,9 +317,9 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
     Route::put('/restaurant/produits/{produit}', [ProduitsRestoController::class, 'update'])->name('restaurant.produits.update');
     Route::post('/update-product-row-n',[ProduitsRestoController::class ,'updateProductRowN'])->name('restaurant.produits.update.row');
     Route::post('/status/update', [ProduitsRestoController::class, 'updatestatus'])->name('restaurant.produits.update-status');
- 
+
     Route::delete('/restaurant/produits/{produit}', [ProduitsRestoController::class, 'destroy'])->name('restaurant.produits.destroy');
-   
+
      Route::get('/restaurant/produits/{id}', [ProduitsController::class, 'show'])->name('restaurant.produits.show');
      Route::get('produits/{produitId}/options/{optionId}', [ProduitsController::class, 'removeOption'])->name('restaurant.removeOption');
      Route::post('/restaurant/produits/get-options-by-famille-options', [ProduitsController::class, 'getOptionsByFamilleOptions'])->name('restaurant.getOptionsByFamilleOptions');
@@ -332,23 +332,23 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/famille-options/create', [FamilleOptionControllerResto::class, 'create'])->name('restaurant.famille-options.create');
      Route::post('/restaurant/famille-options', [FamilleOptionControllerResto::class, 'store'])->name('restaurant.famille-options.store');
      Route::get('/restaurant/famille-options/{id}/edit', [FamilleOptionControllerResto::class, 'edit'])->name('restaurant.famille-options.edit');
-     
+
      Route::delete('/restaurant/famille-options/{id}', [FamilleOptionControllerResto::class, 'destroy'])->name('restaurant.famille-options.destroy');
      Route::put('/restaurant/famille-options/{id}', [FamilleOptionControllerResto::class, 'update'])->name('restaurant.famille-options.update');
 
      Route::get('/restaurant/options', [OptionRestoController::class, 'index'])->name('restaurant.options.index');
      Route::get('/restaurant/options/create', [OptionRestoController::class, 'create'])->name('restaurant.options.create');
      Route::post('/restaurant/options', [OptionRestoController::class, 'store'])->name('restaurant.options.store');
-    
+
      Route::get('/restaurant/options/{option}/edit', [OptionRestoController::class, 'edit'])->name('restaurant.options.edit');
      Route::put('/restaurant/options/{option}', [OptionRestoController::class, 'update'])->name('restaurant.options.update');
-    
+
      Route::get('/restaurant/options/remove/{option}', [OptionRestoController::class, 'remove'])->name('restaurant.options.remove');
      Route::get('restaurant/famille-options/{familleOption}', [FamilleOptionRestoController::class, 'getoptions'])->name('restaurant.famille-options.options');
      Route::post('/status_option/update', [OptionRestoController::class, 'updatestatus'])->name('restaurant.options.update-status');
      Route::post('/update-option-row-n', [OptionRestoController::class, 'updateOptionRowN'])->name('restaurant.options.update.row');
 
-     
+
      Route::get('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'index'])->name('restaurant.paiment.index');
      Route::get('/restaurant/paiment-methods/create', [PaimentRestaurantController::class, 'create'])->name('restaurant.paiment.create');
      Route::post('/restaurant/paiment-methods', [PaimentRestaurantController::class, 'store'])->name('restaurant.paiment.store');
@@ -358,14 +358,16 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
 
      Route::put('/restaurant/paiment-methods/{id}', [PaimentRestaurantController::class, 'update'])->name('restaurant.paiment.update');
 
-    
-    
+
+
      Route::get('/restaurant/livraisonmethods', [LivraisonRestaurantController::class, 'index'])->name('restaurant.livraison.index');
      Route::get('/restaurant/livraisonmethods/create', [LivraisonRestaurantController::class, 'create'])->name('restaurant.livraison.create');
      Route::post('/restaurant/livraisonmethods', [LivraisonRestaurantController::class, 'store'])->name('restaurant.livraison.store');
      Route::get('/restaurant/livraisonmethods/{id}/edit', [LivraisonRestaurantController::class, 'edit'])->name('restaurant.livraison.edit');
      Route::put('/restaurant/livraisonmethods/{id}', [LivraisonRestaurantController::class, 'update'])->name('restaurant.livraison.update');
      Route::delete('/restaurant/livraisonmethods/{LivraisonMethod}', [LivraisonRestaurantController::class, 'destroy'])->name('restaurant.livraison.destroy');
+
+     Route::get('/visits',[VisitsController::class,'index'])->name('restaurant.visits.index');
 
      Route::get('/restaurant/seo', [SeoController::class, 'index'])->name('restaurant.seo.index');
      Route::get('/restaurant/seo/{id}/edit', [SeoController::class, 'edit'])->name('restaurant.seo.edit');
@@ -377,14 +379,14 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/servicezone/{id}/edit', [PostalCodeController::class, 'edit'])->name('restaurant.servicezone.edit');
      Route::put('/restaurant/servicezone/{id}', [PostalCodeController::class, 'update'])->name('restaurant.servicezone.update');
      Route::delete('/restaurant/servicezone/destroy/{id}', [PostalCodeController::class, 'destroy'])->name('restaurant.servicezone.destroy');
-     
+
      Route::get('/restaurant/tables', [TablesController::class, 'index'])->name('restaurant.tables.index');
      Route::get('/restaurant/tables/create', [TablesController::class, 'create'])->name('restaurant.tables.create');
      Route::post('/restaurant/tables', [TablesController::class, 'store'])->name('restaurant.tables.store');
      Route::get('/restaurant/tables/{id}/edit', [TablesController::class, 'edit'])->name('restaurant.tables.edit');
      Route::put('/restaurant/tables/{id}', [TablesController::class, 'update'])->name('restaurant.tables.update');
      Route::delete('/restaurant/tables/{id}', [TablesController::class, 'destroy'])->name('restaurant.tables.destroy');
-    
+
 
      Route::get('/restaurant/resevation', [ReservationTableController::class, 'index'])->name('restaurant.resevation.index');
      Route::get('/restaurant/resevation/create', [ReservationTableController::class, 'create'])->name('restaurant.resevation.create');
@@ -400,13 +402,13 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::put('/restaurant/restaurant', [RestaurantProfileController::class, 'update'])->name('restaurant.restaurant.update');
     Route::get('/restaurant/profile/edit', [RestaurantProfileController::class, 'editprofile'])->name('restaurant.profile.edit');
      Route::put('/restaurant/profile', [RestaurantProfileController::class, 'updateprofile'])->name('restaurant.profile.update');
-    
-    
-     
-     Auth::routes();
-    
 
- 
+
+
+     Auth::routes();
+
+
+
 /*Route::get('/client/login', [ClientLoginController::class, 'showLoginForm'])->name('client.login');
 Route::post('/client/login', [ClientLoginController::class, 'login'])->name('client.login.submit');*/
 
@@ -423,7 +425,7 @@ Route::match(['get', 'post'], '/admin/logout', [AuthController::class, 'logout']
 Route::get('/', function () {
     $host = request()->getHost() ;
     // Check if the host is 'localhost' or 'subdomain.localhost'
-    
+
     if ($host === 'localhost') {
         return view('frontend.index');
     }
@@ -453,7 +455,7 @@ Route::get('/', function () {
         return redirect("http://" . env('mainhost') . "/restaurant/home?1");
 
 
-     
+
    } else {
         session()->flush(); // Destroy the session
         abort(403, 'Unauthorized');
@@ -464,11 +466,11 @@ Route::get('/', function () {
    Route::get('/google',function(){
 
     Return view('googleAuth');
-    
+
     });
-    
+
     Route::get('auth/google', 'Auth\LoginController@redirectToGoogle');
-    
+
     Route::get('auth/google/callback', 'Auth\LoginController@handleGoogleCallback');
 
 
@@ -476,7 +478,7 @@ Route::get('/', function () {
 
 
 
-// facebook 
+// facebook
 
 Route::get('/login/facebook', [LoginController::class, 'redirectToFacebook'])->name('login.facebook');
 

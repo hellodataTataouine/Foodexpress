@@ -101,4 +101,4 @@
         </div>
       </div>
     </div>
-  </div><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/stat.blade.php ENDPATH**/ ?>
+  </div><?php /**PATH C:\laravel\Foodexpress\resources\views/restaurant/stat.blade.php ENDPATH**/ ?>

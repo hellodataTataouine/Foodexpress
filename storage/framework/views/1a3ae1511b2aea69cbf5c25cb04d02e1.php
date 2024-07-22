@@ -125,4 +125,4 @@
         <span class="mdi mdi-format-line-spacing"></span>
       </button>
     </div>
-  </nav><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/top-menu.blade.php ENDPATH**/ ?>
+  </nav><?php /**PATH C:\laravel\Foodexpress\resources\views/restaurant/top-menu.blade.php ENDPATH**/ ?>

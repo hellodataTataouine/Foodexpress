@@ -2,7 +2,7 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
 <nav class="sidebar sidebar-offcanvas" id="sidebar">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-      
+
     <div class="sidebar-brand-wrapper d-none d-lg-flex align-items-center justify-content-center fixed-top">
       <a class="sidebar-brand brand-logo" href="#"><p   style="font-size: 25px; color: white;" alt="logo"><strong>HelloData</strong></p></a>
       <a class="sidebar-brand brand-logo-mini" href="#"><img src="images/logo-mini.svg" alt="logo" /></a>
@@ -68,7 +68,7 @@
           <span class="menu-title">Tableau de bord</span>
         </a>
       </li>
-     
+
 
       <li class="nav-item menu-items home clients" id="u-Restaurants">
         <a class="nav-link" data-toggle="collapse" href="#ui-Restaurants" aria-expanded="false" aria-controls="ui-Restaurants">
@@ -164,7 +164,7 @@
           <li class="nav-item">
               <a class="nav-link" href="<?php echo e(route('restaurant.options.create')); ?>">Ajouter Option</a>
           </li>
-            
+
           </ul>
         </div>
       </li>
@@ -179,7 +179,7 @@
 
         <div class="collapse" id="ui-clients">
         <ul class="nav flex-column sub-menu">
-         
+
           <li class="nav-item"><a class="nav-link" href="<?php echo e(route('restaurant.clients.index')); ?>">Liste  de Clients</a></li>
           </ul>
         </div>
@@ -195,7 +195,7 @@
 
         <div class="collapse" id="ui-paiment">
         <ul class="nav flex-column sub-menu">
-         
+
           <li class="nav-item"><a class="nav-link" href="<?php echo e(route('restaurant.paiment.index')); ?>">Liste de  Méthodes Paiements</a></li>
           <li class="nav-item"><a class="nav-link" href="<?php echo e(route('restaurant.paiment.create')); ?>">Ajouter  Méthode Paiement</a></li>
         </ul>
@@ -217,12 +217,21 @@
         </div>
     </li>
     <li class="nav-item menu-items">
+        <a class="nav-link"  href="<?php echo e(route ('restaurant.visits.index')); ?>">
+          <span class="menu-icon">
+            <i class="mdi mdi-chart-line"></i>
+          </span>
+          <span class="menu-title">Stats</span>
+
+        </a>
+      </li>
+    <li class="nav-item menu-items">
       <a class="nav-link"  href="<?php echo e(route ('restaurant.seo.index')); ?>">
         <span class="menu-icon">
           <i class="mdi mdi-xml"></i>
         </span>
         <span class="menu-title">SEO</span>
-        
+
       </a>
     </li>
     <li class="nav-item menu-items">
@@ -268,4 +277,4 @@
       </li>
     </ul>
   </nav>
-  <?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/restaurant/left-menu.blade.php ENDPATH**/ ?>
+<?php /**PATH C:\laravel\Foodexpress\resources\views/restaurant/left-menu.blade.php ENDPATH**/ ?>

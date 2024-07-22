@@ -58,4 +58,4 @@
     
         <!-- End custom js for this page -->
       </body>
-    </html><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/base.blade.php ENDPATH**/ ?>
+    </html><?php /**PATH C:\laravel\Foodexpress\resources\views/base.blade.php ENDPATH**/ ?>

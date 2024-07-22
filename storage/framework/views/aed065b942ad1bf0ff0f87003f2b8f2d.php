@@ -3,4 +3,4 @@
     <div class="d-sm-flex justify-content-center justify-content-sm-between">
       <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © HelloData</span>
     </div>
-  </footer><?php /**PATH C:\Users\HD FRONT\laravel\Foodexpress\resources\views/footer.blade.php ENDPATH**/ ?>
+  </footer><?php /**PATH C:\laravel\Foodexpress\resources\views/footer.blade.php ENDPATH**/ ?>
