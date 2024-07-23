@@ -36,12 +36,13 @@ class SubDomain extends Controller
     public function restaurantIndex()
     {
   // Get the oID of the lgged-in user
-      
+
         $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
         if ( Auth::user()->is_admin == 0){
             $restaurant = $user->restaurant;
+            $status = Client::findOrFail($restaurant->id);
             $clientCount = ClientRestaurat::where('restaurant_id', $restaurant->id)->count();
             $produitsCount = ProduitsRestaurants::where('restaurant_id', $restaurant->id) ->count();
             $commandeCount = Command::where('restaurant_id', $restaurant->id)->count();
@@ -51,23 +52,23 @@ class SubDomain extends Controller
         }else{
             return redirect('/admin');
         }
-        
 
 
-       
-    
+
+
+
       //  $client = Client::where('user_id', $userId)->firstOrFail();
         // Retrieve commandes with their related user where the restaurant_id matches the logged-in user's ID
         $commandes = Command::with(['user','cartDetails', 'cartDetails.produit'])
             ->where('restaurant_id', $restaurant->id)
             ->get();
-    
+
         if (!Auth::user() || Auth::user()->is_admin !== 0) {
             Auth::logout();
             return abort(403, 'Unauthorized');
         }
-    
-        return view('restaurant.home', compact('commandes', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount'));
+
+        return view('restaurant.home', compact('commandes', 'clientCount','commandeCount', 'NouveauCommandeCount', 'produitsCount','status'));
     }}
 
 
@@ -81,26 +82,26 @@ class SubDomain extends Controller
     $Command = Command::findOrFail($commandId);
 
 
-   
-        
+
+
     if ($Command) {
 
-		
-		
+
+
         $Command->Statut = $newStatus;
         $Command->save();
-		
+
 		 $userId = Auth::id();
         $user = User::find($userId);
         if ($user && $Command->clientEmail  && $Command->Statut =="Livrée" ) {
-       
+
         $restaurant = $user->restaurant;
 				  $commandes = Command::with(['user','cartDetails', 'cartDetails.produit'])
             ->where('restaurant_id', $restaurant->id)
             ->get();
-		
-		
-		
+
+
+
 		$data = [
     'clientFirstName' => $Command->clientfirstname,
     'clientLastName' => $Command->clientlastname,
@@ -108,14 +109,14 @@ class SubDomain extends Controller
 	'clientAdresse' => $Command->clientAdresse,
     'commandId' => $Command->id,
     'currentDateTime' => now()->format('d/m/Y H:i'),
-   
+
     'totalPrice' => $Command->prix_total,
     'clientEmail' => $Command->clientEmail,
-     
+
 	'status' => $Command->Statut,
 ];
-	
-		
+
+
 		$subject = 'Confirmation de commande';
 // Store the email in the session
 
@@ -124,27 +125,27 @@ Mail::send('orderEmail_update_status', $data, function ($message) use ($subject,
     $message->subject($subject)
         ->to($data['clientEmail']);
 });
-		
+
 		}
         return response()->json(['message' => 'Commande modifiée', 'data' => $data]);
-       
+
     } else {
         return response()->json(['message' => 'Statut modifié avec succès']);
     }
 
 
 }
-	
+
 	 public function destroy($id)
     {
         $command = Command::findOrFail($id);
     // Delete the associated image file if it exists
     $command->delete();
-    
+
        return redirect()->back()->with('success', 'Commande Supprimée avec succès.');
-    
+
     }
-	
+
     public function showAdmin()
     {
         return view('admin.home', [

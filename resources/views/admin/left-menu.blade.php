@@ -92,7 +92,7 @@
           <ul class="nav flex-column sub-menu">
             <li class="nav-item"><a class="nav-link" href="{{ route('admin.users.index') }}"><i class="mdi mdi-account-card-details">Liste Utilisateurs</i></a></li>
             <li class="nav-item"> <a class="nav-link"  href="{{ route('admin.users.create') }}" ><i class="mdi mdi-account-multiple-plus">Ajouter Utilisateur</i></a></li>
-        
+
           </ul>
         </div>
       </li>
@@ -205,4 +205,3 @@
     </li>
     </ul>
   </nav>
-  

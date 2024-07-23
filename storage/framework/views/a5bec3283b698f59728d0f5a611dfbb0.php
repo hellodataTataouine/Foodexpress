@@ -60,6 +60,43 @@
       <li class="nav-item nav-category">
         <span class="nav-link">Navigation</span>
       </li>
+
+      <form id="statusForm">
+        <?php echo csrf_field(); ?>
+        <label style="color: white; margin-left: 20px;">
+            <input type="radio" name="staus" value="1" <?php echo e($status->available == 1 ? 'checked' : ''); ?> onchange="updateStatus(this)">
+            Disponible
+        </label>
+        <label style="color: white; margin-left: 20px;">
+            <input type="radio" name="staus" value="0" <?php echo e($status->available == 0 ? 'checked' : ''); ?> onchange="updateStatus(this)">
+            Non Disponible
+        </label>
+
+
+      </form>
+      <script>
+        function updateStatus(element) {
+            var status = element.value;
+
+            $.ajax({
+                url: "<?php echo e(route('status.update')); ?>",
+                type: 'POST',
+                data: {
+                    _token: "<?php echo e(csrf_token()); ?>",
+                    status: status
+                },
+                success: function(response) {
+                    console.log('Status updated successfully:', response);
+                    // You can also update the UI or notify the user
+                },
+                error: function(xhr) {
+                    console.log("famma erreur");
+                    console.error('Error updating status:', xhr.responseText);
+                }
+            });
+        }
+    </script>
+
       <li class="fnav-item menu-items">
         <a class="nav-link" hre="<?php echo e(url('admin/')); ?>">
           <span class="menu-icon">

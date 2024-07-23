@@ -31,7 +31,7 @@ class RestaurantProfileController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -50,11 +50,11 @@ class RestaurantProfileController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
-        
+
         $restaurant = $user->restaurant;
 
-        $client = Client::where('id', $restaurant->id)->first();  
-    
+        $client = Client::where('id', $restaurant->id)->first();
+
         // Pass the $client object to the view
         return view('restaurant.restaurant.edit', compact('client'));}
     }
@@ -67,10 +67,10 @@ class RestaurantProfileController extends Controller
         $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
-        
+
         $restaurant = $user->restaurant;
         $client = Client::find($restaurant->id);
-    
+
         if ($client) {
             // Handle logo image update
             if ($request->hasFile('image')) {
@@ -79,16 +79,16 @@ class RestaurantProfileController extends Controller
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path($imagePath), $imageName);
                 $imageUrl = $imagePath . $imageName;
-    
+
                 // Delete the previous logo image if it exists
                 if ($client->logo && Storage::exists($client->logo)) {
                     Storage::delete($client->logo);
                 }
-    
+
                 $client->logo = $imageUrl;
             }
-			
-			
+
+
 			    // Handle accueil image update
             if ($request->hasFile('imageslide')) {
                 $image = $request->file('imageslide');
@@ -96,16 +96,16 @@ class RestaurantProfileController extends Controller
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path($imagePath), $imageName);
                 $imageUrl = $imagePath . $imageName;
-    
+
                 // Delete the previous logo image if it exists
                 if ($client->Slide_photo && Storage::exists($client->Slide_photo)) {
                     Storage::delete($client->Slide_photo);
                 }
-    
+
                 $client->Slide_photo = $imageUrl;
             }
-			
-			
+
+
 			  // Handle category image update
             if ($request->hasFile('imagecategory')) {
                 $image = $request->file('imagecategory');
@@ -113,17 +113,17 @@ class RestaurantProfileController extends Controller
                 $imageName = uniqid() . '.' . $image->getClientOriginalExtension();
                 $image->move(public_path($imagePath), $imageName);
                 $imageUrl = $imagePath . $imageName;
-    
+
                 // Delete the previous logo image if it exists
                 if ($client->Category_photo && Storage::exists($client->Category_photo)) {
                     Storage::delete($client->Category_photo);
                 }
-    
+
                 $client->Category_photo = $imageUrl;
             }
-			
-			
-    
+
+
+
             $client->name = $request->input('name');
             $client->phoneNum1 = $request->input('phoneNum1');
             $client->phoneNum2 = $request->input('phoneNum2');
@@ -134,7 +134,7 @@ class RestaurantProfileController extends Controller
            // $client->email = $request->input('email');
            // $client->password = Hash::make($request->input('password'));
             $client->save();
-    
+
             // Update postal codes
             $postalCodes = $request->input('postal_codes');
             if (!empty($postalCodes) && is_array($postalCodes)) {
@@ -145,7 +145,7 @@ class RestaurantProfileController extends Controller
                     ]);
                 }
             }
-    
+
             // Update horaires
             $horaires = $request->input('horaires');
             if (!empty($horaires) && is_array($horaires)) {
@@ -159,7 +159,7 @@ class RestaurantProfileController extends Controller
                     ]);
                 }
             }
-    
+
             // Update jours fériés
             $joursFeriers = $request->input('joursferiers');
             if (!empty($joursFeriers) && is_array($joursFeriers)) {
@@ -170,7 +170,7 @@ class RestaurantProfileController extends Controller
                     ]);
                 }
             }
-    
+
             return redirect()->back()->with('succès', 'Informations sur le restaurant mises à jour avec succès.');
         } else {
             return redirect()->back()->with('erreur', 'Resto introuvable.');
@@ -189,44 +189,65 @@ class RestaurantProfileController extends Controller
 		      $userId = Auth::id();
         $user = User::find($userId);
         if ($user) {
-        
+
         $restaurant = $user->restaurant;
 
-       // $client = Client::where('id', $restaurant->id)->first();  
-    
+       // $client = Client::where('id', $restaurant->id)->first();
+
         // Pass the $client object to the view
         return view('restaurant.profile.edit');}
       }
-    
+
 	  public function updateprofile(Request $request)
     {
 		  $user = Auth::user();
 
     $userId = $user->id;
        /* $request->validate([
-           
+
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$userId,
             'password' => 'required|min:8',
             //'password_confirmation' => 'required|min:8',
         ]);*/
-    
+
         $restaurant = $user->restaurant;
-      
+
         $user->name = $request->input('name');
         $user->email = $request->input('email');
 		  $user->password = Hash::make($request->input('new_password'));
         //$user->password = $request->input('new_password');
 		   $user->restaurant_id = $restaurant->id;
 		  $user->is_admin = 0;
-		 
+
         // Check if a new password is provided
        /* if ($request->filled('password')) {
             $user->password = bcrypt($request->input('password'));
         }*/
         $user->save();
-    
+
         return redirect()->route('indexrestaurant')->with('success', 'votre profile est modifié avec succès!');
+    }
+    public function updateStatus(Request $request){
+
+        $user = Auth::user();
+
+        $userId = $user->id;
+        $status=intval($request->input('status'));
+        $restaurant = $user->restaurant;
+        $rest = Client::findOrFail($restaurant->id);
+        $rest->available = $status;
+        $rest->save();
+        if ($status === 1) {
+            // Logic for Disponible
+            return response()->json(['message' => 'Status updated to Disponible']);
+        } elseif ($status === 0) {
+            // Logic for No Disponible
+            return response()->json(['message' => 'Status updated to No Disponible']);
+        }
+
+        return response()->json(['message' => 'Invalid status'], 400);
+
     }
 
 }

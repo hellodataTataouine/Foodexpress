@@ -29,9 +29,9 @@ class LogVisits
         $country = $geoIPService->getCountryFromIp($ip);
         $routeName = $request->route()->getName();
         // Check if route name is null (route not named)
-        // if(!$country){
-        //     $country="FR";
-        // }
+        if(!$country){
+            $country="FR";
+        }
         if (!$routeName) {
             return $next($request); // Skip logging if route name is null
         }

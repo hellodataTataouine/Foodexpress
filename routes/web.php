@@ -366,7 +366,7 @@ Route::post('/updateCommande/status', [App\Http\Controllers\SubDomain::class, 'u
      Route::get('/restaurant/livraisonmethods/{id}/edit', [LivraisonRestaurantController::class, 'edit'])->name('restaurant.livraison.edit');
      Route::put('/restaurant/livraisonmethods/{id}', [LivraisonRestaurantController::class, 'update'])->name('restaurant.livraison.update');
      Route::delete('/restaurant/livraisonmethods/{LivraisonMethod}', [LivraisonRestaurantController::class, 'destroy'])->name('restaurant.livraison.destroy');
-
+    Route::post('/update-status',[RestaurantProfileController::class,'updateStatus'])->name('status.update');
      Route::get('/visits',[VisitsController::class,'index'])->name('restaurant.visits.index');
 
      Route::get('/restaurant/seo', [SeoController::class, 'index'])->name('restaurant.seo.index');
