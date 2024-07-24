@@ -60,7 +60,11 @@
       <li class="nav-item nav-category">
         <span class="nav-link">Navigation</span>
       </li>
-
+      @php
+          $user = Auth::user();
+          $restaurant = $user->restaurant;
+          $status= DB::table('clients')->where('id',$restaurant->id)->get();
+      @endphp
       <form id="statusForm">
         @csrf
         <label style="color: white; margin-left: 20px;">
