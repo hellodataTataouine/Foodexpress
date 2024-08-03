@@ -37,9 +37,9 @@ class Command extends Model
     }
     public function cartDetails()
     {
-        return $this->hasMany(cartDetails::class,'cart_id');
+        return $this->hasMany(CartDetails::class,'cart_id');
     }
 
 
- 
+
 }
