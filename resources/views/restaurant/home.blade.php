@@ -115,10 +115,10 @@
 
                 <td>{{ $commande->prix_total }}</td>
 
-                {{-- @php
+                @php
 
-                $livraison= DB::table('livraisons')->where('id',$commande->mode_livraison)->first();
-                $paiement = DB::table('paiement')->where('id',$commande->methode_paiement)->first();
+                $livraison= DB::table('livraisons')->where('id',$commande->mode_livraison)->get();
+                $paiement = DB::table('paiement')->where('id',$commande->methode_paiement)->get();
                 @endphp
 
 
@@ -128,10 +128,10 @@
 
 @if($paiement->type_methode)
                     <td>{{ $paiement->type_methode }}</td>
-@endif --}}
+@endif
 
-<td>{{ $commande->mode_livraison }}</td>
-<td>{{$commande->methode_paiement }}</td>
+{{-- <td>{{ $commande->mode_livraison }}</td>
+<td>{{$commande->methode_paiement }}</td> --}}
                    <td>{{ $commande->created_at }}</td>
                 @if ($commande->statut == "Nouveau")
                 <td><button type="button" class="btn btn-primary status-button" data-command-id="{{ $commande->id }}">Nouveau</button></td>
