@@ -117,7 +117,7 @@
 
                 @php
 
-                $livraison= DB::table('livraison')->where('id',$commande->mode_livraison)->first();
+                $livraison= DB::table('livraisons')->where('id',$commande->mode_livraison)->first();
                 $paiement = DB::table('paiement')->where('id',$commande->methode_paiement)->first();
                 @endphp
 
