@@ -122,12 +122,13 @@
                 @endphp
 
 
-
+                 @if($livraison->methode)
                     <td>{{ $livraison->methode }}</td>
+@endif
 
-
+@if($paiement->type_methode)
                     <td>{{ $paiement->type_methode }}</td>
-
+@endif
                    <td>{{ $commande->created_at }}</td>
                 @if ($commande->statut == "Nouveau")
                 <td><button type="button" class="btn btn-primary status-button" data-command-id="{{ $commande->id }}">Nouveau</button></td>
