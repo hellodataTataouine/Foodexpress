@@ -124,11 +124,16 @@
 
 @if($livraison && $livraison->methode)
 <td>{{ $livraison->methode }}</td>
+@else
+<td>--</td>
 @endif
 
 @if($paiement && $paiement->type_methode)
 <td>{{ $paiement->type_methode }}</td>
+@else
+<td>--</td>
 @endif
+
 
 {{-- <td>{{ $commande->mode_livraison }}</td>
 <td>{{$commande->methode_paiement }}</td> --}}
