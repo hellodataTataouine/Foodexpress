@@ -92,7 +92,7 @@
                        @forelse($commandes->sortByDesc('id') as $commande)
             <tr>
 
-                <td>{{ $commande->clientfirstname }} {{ $commande->clientlastname }}|| {{ $commande->clientNum1 }}</td>
+                <td>{{ $commande->clientfirstname }} {{ $commande->clientlastname }} || {{ $commande->clientNum1 }}</td>
 <td style="max-width: 200px;">
     <!-- Nested loop for products and their options -->
     <ul class="product-list-dark">
