@@ -24,10 +24,10 @@
     }
 
     table.table th, table.table td {
-		
+
         padding: 8px;
     }
-	
+
 
     table.table tr {
         border: 2px solid #000; /* You can adjust the border style and color as needed */
@@ -49,7 +49,7 @@
 @section('content')
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-     
+
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       @include('restaurant.left-menu')
@@ -75,22 +75,23 @@
                         <table class="table" id="myTable">
                           <thead>
                             <tr>
-                             
+
                               <th class="col-md-2"> Nom Client </th>
                               <th class="col-md-4"> lignes de commande </th>
                               <th class="col-md-1"> Prix Total </th>
                               <th class="col-md-1"> Mode De Livraison </th>
-                            
+
                               <th class="col-md-1"> Mode De Paiement </th>
+                              <th class="col-md-1"> Date  </th>
                               <th class="col-md-1"> Statut  </th>
 								  <th class="col-md-1"> Action </th>
-                             
+
                             </tr>
                           </thead>
                           <tbody>
                        @forelse($commandes->sortByDesc('id') as $commande)
             <tr>
-                
+
                 <td>{{ $commande->clientfirstname }} {{ $commande->clientlastname }}</td>
 <td style="max-width: 200px;">
     <!-- Nested loop for products and their options -->
@@ -98,11 +99,11 @@
         @foreach ($commande->cartDetails as $cartDetail)
             <li>
                 @if($cartDetail->produit != null)
-                    <strong>{{ $cartDetail->qte_produit }} × {{ $cartDetail->produit->nom_produit }}</strong> 
+                    <strong>{{ $cartDetail->qte_produit }} × {{ $cartDetail->produit->nom_produit }}</strong>
 				 <span class="options">
 					 @if($cartDetail->optionsdetails != null)
                  <strong>Options:</strong>
-                   
+
                         {{ $cartDetail->optionsdetails }}
                     </span>
 				@endif
@@ -113,29 +114,29 @@
 </td>
 
                 <td>{{ $commande->prix_total }}</td>
-                @if ($commande->mode_livraison == 11)
-                    <td>Livraison</td>
-                @else
-                    <td>Click & Collect</td>
-                @endif
 
-              
-                @if ($commande->methode_paiement == 1)
-                    <td>PayPal</td>
-                @elseif ($commande->methode_paiement == 9)
-                    <td>Carte Bancaire</td>
-				@else
-				 <td>Sur Place</td>
-				   @endif
+                @php
 
+                $livraison= DB::table('livraison')->where('id',$commande->mode_livraison)->first();
+                $paiement = DB::table('paiement')->where('id',$commande->methode_paiement)->first();
+                @endphp
+
+
+
+                    <td>{{ $livraison->methode }}</td>
+
+
+                    <td>{{ $paiement->type_methode }}</td>
+
+                   <td>{{ $commande->created_at }}</td>
                 @if ($commande->statut == "Nouveau")
                 <td><button type="button" class="btn btn-primary status-button" data-command-id="{{ $commande->id }}">Nouveau</button></td>
-                   
+
                 @elseif ($commande->statut == "En Cours")
                     <td><button type="button" class="btn btn-warning  status-button" data-command-id="{{ $commande->id }}">En Cours</button></td>
                 @elseif ($commande->statut == "Livrée")
                     <td><button type="button" class="btn btn-success status-button" data-command-id="{{ $commande->id }}">Livrée</button></td>
-                
+
                 @elseif ($commande->statut == "Annulée")
                 <td><button type="button" class="btn btn-danger status-button" data-command-id="{{ $commande->id }}">Annulée</button></td>
                 @else
@@ -154,7 +155,7 @@
 
             <!-- Nested loop for products and their options-->
             <!-- Nested loop for products and their options-->
-   
+
         @empty
             <!-- This will be displayed if $commandes is empty -->
             <tr>
@@ -164,7 +165,7 @@
                               <tr><td colspan="10"></td></tr>
                           </tbody>
                         </table>
-                   
+
                       </div>
                     </div>
                   </div>
@@ -206,14 +207,14 @@
         </div>
       </div>
       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-      
-       
+
+
 
 
 
 <script>
 
-  
+
   $(document).ready(function () {
     $('.status-button').on('click', function () {
       // Get the command ID from the clicked link
@@ -275,14 +276,14 @@
             // Display a generic error message if no specific message is available
             alert('An error occurred while updating the status.');
         }
-            
+
         },
       });
     });
   });
 
 
- 
+
 </script>
 <script>
     function myFunction() {
