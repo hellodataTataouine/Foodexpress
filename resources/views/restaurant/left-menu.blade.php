@@ -63,7 +63,7 @@
       @php
           $user = Auth::user();
           $restaurant = $user->restaurant;
-          $status= DB::table('clients')->where('id',$restaurant->id)->get();
+          $status= DB::table('clients')->where('id',$restaurant->id)->first();
       @endphp
       <form id="statusForm">
         @csrf
