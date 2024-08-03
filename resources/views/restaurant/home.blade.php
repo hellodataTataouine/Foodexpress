@@ -118,16 +118,16 @@
                 @php
 
                 $livraison= DB::table('livraisons')->where('id',$commande->mode_livraison)->first();
-                $paiement = DB::table('paiement')->where('id',$commande->methode_paiement)->fisrt();
+                $paiement = DB::table('paiement')->where('id',$commande->methode_paiement)->first();
                 @endphp
 
 
-                 @if($livraison->methode)
-                    <td>{{ $livraison->methode }}</td>
+@if($livraison && $livraison->methode)
+<td>{{ $livraison->methode }}</td>
 @endif
 
-@if($paiement->type_methode)
-                    <td>{{ $paiement->type_methode }}</td>
+@if($paiement && $paiement->type_methode)
+<td>{{ $paiement->type_methode }}</td>
 @endif
 
 {{-- <td>{{ $commande->mode_livraison }}</td>
