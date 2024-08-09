@@ -406,22 +406,22 @@ $message .= "Prix Total: " . number_format($totalPrice, 2) . " TND\n";
 
 
 
-        try {
+        // try {
 
-            $account_sid = getenv("TWILIO_SID");
-            $auth_token = getenv("TWILIO_TOKEN");
-            $twilio_number = getenv("TWILIO_FROM");
+        //     $account_sid = getenv("TWILIO_SID");
+        //     $auth_token = getenv("TWILIO_TOKEN");
+        //     $twilio_number = getenv("TWILIO_FROM");
 
-            $client = new twilioclient($account_sid, $auth_token);
-            $client->messages->create($receiverNumber, [
-                'from' => $twilio_number,
-                'body' => $message]);
+        //     $client = new twilioclient($account_sid, $auth_token);
+        //     $client->messages->create($receiverNumber, [
+        //         'from' => $twilio_number,
+        //         'body' => $message]);
 
-            dd('SMS Sent Successfully.');
+        //     dd('SMS Sent Successfully.');
 
-        } catch (Exception $e) {
-            dd("Error: ". $e->getMessage());
-        }
+        // } catch (Exception $e) {
+        //     dd("Error: ". $e->getMessage());
+        // }
 
 try {
     // Send the notification to all the devices associated with the client
@@ -659,22 +659,22 @@ $message .= "Prix Total: " . number_format($totalPrice, 2) . " TND\n";
 
 
 
-        try {
+        // try {
 
-            $account_sid = getenv("TWILIO_SID");
-            $auth_token = getenv("TWILIO_TOKEN");
-            $twilio_number = getenv("TWILIO_FROM");
+        //     $account_sid = getenv("TWILIO_SID");
+        //     $auth_token = getenv("TWILIO_TOKEN");
+        //     $twilio_number = getenv("TWILIO_FROM");
 
-            $client = new twilioclient($account_sid, $auth_token);
-            $client->messages->create($receiverNumber, [
-                'from' => $twilio_number,
-                'body' => $message]);
+        //     $client = new twilioclient($account_sid, $auth_token);
+        //     $client->messages->create($receiverNumber, [
+        //         'from' => $twilio_number,
+        //         'body' => $message]);
 
-            dd('SMS Sent Successfully.');
+        //     dd('SMS Sent Successfully.');
 
-        } catch (Exception $e) {
-            dd("Error: ". $e->getMessage());
-        }
+        // } catch (Exception $e) {
+        //     dd("Error: ". $e->getMessage());
+        // }
 
 
 
