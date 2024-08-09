@@ -25,11 +25,12 @@ use SebastianBergmann\Environment\Console;
 use App\Notifications\FirebaseNotificationNotification;
 use Illuminate\Support\Facades\Notification;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
-
+use Twilio\Rest\Client as twilioclient;
+use Illuminate\Support\Facades\Log; // Import the Log facade
 
 use Illuminate\Support\Facades\Mail;
 
-   
+
 
 class CommandController extends Controller
 {
@@ -42,11 +43,11 @@ class CommandController extends Controller
         return redirect()->route('client.commandes');
     }
 
-	
+
    public function addToCart(Request $request)
    {
     $cartItem = $request->input('cartItem');
-    
+
     $productId = $cartItem['id'];
 	   $productItem= $cartItem['idItem'];
     $productName = $cartItem['name'];
@@ -54,15 +55,15 @@ class CommandController extends Controller
     $productPrice = $cartItem['price'];
     $productUnityPrice = $cartItem['unityPrice'];
     $productQuantity= $cartItem['quantity'];
-    $customizationOptions = isset($cartItem['options']) ? $cartItem['options'] : null; 
+    $customizationOptions = isset($cartItem['options']) ? $cartItem['options'] : null;
 
     if (!isset($cartItem['options'])) {
-        $cartItem['options'] = []; 
+        $cartItem['options'] = [];
     }
 //    $customizationOptions = $cartItem['options']; // An array containing selected options and their quantities
 
     $cart = session()->get('cart', []);
-  
+
 
        $cartItem = [
            'id' => $productId,
@@ -72,17 +73,17 @@ class CommandController extends Controller
            'price' => $productPrice,
            'unityPrice' => $productUnityPrice,
            'quantity' => $productQuantity,
-          
-          
+
+
          //  'options' => $customizationOptions
        ];
     if ($customizationOptions !== null) {
         $cartItem['options'] = $customizationOptions;
-    
+
     }else{ $cartItem['options'] = [];}
 
        $cart[] = $cartItem;
-    
+
        session()->put('cart', $cart);
 
        return response()->json(['success' => true, 'message' => 'Produit  a été ajouté avec succès']);
@@ -90,7 +91,7 @@ class CommandController extends Controller
 public function editCart(Request $request)
 {
     $cartItem = $request->input('cartItem');
- 
+
     $idItem = $cartItem['idItem'];
     $productQuantity = $cartItem['quantity'];
 	 $productPrice = $cartItem['price'];
@@ -130,7 +131,7 @@ public function editCart(Request $request)
    public function fetchCart(Request $request)
    {
        $subdomain = $request->getHost();
-       $subdomain = preg_replace('/:\d+$/', '', $subdomain); 
+       $subdomain = preg_replace('/:\d+$/', '', $subdomain);
        $cartItems = Session::get('cart', []);
        $cartItemCount = count($cartItems);
        $totalPrice = 0;
@@ -148,12 +149,12 @@ public function editCart(Request $request)
            if ($userId) {
 		   $clientRestaurant = ClientRestaurat::findOrFail($userId);
 		   }
-			
+
 			 } else{
 			 $clientRestaurant = null;
 		 }
        $sub = $request->getHost();
-       $subdomainVerif = preg_replace('/:\d+$/', '', $sub); 
+       $subdomainVerif = preg_replace('/:\d+$/', '', $sub);
        $client = Client::where('url_platform', $subdomainVerif)->firstOrFail();
        $clientId = $client->id;
       // $subdomain = $client->url_platform;
@@ -168,7 +169,7 @@ public function editCart(Request $request)
        }
 	    $totalPrice = number_format($totalPrice, 2);
        return view('client.checkout',compact('cartItems','subdomain','client','livraisons','paiments','cart', 'totalPrice', 'clientRestaurant'));
-      
+
    }
 
 
@@ -178,57 +179,57 @@ public function editCart(Request $request)
 	  // dd($request);
 	     $cart = session()->get('cart', []);
 	   $subdomain = $request->getHost();
-       $subdomain = preg_replace('/:\d+$/', '', $subdomain); 
+       $subdomain = preg_replace('/:\d+$/', '', $subdomain);
         $cartItems = session('cart', []);
 	    if($cartItems){
 	 // dd( $cartItems);
         $totalPrice = 0;
-       
+
        $client = Client::where('url_platform', $subdomain)->firstOrFail();
 			$clientId = $client->id;
 		$livraisons = LivraisonRestaurant::where('restaurant_id', $clientId)->get();
 
        $restaurantId = $client->id;
 	   $user = User::findOrFail($client->user_id);
-       
+
        foreach ($cartItems as $cartItem) {
         if (isset($cartItem['price'])  && is_numeric($cartItem['price']) ) {
             $totalPrice += $cartItem['price'];
-          
+
 
         } else {
         }
     }
-	    
+
  $totalPrice = number_format($totalPrice, 2);
  $TVA = ($totalPrice * 20) / 100;
             $HT = $totalPrice - $TVA ;
 	   //dd($request->input('delivery_method'));
     $deliveryMethodId = $request->input('delivery_method');
-	   
+
     $paymentMethodId = $request->input('payment_method');
-	   
+
 $deliveryTime = $request->has('delivery_time') ? $request->input('delivery_time') : '';
 
 $PaymentMethode = PaimentMethod::findOrFail($paymentMethodId);
-	 
+
     if (auth()->guard('clientRestaurant')->check()){
-		
 
 
-		
+
+
 		$userId = auth()->guard('clientRestaurant')->id();
-	
+
         if ($userId) {
             $Userloggedin = ClientRestaurat::findOrFail($userId);
-			
-			
-			
-$Command = new Command;
-			
 
-		
-			
+
+
+$Command = new Command;
+
+
+
+
 $Command->user_id = $userId;
 $Command->restaurant_id = $client->id;
 $Command->prix_total = $totalPrice;
@@ -243,21 +244,21 @@ $Command->clientPostalcode =$request->input('codePostal');
 $Command->clientAdresse =$request->input('adresse');
 $Command->clientVille =$request->input('ville');
 $Command->clientNum1 =$request->input('num1');
-$Command->clientNum2 =$request->input('num2');		
+$Command->clientNum2 =$request->input('num2');
 /*$Command->Clientfirstname =$Userloggedin->FirstName;
 $Command->clientlastname =$Userloggedin->LastName;
 $Command->clientPostalcode =$Userloggedin->codepostal;
 $Command->clientAdresse =$Userloggedin->Address;
 $Command->clientVille =$Userloggedin->ville;
 $Command->clientNum1 =$Userloggedin->phoneNum1;
-$Command->clientNum2 =$Userloggedin->phoneNum2;*/		
+$Command->clientNum2 =$Userloggedin->phoneNum2;*/
 $Command->clientEmail =$Userloggedin->email;
-$Command->delivery_time = $deliveryTime; 
+$Command->delivery_time = $deliveryTime;
 //$Command->save();
-			
-			
+
+
 		$basicUser = ClientRestaurat::find($userId);
-       
+
         $basicUser->FirstName = $request->nom;
         $basicUser->LastName = $request->prenom;
         $basicUser->ville = $request->ville;
@@ -265,11 +266,11 @@ $Command->delivery_time = $deliveryTime;
         $basicUser->codepostal = $request->codePostal;
         $basicUser->phoneNum1 = $request->num1;
         $basicUser->phoneNum2 = $request->num2;
-        
+
         $basicUser->save();
-			
-			
-			
+
+
+
 			$cartDetailsArray = [];
 	foreach ($cartItems as $cartItem) {
     $cartDetail = new CartDetails;
@@ -282,17 +283,17 @@ $Command->delivery_time = $deliveryTime;
      $cartDetail->optionsdetails = $cartItem['options'];
     else
     $cartDetail->optionsdetails = "";
-	
+
 
     // Save each CartDetails to the array
     $cartDetailsArray[] = $cartDetail;
 }
-			
+
 // confirmation Email
 
 // Set the email in the session
 $email= $user->email;
-			
+
 $data = [
     'clientFirstName' => $Userloggedin->FirstName,
     'clientLastName' => $Userloggedin->LastName,
@@ -306,8 +307,8 @@ $data = [
     'email' => $email, // Use the email from the session-
 
 ];
-			
-			
+
+
 session([
     'command' => $Command,
    'cartDetails' => $cartDetailsArray,
@@ -327,25 +328,25 @@ Mail::send('order_confirmation', $data, function ($message) use ($subject, $data
     $message->subject($subject)
         ->to($data['email']);
 });
-			
-	*/		
-			
+
+	*/
+
 		if($PaymentMethode->type_methode == 'PayPal'){
     $host = request()->getHost();
         $subdomain = explode('.', $host)[0];
     //dd($subdomain);
-    
+
     //dd($route);
     return redirect()->route('make.payment', ['subdomain' => $subdomain, 'paymentMethodId' => $paymentMethodId]);
-   
+
 
 }
 			else{
-			
+
 					 $Command = session('command');
-     
+
     $cartDetailsArray = session('cartDetails');
-  
+
     // Save the Command to the database
     $Command->save();
  $data['commandId'] = $Command->id;
@@ -366,17 +367,61 @@ Mail::send('order_confirmation', $data, function ($message) use ($subject, $data
 			Mail::send('order_confirmation_restaurant', $data, function ($message) use ($subject, $data) {
     $message->subject($subject)
         ->to($data['email']);
-});	
+});
 				//Notification
 $firebaseToken = Imei::where('restaurant_id', $restaurantId)
     ->whereNotNull('fcm_token')
     ->pluck('fcm_token')
-    ->all();            
+    ->all();
         $SERVER_API_KEY = env('FCM_SERVER_KEY');
-    
+
 //dd($devices);
 // Create the notification instance
+$receiverNumber =  env('Restaurant_num');
 
+// Generate the message content
+// Generate the message content
+$message = "Nouvelle Commande\n";
+$message .= "Ticket N°: " . $Command->id . "\n";
+$message .= "Nom: " . $Command->Clientfirstname . " " . $Command->clientlastname . "\n";
+$message .= "Adresse: " . $Command->clientAdresse . "\n";
+$message .= "Ville: " . $Command->clientVille . "\n";
+$message .= "Code Postal: " . $Command->clientPostalcode . "\n";
+$message .= "Téléphone: " . $Command->clientNum1 . "\n";
+$message .= "Heure de Livraison: " . $Command->delivery_time . "\n\n";
+$message .= "Détails des Produits:\n";
+
+// Loop through each cart item and add its details to the message
+foreach ($cartItems as $cartItem) {
+    $message .= "- Produit: " . $cartItem['name'] . "\n";
+    $message .= "  Quantité: " . $cartItem['quantity'] . "\n";
+    $message .= "  Prix Unitaire: " . number_format($cartItem['price'], 2) . " TND\n";
+    if (!empty($cartItem['options']) && is_array($cartItem['options'])) {
+        $message .= "  Options: " . implode(", ", $cartItem['options']) . "\n";
+    }
+    $message .= "\n";
+}
+
+$message .= "Prix Total: " . number_format($totalPrice, 2) . " TND\n";
+
+
+
+        try {
+
+            $account_sid = getenv("TWILIO_SID");
+            $auth_token = getenv("TWILIO_TOKEN");
+            $twilio_number = getenv("TWILIO_FROM");
+
+            $client = new twilioclient($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $twilio_number,
+                'body' => $message]);
+
+            dd('SMS Sent Successfully.');
+
+        } catch (Exception $e) {
+            dd("Error: ". $e->getMessage());
+        }
 
 try {
     // Send the notification to all the devices associated with the client
@@ -405,24 +450,28 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-         
+
 $response = curl_exec($ch);
 //dd($response);
     // Notification sent successfully
   //  Session::flash('success', 'Notification sent successfully.');
 } catch (\Exception $e) {
+
+
+    Log::error('Failed to send notification: ' . $e->getMessage());
+
     // Handle the exception and show an error message
     //Session::flash('error', 'Failed to send notification: ' . $e->getMessage());
 }
 		session()->forget('cartDetails');
 	session()->forget('command');
 session()->forget('data');
-	session()->forget('cart');	
+	session()->forget('cart');
 			}
         }
-					
+
   }
-	   
+
 else{
 	//dd($payment);
     $creerUnCompteChecked = $request->has('creer_un_compte');
@@ -432,7 +481,7 @@ $password = $request->input('password');
 
 if ($creerUnCompteChecked && !empty($email) && !empty($password)) {
         $basicUser = new ClientRestaurat;
-       
+
         $basicUser->FirstName = $request->nom;
         $basicUser->LastName = $request->prenom;
         $basicUser->ville = $request->ville;
@@ -442,7 +491,7 @@ if ($creerUnCompteChecked && !empty($email) && !empty($password)) {
         $basicUser->phoneNum2 = $request->num2;
         $basicUser->email = $request->email;
         $basicUser->password = Hash::make($request->password);
-        $basicUser->restaurant_id = $restaurantId; 
+        $basicUser->restaurant_id = $restaurantId;
 
 
         $basicUser->save();
@@ -458,14 +507,14 @@ if ($creerUnCompteChecked && !empty($email) && !empty($password)) {
             $message->subject('Confirmation d\'inscription')
                     ->to($data['email']);
         });
-	
- 
+
+
         // Log in the newly registered user
         auth('clientRestaurant')->login($basicUser);
 
-    } 
-    
-    
+    }
+
+
 
 		$Command = new Command;
        $Command->user_id = Auth::id();
@@ -485,7 +534,7 @@ if ($creerUnCompteChecked && !empty($email) && !empty($password)) {
        $Command->clientNum2 =$request->input('num2');
       // $Command->clientEmail =$request->input('email');
 	  $Command->delivery_time = $deliveryTime; // Save the selected delivery time
-		
+
 $cartDetailsArray = [];
 	foreach ($cartItems as $cartItem) {
     $cartDetail = new CartDetails;
@@ -503,9 +552,9 @@ $cartDetailsArray = [];
     // Save each CartDetails to the array
     $cartDetailsArray[] = $cartDetail;
 }
-	
-$email= $user->email;	
-//$email = 'firas.saafi96@gmail.com'; 
+
+$email= $user->email;
+//$email = 'firas.saafi96@gmail.com';
 $data = [
     'clientFirstName' => $Command->Clientfirstname,
     'clientLastName' => $Command->clientlastname,
@@ -516,14 +565,14 @@ $data = [
     'cartItems' => $cartItems,
     'totalPrice' => $totalPrice,
     'email' => $email,
-	
+
 ];
 	session([
     'command' => $Command,
    'cartDetails' => $cartDetailsArray,
 	'data' => $data,
 ]);
-	
+
 /*
 // Define the email subject
 $subject = 'Confirmation de commande';
@@ -538,18 +587,18 @@ $subject = 'Confirmation de commande';
     $host = request()->getHost();
         $subdomain = explode('.', $host)[0];
     //dd($subdomain);
-    
+
     //dd($route);
     return redirect()->route('make.payment', ['subdomain' => $subdomain, 'paymentMethodId' => $paymentMethodId]);
-   
+
 
 }
 			else{
-			
+
 					 $Command = session('command');
-     
+
     $cartDetailsArray = session('cartDetails');
-  
+
     // Save the Command to the database
     $Command->save();
 
@@ -567,16 +616,68 @@ $subject = 'Réception de commande';
 			Mail::send('order_confirmation_restaurant', $data, function ($message) use ($subject, $data) {
     $message->subject($subject)
         ->to($data['email']);
-});	
+});
 				//Notification
 $firebaseToken = Imei::where('restaurant_id', $restaurantId)
     ->whereNotNull('fcm_token')
     ->pluck('fcm_token')
-    ->all();            
+    ->all();
         $SERVER_API_KEY = env('FCM_SERVER_KEY');
-    
+
 //dd($devices);
 // Create the notification instance
+
+
+
+
+$receiverNumber =  env('Restaurant_num');
+
+// Generate the message content
+// Generate the message content
+$message = "Nouvelle Commande\n";
+$message .= "Ticket N°: " . $Command->id . "\n";
+$message .= "Nom: " . $Command->Clientfirstname . " " . $Command->clientlastname . "\n";
+$message .= "Adresse: " . $Command->clientAdresse . "\n";
+$message .= "Ville: " . $Command->clientVille . "\n";
+$message .= "Code Postal: " . $Command->clientPostalcode . "\n";
+$message .= "Téléphone: " . $Command->clientNum1 . "\n";
+$message .= "Heure de Livraison: " . $Command->delivery_time . "\n\n";
+$message .= "Détails des Produits:\n";
+
+// Loop through each cart item and add its details to the message
+foreach ($cartItems as $cartItem) {
+    $message .= "- Produit: " . $cartItem['name'] . "\n";
+    $message .= "  Quantité: " . $cartItem['quantity'] . "\n";
+    $message .= "  Prix Unitaire: " . number_format($cartItem['price'], 2) . " TND\n";
+    if (!empty($cartItem['options']) && is_array($cartItem['options'])) {
+        $message .= "  Options: " . implode(", ", $cartItem['options']) . "\n";
+    }
+    $message .= "\n";
+}
+
+$message .= "Prix Total: " . number_format($totalPrice, 2) . " TND\n";
+
+
+
+        try {
+
+            $account_sid = getenv("TWILIO_SID");
+            $auth_token = getenv("TWILIO_TOKEN");
+            $twilio_number = getenv("TWILIO_FROM");
+
+            $client = new twilioclient($account_sid, $auth_token);
+            $client->messages->create($receiverNumber, [
+                'from' => $twilio_number,
+                'body' => $message]);
+
+            dd('SMS Sent Successfully.');
+
+        } catch (Exception $e) {
+            dd("Error: ". $e->getMessage());
+        }
+
+
+
 
 
 try {
@@ -606,7 +707,7 @@ curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-         
+
 $response = curl_exec($ch);
 //dd($response);
     // Notification sent successfully
@@ -619,30 +720,30 @@ $response = curl_exec($ch);
 	session()->forget('command');
 session()->forget('data');
 	session()->forget('cart');
-			}			
+			}
 
 }
-    
-  
-	
+
+
+
 
 //Paiement
- 
+
 // Clear the cart sessions
 
 $cartItemCount = count($cart);
 
 return view('client.checkout_success', compact('subdomain', 'client','cart', 'cartItemCount', 'livraisons'));
 
-  
+
 		} else{
 			  $host = request()->getHost();
         $subdomain = explode('.', $host)[0];
-		
+
 	  return redirect()->route('client.products.index', ['subdomain' => $subdomain]);
 		}
 
-}  
+}
 
 // Get all the devices associated with this Client (restaurant)
 
@@ -658,14 +759,14 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
 
        return view('restaurant.confirmation', compact('cartItems'));
    }
-   
+
 
    public function removeCartItem(Request $request)
    {
     $subdomain = $request->getHost();
-    $subdomain = preg_replace('/:\d+$/', '', $subdomain); 
+    $subdomain = preg_replace('/:\d+$/', '', $subdomain);
     $productId = $request->input('productId');
-        
+
     // Assuming you are storing cart data in the session
     $cart = session()->get('cart', []);
 
@@ -683,7 +784,7 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
             if (isset($cartItem['price'])  && is_numeric($cartItem['price']) ) {
                 // Perform the calculation and add to totalPrice
                 $totalPrice += $cartItem['price'];
-    
+
             } }
 		 $totalPrice = number_format($totalPrice, 2);
         // Update the cart in the session
@@ -694,7 +795,7 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
             'totalPrice' => $totalPrice,
             'subdomain' => $subdomain,
             'cartItemCount' => $cartItemCount,
-            
+
         ]);
     } else {
         return response()->json([
@@ -702,7 +803,7 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
         ], 404);
     }
    }
- 
+
 
    public function updateQuantity(Request $request)
    {
@@ -734,18 +835,18 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
                if (isset($cartItem['price'])  && is_numeric($cartItem['price']) ) {
                    // Perform the calculation and add to totalPrice
                    $totalPrice += $cartItem['price'];
-       
+
                } }
 		    $totalPrice = number_format($totalPrice, 2);
            return response()->json([
                'message' => 'Quantité a été modifié avec succès',
-               
-                
+
+
                 'totalPrice' => $totalPrice,
-                
-               
-                
-           
+
+
+
+
            ]);
        } else {
            return response()->json([
@@ -755,7 +856,7 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
    }
 
 
-   //historic commandes 
+   //historic commandes
    public function commandes(Request $request)
    {
        $subdomain = $request->root(); // Get the root URL (including subdomain) from the request
@@ -765,7 +866,7 @@ return view('client.checkout_success', compact('subdomain', 'client','cart', 'ca
        // Get the ID of the logged-in user
        $userId = auth()->guard('clientRestaurant')->id();
        if ($userId) {
-     
+
        // Fetch all commandes of the logged-in user from the database
        $commandes = Command::where('user_id', $userId)->orderByDesc('id')->get();
        $cart = session()->get('cart', []);
